@@ -6,6 +6,14 @@ export default [
       around flowers, but can also be found flying freely.`,
     image: 'common-butterfly.jpg',
     location: 'Flying anywhere',
+    price: 160,
+    priceV2: 240,
+    northMonths: ['September', 'October', 'November', 'December', 'January', 'February', 'March', 'April', 'May', 'June'],
+    southMonths: ['March', 'April', 'May', 'June', 'July', 'August', 'September'],
+    timeOfDay: '4am to 7pm',
+    notes: [
+      'Not available in the rain',
+    ],
   },
   {
     name: 'Scorpion',
@@ -14,6 +22,14 @@ export default [
       by the scorpion, they will pass out and wake up in front of their home.`,
     image: 'scorpion.jpg',
     location: 'On the ground',
+    price: 8000,
+    priceV2: 12000,
+    northMonths: ['May', 'June', 'July', 'August', 'September', 'October'],
+    southMonths: ['November', 'December', 'January', 'February', 'March', 'April'],
+    timeOfDay: '7pm to 4am',
+    notes: [
+      'Available in the rain',
+    ],
   },
   {
     name: 'Flea',
@@ -22,6 +38,14 @@ export default [
       they are despised (in the same way cockroaches only sell for 5 bells).`,
     image: 'flea.png',
     location: 'On villagers',
+    price: 70,
+    priceV2: 105,
+    northMonths: ['April', 'May', 'June', 'July', 'August', 'September', 'October', 'November'],
+    southMonths: ['April', 'May', 'June', 'July', 'August', 'September', 'October', 'November'],
+    timeOfDay: 'All day',
+    notes: [
+      'Available in the rain',
+    ],
   },
   {
     name: 'Moth',
@@ -30,5 +54,10 @@ export default [
       they will eventually disappear into the sky in some games.`,
     image: 'moth.jpg',
     location: 'Near outside lights',
+    price: 130,
+    priceV2: 195,
+    northMonths: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+    southMonths: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+    timeOfDay: '7pm to 4am',
   },
 ];

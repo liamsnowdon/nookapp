@@ -71,7 +71,7 @@ export default {
       height: 150px;
       padding: 0;
       border: 1px solid black;
-      border-radius: 20px;
+      border-radius: 50%;
       background: center / contain no-repeat #eee;
       appearance: none;
       overflow: hidden;
@@ -99,6 +99,7 @@ export default {
       bottom: 0;
       left: 0;
       padding: 10px;
+      border-radius: 50%;
       opacity: 0;
       visibility: hidden;
       background: rgba(0, 0, 0, 0.6);
