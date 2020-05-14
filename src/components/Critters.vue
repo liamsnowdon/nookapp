@@ -33,29 +33,17 @@ export default {
 
   data () {
     return {
-      critters: {},
       selectedCritter: {},
     };
   },
 
-  mounted () {
-    this.setCritters();
+  computed: {
+    critters () {
+      return this.critterType === 'fish' ? this.$store.state.fish : this.$store.state.bugs;
+    },
   },
 
   methods: {
-    setCritters () {
-      switch (this.critterType) {
-        case 'fish':
-          this.critters = this.$store.state.fish;
-          break;
-        case 'bugs':
-          this.critters = this.$store.state.bugs;
-          break;
-        default:
-          break;
-      }
-    },
-
     setSelectedCritter (critter) {
       if (this.selectedCritter.name === critter.name) {
         return;

@@ -53,7 +53,7 @@ export default {
 
   computed: {
     loading () {
-      return this.$store.state.loading && !!Object.keys(this.$store.state[this.critterType]).length;
+      return this.$store.state.loading;
     },
   },
 
