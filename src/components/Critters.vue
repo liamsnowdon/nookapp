@@ -44,7 +44,7 @@ export default {
     grid-template-rows: 100%;
     grid-gap: 40px;
     padding: 40px;
-    max-height: 80vh;
+    height: calc(100vh - 50px);
     background-color: #F0E6B8;
   }
 </style>

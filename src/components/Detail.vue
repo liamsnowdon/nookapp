@@ -9,7 +9,7 @@
         <span>Caught</span>
       </label>
 
-      <h3 class="detail__name">{{ critter.name['name-en'] }}</h3>
+      <h3 class="detail__name">{{ critter.name['name-en'] | capitalize }}</h3>
 
       <img
         :src="`http://acnhapi.com/images/${critterType}/${critter.id}`"
@@ -141,10 +141,6 @@ export default {
     &--empty {
       justify-content: center;
       align-items: center;
-    }
-
-    &__name {
-      text-transform: capitalize;
     }
 
     &__month {

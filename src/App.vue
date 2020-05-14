@@ -18,7 +18,15 @@ export default {
 </script>
 
 <style lang="scss">
+  *,
+  :before,
+  ::after {
+    box-sizing: border-box;
+  }
+
   body {
+    margin: 0;
+    padding: 0;
     font-family: 'Arial Rounded MT Bold', Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
   }
