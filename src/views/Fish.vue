@@ -13,5 +13,19 @@ export default {
   components: {
     Critters,
   },
+
+  mounted () {
+    this.getFish();
+  },
+
+  methods: {
+    getFish () {
+      if (Object.keys(this.$store.state.fish).length) {
+        return;
+      }
+
+      this.$store.dispatch('catchFish');
+    },
+  },
 };
 </script>

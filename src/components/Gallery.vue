@@ -2,20 +2,25 @@
   <div class="gallery">
     <gallery-filters />
 
-    <h2>Gallery</h2>
-    <div class="gallery__grid">
-      <button
-        v-for="critter in critters"
-        :key="critter.name"
-        @click="setSelectedCritter(critter)"
-        :style="{backgroundImage: `url(${publicPath}critters/${critterType}/${critter.image})`}"
-        class="gallery__item"
-      >
+    <template v-if="loading">
+      Loading...
+    </template>
+
+    <template v-else>
+      <div class="gallery__grid">
+        <button
+          v-for="critter in critters"
+          :key="critter.id"
+          @click="setSelectedCritter(critter)"
+          :style="{backgroundImage: `url(http://acnhapi.com/icons/${critterType}/${critter.id}`}"
+          class="gallery__item"
+        >
         <span class="gallery__item-hover">
-          {{ critter.name }}
+          {{ critter.name['name-en'] }}
         </span>
-      </button>
-    </div>
+        </button>
+      </div>
+    </template>
   </div>
 </template>
 
@@ -27,7 +32,7 @@ export default {
 
   props: {
     critters: {
-      type: Array,
+      type: Object,
       required: true,
     },
     critterType: {
@@ -42,8 +47,14 @@ export default {
 
   data () {
     return {
-      publicPath: process.env.BASE_URL,
+
     };
+  },
+
+  computed: {
+    loading () {
+      return this.$store.state.loading && !!Object.keys(this.$store.state[this.critterType]).length;
+    },
   },
 
   methods: {
@@ -58,12 +69,12 @@ export default {
   .gallery {
     $block: &;
 
-    flex: 0 0 50%;
-
     &__grid {
       display: grid;
       grid-template-columns: 1fr 1fr 1fr 1fr;
       grid-gap: 20px;
+      max-height: 100%;
+      overflow-y: auto;
     }
 
     &__item {
@@ -72,7 +83,7 @@ export default {
       padding: 0;
       border: 1px solid black;
       border-radius: 50%;
-      background: center / contain no-repeat #eee;
+      background: center / contain no-repeat white;
       appearance: none;
       overflow: hidden;
 
@@ -107,6 +118,7 @@ export default {
       font-size: 16px;
       font-weight: bold;
       line-height: 1.5;
+      text-transform: capitalize;
       transition: opacity .5s ease-in-out, visibility .5s ease-in-out;
       cursor: pointer;
     }

@@ -15,8 +15,6 @@
 <script>
 import Gallery from '@/components/Gallery.vue';
 import Detail from '@/components/Detail.vue';
-import Fish from '@/data/fish';
-import Bugs from '@/data/bugs';
 
 export default {
   name: 'Critters',
@@ -35,7 +33,7 @@ export default {
 
   data () {
     return {
-      critters: [],
+      critters: {},
       selectedCritter: {},
     };
   },
@@ -48,10 +46,10 @@ export default {
     setCritters () {
       switch (this.critterType) {
         case 'fish':
-          this.critters = Fish;
+          this.critters = this.$store.state.fish;
           break;
         case 'bugs':
-          this.critters = Bugs;
+          this.critters = this.$store.state.bugs;
           break;
         default:
           break;
@@ -59,6 +57,10 @@ export default {
     },
 
     setSelectedCritter (critter) {
+      if (this.selectedCritter.name === critter.name) {
+        return;
+      }
+
       this.selectedCritter = critter;
     },
   },
@@ -69,6 +71,10 @@ export default {
   .critters {
     display: grid;
     grid-template-columns: 1fr 1fr;
+    grid-template-rows: 100%;
     grid-gap: 40px;
+    padding: 40px;
+    max-height: 80vh;
+    background-color: #F0E6B8;
   }
 </style>

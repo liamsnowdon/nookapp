@@ -1,57 +1,70 @@
 <template>
   <div class="detail">
-    <h2>Detail</h2>
+    <template v-if="selectedCritter.id">
+      <div class="detail__main">
+        <label for="caught">
+          <input id="caught" type="checkbox" />
+          <span>Caught</span>
+        </label>
 
-    <template v-if="selectedCritter.name">
-      <h3>{{ selectedCritter.name }}</h3>
+        <h3>{{ selectedCritter.name['name-en'] }}</h3>
 
-      <img
-        :src="`${publicPath}critters/${critterType}/${selectedCritter.image}`"
-        :alt="selectedCritter.name"
-      />
+        <img
+          :src="`http://acnhapi.com/images/${critterType}/${selectedCritter.id}`"
+          :alt="selectedCritter.name['name-en']"
+        />
 
-      <p>{{ selectedCritter.description }}</p>
+        <p>{{ selectedCritter['museum-phrase'] }}</p>
 
-      <hr>
+        <hr>
+      </div>
 
-      <h4>Location</h4>
-      <p>{{ selectedCritter.location }}</p>
+      <div class="detail__information">
+        <h4>Location</h4>
+        <p>{{ selectedCritter.availability.location }}</p>
 
-      <hr>
+        <hr>
 
-      <h4>Time of year</h4>
+        <h4>Time of year</h4>
 
-      <h5>Northern Hemisphere</h5>
-      <span
-        v-for="(month, index) in months"
-        :class="{'is-active': activeMonth(month, 'north')}"
-        :key="index"
-      >
+        <h5>Northern Hemisphere</h5>
+
+        <p>{{ selectedCritter.availability['month-northern'] }}</p>
+
+        <span class="detail__month"
+              v-for="(month, index) in months"
+              :class="{'is-active': activeMonth(month, 'north')}"
+              :key="`north${index}`"
+        >
         {{ month }}
       </span>
 
-      <h5>Southern Hemisphere</h5>
-      <span
-        v-for="(month, index) in months"
-        :class="{'is-active': activeMonth(month, 'south')}"
-        :key="index"
-      >
+        <h5>Southern Hemisphere</h5>
+
+        <p>{{ selectedCritter.availability['month-southern'] }}</p>
+
+        <span class="detail__month"
+              v-for="(month, index) in months"
+              :class="{'is-active': activeMonth(month, 'south')}"
+              :key="`south${index}`"
+        >
         {{ month }}
       </span>
 
-      <hr>
+        <hr>
 
-      <h4>Time of day</h4>
+        <h4>Time of day</h4>
 
-      <span>{{ selectedCritter.timeOfDay }}</span>
+        <span>{{ selectedCritter.timeOfDay }}</span>
 
-      <hr>
+        <hr>
 
-      <h4>Prices</h4>
+        <h4>Prices</h4>
 
-      <span>Normal: {{ selectedCritter.price }}</span>
-      <br />
-      <span>{{ higherPriceCharacter }}: {{ selectedCritter.priceV2 }}</span>
+        <span>Normal: {{ selectedCritter.price }}</span>
+        <br />
+        <span>{{ higherPriceCharacter }}: {{ higherPriceValue }}</span>
+      </div>
 
     </template>
 
@@ -78,7 +91,6 @@ export default {
 
   data () {
     return {
-      publicPath: process.env.BASE_URL,
       months: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
     };
   },
@@ -86,6 +98,10 @@ export default {
   computed: {
     higherPriceCharacter () {
       return this.critterType === 'bugs' ? 'Flick' : 'C.J.';
+    },
+
+    higherPriceValue () {
+      return this.critterType === 'bugs' ? this.selectedCritter['price-flick'] : this.selectedCritter['price-cj'];
     },
   },
 
@@ -97,7 +113,8 @@ export default {
      * @returns {boolean}
      */
     activeMonth (month, hemisphere) {
-      return this.selectedCritter[`${hemisphere}Months`].includes(month);
+      // return this.selectedCritter[`${hemisphere}Months`].includes(month);
+      return false;
     },
   },
 };
@@ -105,11 +122,27 @@ export default {
 
 <style scoped lang="scss">
   .detail {
-    flex: 0 0 50%;
+    display: flex;
+    flex-direction: column;
+    &__month {
+      &.is-active {
+        color: pink;
+        font-weight: bold;
+      }
+    }
+
+    &__main {
+      flex: 1 0 0px;
+    }
+
+    &__information {
+      flex: 1 1 auto;
+      overflow-y: auto;
+    }
   }
 
   img {
-    max-width: 100%;
+    width: 50%;
     height: auto;
   }
 </style>

@@ -13,5 +13,19 @@ export default {
   components: {
     Critters,
   },
+
+  mounted () {
+    this.getBugs();
+  },
+
+  methods: {
+    getBugs () {
+      if (Object.keys(this.$store.state.bugs).length) {
+        return;
+      }
+
+      this.$store.dispatch('catchBugs');
+    },
+  },
 };
 </script>
