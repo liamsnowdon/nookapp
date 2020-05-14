@@ -13,6 +13,7 @@
           :key="critter.id"
           @click="setSelectedCritter(critter)"
           :style="{backgroundImage: `url(http://acnhapi.com/icons/${critterType}/${critter.id}`}"
+          :class="{'is-active': isActiveCritter(critter.id)}"
           class="gallery__item"
         >
         <span class="gallery__item-hover">
@@ -59,7 +60,27 @@ export default {
 
   methods: {
     setSelectedCritter (critter) {
-      this.$emit('setSelectedCritter', critter);
+      if (this.critterType === 'bugs') {
+        if (this.$store.state.selectedBug.id === critter.id) {
+          return;
+        }
+
+        this.$store.commit('setSelectedBug', critter);
+      } else {
+        if (this.$store.state.selectedFish.id === critter.id) {
+          return;
+        }
+
+        this.$store.commit('setSelectedFish', critter);
+      }
+    },
+
+    isActiveCritter (id) {
+      if (this.critterType === 'bugs') {
+        return this.$store.state.selectedBug.id === id;
+      } else {
+        return this.$store.state.selectedFish.id === id;
+      }
     },
   },
 };
@@ -83,7 +104,7 @@ export default {
       padding: 0;
       border: 1px solid black;
       border-radius: 50%;
-      background: center / contain no-repeat white;
+      background: center / contain no-repeat #fffcdd;
       appearance: none;
       overflow: hidden;
 
@@ -92,11 +113,20 @@ export default {
         height: auto;
       }
 
-      &:hover {
+      &:hover,
+      &:focus {
         #{$block}__item-hover {
           opacity: 1;
           visibility: visible;
         }
+      }
+
+      &:focus {
+        outline: 0;
+      }
+
+      &.is-active {
+        box-shadow: 0 0 20px 2px rgba(0, 0, 0, 0.75);
       }
     }
 

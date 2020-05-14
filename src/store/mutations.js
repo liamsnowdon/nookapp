@@ -10,4 +10,12 @@ export default {
   setBugs (state, bugs) {
     state.bugs = bugs;
   },
+
+  setSelectedFish (state, fish) {
+    state.selectedFish = fish;
+  },
+
+  setSelectedBug (state, bug) {
+    state.selectedBug = bug;
+  },
 };

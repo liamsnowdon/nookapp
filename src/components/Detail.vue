@@ -1,76 +1,88 @@
 <template>
-  <div class="detail">
-    <template v-if="selectedCritter.id">
-      <div class="detail__main">
-        <label for="caught">
-          <input id="caught" type="checkbox" />
-          <span>Caught</span>
-        </label>
+  <div
+    v-if="critter.id"
+    class="detail"
+  >
+    <div class="detail__main">
+      <label for="caught">
+        <input id="caught" type="checkbox" />
+        <span>Caught</span>
+      </label>
 
-        <h3>{{ selectedCritter.name['name-en'] }}</h3>
+      <h3 class="detail__name">{{ critter.name['name-en'] }}</h3>
 
-        <img
-          :src="`http://acnhapi.com/images/${critterType}/${selectedCritter.id}`"
-          :alt="selectedCritter.name['name-en']"
-        />
+      <img
+        :src="`http://acnhapi.com/images/${critterType}/${critter.id}`"
+        :alt="critter.name['name-en']"
+        class="detail__critter-image"
+      />
 
-        <p>{{ selectedCritter['museum-phrase'] }}</p>
-
-        <hr>
+      <div class="detail__museum-phrase">
+        <blockquote class="detail__museum-quote">{{ critter['museum-phrase'] }}</blockquote>
+        <div class="detail__museum-blathers">
+          <img src="../assets/blathers.png" alt="Blathers" />
+        </div>
       </div>
 
-      <div class="detail__information">
-        <h4>Location</h4>
-        <p>{{ selectedCritter.availability.location }}</p>
+      <hr>
+    </div>
 
-        <hr>
+    <div class="detail__information">
+      <h4>Location</h4>
+      <p>{{ critter.availability.location }}</p>
 
-        <h4>Time of year</h4>
+      <hr>
 
-        <h5>Northern Hemisphere</h5>
+      <h4>Time of year</h4>
 
-        <p>{{ selectedCritter.availability['month-northern'] }}</p>
+      <h5>Northern Hemisphere</h5>
 
-        <span class="detail__month"
-              v-for="(month, index) in months"
-              :class="{'is-active': activeMonth(month, 'north')}"
-              :key="`north${index}`"
-        >
+      <p>{{ critter.availability['month-northern'] }}</p>
+
+      <span class="detail__month"
+            v-for="(month, index) in months"
+            :class="{'is-active': activeMonth(month, 'north')}"
+            :key="`north${index}`"
+      >
         {{ month }}
       </span>
 
-        <h5>Southern Hemisphere</h5>
+      <h5>Southern Hemisphere</h5>
 
-        <p>{{ selectedCritter.availability['month-southern'] }}</p>
+      <p>{{ critter.availability['month-southern'] }}</p>
 
-        <span class="detail__month"
-              v-for="(month, index) in months"
-              :class="{'is-active': activeMonth(month, 'south')}"
-              :key="`south${index}`"
-        >
+      <span class="detail__month"
+            v-for="(month, index) in months"
+            :class="{'is-active': activeMonth(month, 'south')}"
+            :key="`south${index}`"
+      >
         {{ month }}
       </span>
 
-        <hr>
+      <hr>
 
-        <h4>Time of day</h4>
+      <h4>Time of day</h4>
 
-        <span>{{ selectedCritter.timeOfDay }}</span>
+      <span>{{ critter.timeOfDay }}</span>
 
-        <hr>
+      <hr>
 
-        <h4>Prices</h4>
+      <h4>Prices</h4>
 
-        <span>Normal: {{ selectedCritter.price }}</span>
-        <br />
-        <span>{{ higherPriceCharacter }}: {{ higherPriceValue }}</span>
-      </div>
+      <span>Normal: {{ critter.price }}</span>
+      <br />
+      <span>{{ higherPriceCharacter }}: {{ higherPriceValue }}</span>
+    </div>
+  </div>
 
-    </template>
+  <div class="detail detail--empty" v-else>
+    <div class="detail__blathers">
+      <img src="../assets/blathers.png" alt="Blathers" />
+    </div>
 
-    <template v-else>
-      Select a critter to learn more about it.
-    </template>
+    <div class="detail__empty-message">
+      <img src="../assets/blathers-dialogue.png" alt="Select a critter to learn more about it. I can also tell you when and where you can catch it." />
+    </div>
   </div>
 </template>
 
@@ -79,10 +91,6 @@ export default {
   name: 'Detail',
 
   props: {
-    selectedCritter: {
-      type: Object,
-      required: true,
-    },
     critterType: {
       type: String,
       required: true,
@@ -101,7 +109,11 @@ export default {
     },
 
     higherPriceValue () {
-      return this.critterType === 'bugs' ? this.selectedCritter['price-flick'] : this.selectedCritter['price-cj'];
+      return this.critterType === 'bugs' ? this.critter['price-flick'] : this.critter['price-cj'];
+    },
+
+    critter () {
+      return this.critterType === 'bugs' ? this.$store.state.selectedBug : this.$store.state.selectedFish;
     },
   },
 
@@ -113,7 +125,7 @@ export default {
      * @returns {boolean}
      */
     activeMonth (month, hemisphere) {
-      // return this.selectedCritter[`${hemisphere}Months`].includes(month);
+      // return this.critter[`${hemisphere}Months`].includes(month);
       return false;
     },
   },
@@ -124,6 +136,17 @@ export default {
   .detail {
     display: flex;
     flex-direction: column;
+    text-align: center;
+
+    &--empty {
+      justify-content: center;
+      align-items: center;
+    }
+
+    &__name {
+      text-transform: capitalize;
+    }
+
     &__month {
       &.is-active {
         color: pink;
@@ -135,14 +158,41 @@ export default {
       flex: 1 0 0px;
     }
 
+    &__critter-image {
+      width: 50%;
+      background-color: #d8cfa6;
+      border-radius: 50%;
+    }
+
+    &__museum-phrase {
+      display: flex;
+      align-items: center;
+    }
+
+    &__museum-blathers {
+      flex: 0 0 100px;
+    }
+
+    &__museum-quote {
+      position: relative;
+      margin: 16px 40px;
+      padding: 10px 20px;
+      border: 1px dashed;
+      border-radius: 20px;
+      background: white;
+      line-height: 1.5;
+      text-align: left;
+
+      &::before,
+      &::after {
+        content: '"';
+        position: relative;
+      }
+    }
+
     &__information {
       flex: 1 1 auto;
       overflow-y: auto;
     }
-  }
-
-  img {
-    width: 50%;
-    height: auto;
   }
 </style>

@@ -3,10 +3,8 @@
     <gallery
       :critters="critters"
       :critter-type="critterType"
-      @setSelectedCritter="setSelectedCritter"
     />
     <detail
-      :selected-critter="selectedCritter"
       :critter-type="critterType"
     />
   </div>
@@ -31,25 +29,9 @@ export default {
     },
   },
 
-  data () {
-    return {
-      selectedCritter: {},
-    };
-  },
-
   computed: {
     critters () {
       return this.critterType === 'fish' ? this.$store.state.fish : this.$store.state.bugs;
-    },
-  },
-
-  methods: {
-    setSelectedCritter (critter) {
-      if (this.selectedCritter.name === critter.name) {
-        return;
-      }
-
-      this.selectedCritter = critter;
     },
   },
 };
