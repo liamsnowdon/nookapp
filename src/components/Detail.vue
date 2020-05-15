@@ -28,8 +28,17 @@
     </div>
 
     <div class="detail__information">
-      <h4>Location</h4>
-      <p>{{ critter.availability.location }}</p>
+      <div class="detail__two-column">
+        <div class="detail__two-column-col">
+          <h4>Location</h4>
+          <p>{{ critter.availability.location }}</p>
+        </div>
+
+        <div class="detail__two-column-col">
+          <h4>Time of day</h4>
+          <span>{{ critter.availability.isAllDay ? 'All day' : critter.availability.time }}</span>
+        </div>
+      </div>
 
       <hr>
 
@@ -37,41 +46,62 @@
 
       <h5>Northern Hemisphere</h5>
 
-      <p>{{ critter.availability['month-northern'] }}</p>
+      <p>{{ critter.availability.isAllYear ? 'All year' : critter.availability['month-northern'] }}</p>
 
-      <span class="detail__month"
-            v-for="(month, index) in months"
-            :class="{'is-active': activeMonth(month, 'north')}"
-            :key="`north${index}`"
-      >
+      <div class="detail__months">
+        <span class="detail__month"
+              v-for="(month, index) in months"
+              :class="{'is-active': critter.availability.isAllYear || activeMonth(month, 'north')}"
+              :key="`north${index}`"
+        >
         {{ month }}
-      </span>
+        </span>
+      </div>
 
       <h5>Southern Hemisphere</h5>
 
-      <p>{{ critter.availability['month-southern'] }}</p>
+      <p>{{ critter.availability.isAllYear ? 'All year' : critter.availability['month-southern'] }}</p>
 
-      <span class="detail__month"
-            v-for="(month, index) in months"
-            :class="{'is-active': activeMonth(month, 'south')}"
-            :key="`south${index}`"
-      >
+      <div class="detail__months">
+        <span class="detail__month"
+              v-for="(month, index) in months"
+              :class="{'is-active': critter.availability.isAllYear || activeMonth(month, 'south')}"
+              :key="`south${index}`"
+        >
         {{ month }}
-      </span>
-
-      <hr>
-
-      <h4>Time of day</h4>
-
-      <span>{{ critter.timeOfDay }}</span>
+        </span>
+      </div>
 
       <hr>
 
       <h4>Prices</h4>
 
-      <span>Normal: {{ critter.price }}</span>
-      <br />
-      <span>{{ higherPriceCharacter }}: {{ higherPriceValue }}</span>
+      <div class="detail__two-column">
+        <div class="detail__two-column-col">
+          <div class="detail__price">
+            <div class="detail__price-image">
+              <img src="../assets/timmy-and-tommy.png" alt="Timmy and Tommy" />
+            </div>
+            <span class="detail__price-value">{{ formatNumberWithCommas(critter.price) }}</span>
+          </div>
+        </div>
+        <div class="detail__two-column-col">
+          <div class="detail__price">
+            <template v-if="isFish">
+              <div class="detail__price-image">
+                <img src="../assets/cj.png" alt="C.J." />
+              </div>
+              <span class="detail__price-value">{{ formatNumberWithCommas(higherPriceValue) }}</span>
+            </template>
+            <template v-if="isBug">
+              <div class="detail__price-image">
+                <img src="../assets/flick.png" alt="Flick" />
+              </div>
+              <span class="detail__price-value">{{ formatNumberWithCommas(higherPriceValue) }}</span>
+            </template>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -104,16 +134,20 @@ export default {
   },
 
   computed: {
-    higherPriceCharacter () {
-      return this.critterType === 'bugs' ? 'Flick' : 'C.J.';
+    isBug () {
+      return this.critterType === 'bugs';
+    },
+
+    isFish () {
+      return this.critterType === 'fish';
     },
 
     higherPriceValue () {
-      return this.critterType === 'bugs' ? this.critter['price-flick'] : this.critter['price-cj'];
+      return this.isBug ? this.critter['price-flick'] : this.critter['price-cj'];
     },
 
     critter () {
-      return this.critterType === 'bugs' ? this.$store.state.selectedBug : this.$store.state.selectedFish;
+      return this.isBug ? this.$store.state.selectedBug : this.$store.state.selectedFish;
     },
   },
 
@@ -128,11 +162,15 @@ export default {
       // return this.critter[`${hemisphere}Months`].includes(month);
       return false;
     },
+
+    formatNumberWithCommas (num) {
+      return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
+    },
   },
 };
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
   .detail {
     display: flex;
     flex-direction: column;
@@ -143,15 +181,13 @@ export default {
       align-items: center;
     }
 
-    &__month {
-      &.is-active {
-        color: pink;
-        font-weight: bold;
-      }
+    &__two-column {
+      display: flex;
+      justify-content: space-evenly;
     }
 
     &__main {
-      flex: 1 0 0px;
+      flex: 1 0 0;
     }
 
     &__critter-image {
@@ -189,6 +225,34 @@ export default {
     &__information {
       flex: 1 1 auto;
       overflow-y: auto;
+    }
+
+    &__months {
+      display: grid;
+      grid-gap: 15px;
+      grid-template-columns: repeat(auto-fill, minmax(125px, 1fr));
+    }
+
+    &__month {
+      background-color: #d8cfa6;
+      padding: 15px 20px;
+      border-radius: 50%;
+
+      &.is-active {
+        background-color: #fffcdd;
+      }
+    }
+
+    &__price-image {
+      img {
+        display: block;
+        margin-bottom: 15px;
+        height: 150px;
+      }
+    }
+
+    &__price-value {
+      font-size: 20px;
     }
   }
 </style>

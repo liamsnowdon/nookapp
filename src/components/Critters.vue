@@ -37,7 +37,7 @@ export default {
 };
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
   .critters {
     display: grid;
     grid-template-columns: 1fr 1fr;
