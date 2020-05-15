@@ -46,29 +46,25 @@
 
       <h5>Northern Hemisphere</h5>
 
-      <p>{{ critter.availability.isAllYear ? 'All year' : critter.availability['month-northern'] }}</p>
-
       <div class="detail__months">
-        <span class="detail__month"
-              v-for="(month, index) in months"
-              :class="{'is-active': critter.availability.isAllYear || activeMonth(month, 'north')}"
-              :key="`north${index}`"
-        >
-        {{ month }}
+        <span
+          v-for="(month, index) in northernMonths"
+          :key="`north${index}`"
+          class="detail__month"
+          >
+          {{ month }}
         </span>
       </div>
 
       <h5>Southern Hemisphere</h5>
 
-      <p>{{ critter.availability.isAllYear ? 'All year' : critter.availability['month-southern'] }}</p>
-
       <div class="detail__months">
-        <span class="detail__month"
-              v-for="(month, index) in months"
-              :class="{'is-active': critter.availability.isAllYear || activeMonth(month, 'south')}"
-              :key="`south${index}`"
+        <span
+          v-for="(month, index) in southernMonths"
+          :key="`north${index}`"
+          class="detail__month"
         >
-        {{ month }}
+          {{ month }}
         </span>
       </div>
 
@@ -149,22 +145,80 @@ export default {
     critter () {
       return this.isBug ? this.$store.state.selectedBug : this.$store.state.selectedFish;
     },
+
+    /**
+     * Northern months in readable form
+     *
+     * @returns {array}
+     */
+    northernMonths () {
+      if (this.critter.availability.isAllYear) {
+        return ['All Year'];
+      }
+
+      return this.monthsStringToArray('northern');
+    },
+
+    /**
+     * Southern months in readable form
+     *
+     * @returns {array}
+     */
+    southernMonths () {
+      if (this.critter.availability.isAllYear) {
+        return ['All Year'];
+      }
+
+      return this.monthsStringToArray('southern');
+    },
   },
 
   methods: {
-    /**
-     * Highlight active month if a critter is available
-     * @param {string} month
-     * @param {string} hemisphere - 'north' or 'south'
-     * @returns {boolean}
-     */
-    activeMonth (month, hemisphere) {
-      // return this.critter[`${hemisphere}Months`].includes(month);
-      return false;
-    },
-
     formatNumberWithCommas (num) {
       return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
+    },
+
+    /**
+     * Converts the string from the api into readable month names
+     *
+     * @param {string} hemisphere
+     * @returns {Array}
+     */
+    monthsStringToArray (hemisphere) {
+      const monthsString = this.isBug ? this.$store.state.selectedBug.availability[`month-${hemisphere}`] : this.$store.state.selectedFish.availability[`month-${hemisphere}`];
+      const intervals = monthsString.split(' & ');
+
+      let months = [];
+
+      intervals.forEach((interval) => {
+        const intervalMonthsString = interval.split('-');
+        const intervalStartingMonth = Number(intervalMonthsString[0]);
+        const intervalEndingMonth = Number(intervalMonthsString[1]);
+
+        const intervalMonths = [];
+
+        if (intervalStartingMonth > intervalEndingMonth) {
+          for (let i = intervalStartingMonth; i <= 12; i++) {
+            intervalMonths.push(i);
+          }
+
+          for (let i = 1; i <= intervalEndingMonth; i++) {
+            intervalMonths.push(i);
+          }
+        } else {
+          for (let i = intervalStartingMonth; i <= intervalEndingMonth; i++) {
+            intervalMonths.push(i);
+          }
+        }
+
+        months = [...months, ...intervalMonths];
+      });
+
+      months = months.map(month => {
+        return this.months[month - 1];
+      });
+
+      return months;
     },
   },
 };
@@ -189,7 +243,9 @@ export default {
 
     &__blathers,
     &__empty-message {
-      height: 50%;
+      @include breakpoint(medium, down) {
+        height: 50%;
+      }
     }
 
     &__two-column {
@@ -259,7 +315,8 @@ export default {
     &__month {
       background-color: #d8cfa6;
       padding: 15px 20px;
-      border-radius: 50%;
+      border-radius: 10px;
+      border: 2px dashed;
 
       &.is-active {
         background-color: #fffcdd;
