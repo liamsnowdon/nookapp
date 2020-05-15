@@ -171,14 +171,25 @@ export default {
 </script>
 
 <style lang="scss">
+  @import '@/scss/_abstracts.scss';
+
   .detail {
     display: flex;
     flex-direction: column;
     text-align: center;
 
+    @include breakpoint(medium, down) {
+      height: calc(100% - 40px);
+    }
+
     &--empty {
       justify-content: center;
       align-items: center;
+    }
+
+    &__blathers,
+    &__empty-message {
+      height: 50%;
     }
 
     &__two-column {
@@ -191,9 +202,13 @@ export default {
     }
 
     &__critter-image {
-      width: 50%;
+      width: 100%;
       background-color: #d8cfa6;
       border-radius: 50%;
+
+      @include breakpoint(medium) {
+        width: 50%;
+      }
     }
 
     &__museum-phrase {
@@ -203,17 +218,25 @@ export default {
 
     &__museum-blathers {
       flex: 0 0 100px;
+
+      @include breakpoint(medium, down) {
+        display: none;
+      }
     }
 
     &__museum-quote {
       position: relative;
-      margin: 16px 40px;
+      margin: 16px 0;
       padding: 10px 20px;
       border: 1px dashed;
       border-radius: 20px;
       background: white;
       line-height: 1.5;
       text-align: left;
+
+      @include breakpoint(medium) {
+        margin: 16px 40px;
+      }
 
       &::before,
       &::after {

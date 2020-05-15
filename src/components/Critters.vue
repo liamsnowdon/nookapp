@@ -38,13 +38,21 @@ export default {
 </script>
 
 <style lang="scss">
+  @import '@/scss/_abstracts.scss';
+
   .critters {
+    @include breakpoint(medium) {
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: 100%;
+      height: calc(100vh - 50px);
+      padding: 40px;
+    }
+
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: 100%;
+    grid-template-columns: 100%;
+    grid-template-rows: 200px calc(100% - 200px);
     grid-gap: 40px;
-    padding: 40px;
-    height: calc(100vh - 50px);
+    padding: 20px;
     background-color: #F0E6B8;
   }
 </style>

@@ -1,6 +1,6 @@
 <template>
   <div class="gallery">
-    <gallery-filters />
+    <gallery-filters v-if="false" />
 
     <template v-if="loading">
       Loading...
@@ -87,15 +87,27 @@ export default {
 </script>
 
 <style lang="scss">
+  @import '@/scss/_abstracts.scss';
+
   .gallery {
     $block: &;
 
     &__grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr 1fr;
-      grid-gap: 20px;
+      display: flex;
+      flex-flow: column wrap;
+      overflow-x: auto;
       max-height: 100%;
-      overflow-y: auto;
+
+      @include breakpoint(medium) {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+        grid-gap: 20px;
+        overflow-y: auto;
+      }
+
+      @include breakpoint(medium, down) {
+        height: 200px;
+      }
     }
 
     &__item {
@@ -107,6 +119,12 @@ export default {
       background: center / contain no-repeat #fffcdd;
       appearance: none;
       overflow: hidden;
+
+      @include breakpoint(medium, down) {
+        width: 90px;
+        height: 90px;
+        margin: 5px;
+      }
 
       img {
         max-width: 100%;
