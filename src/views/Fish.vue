@@ -14,6 +14,11 @@ export default {
     Critters,
   },
 
+  beforeRouteLeave (to, from, next) {
+    this.$store.commit('clearFilters');
+    next();
+  },
+
   mounted () {
     this.getFish();
   },
