@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import { CRITTER_TYPES } from '../constants';
+import { CRITTER_TYPES, VUEX_MUTATIONS, VUEX_ACTIONS } from '../constants';
 import Critters from '@/components/Critters.vue';
 
 export default {
@@ -16,7 +16,7 @@ export default {
   },
 
   beforeRouteLeave (to, from, next) {
-    this.$store.commit('clearFilters');
+    this.$store.commit(VUEX_MUTATIONS.CLEAR_FILTERS);
     next();
   },
 
@@ -36,7 +36,7 @@ export default {
         return;
       }
 
-      this.$store.dispatch('catchFish');
+      this.$store.dispatch(VUEX_ACTIONS.CATCH_FISH);
     },
   },
 };

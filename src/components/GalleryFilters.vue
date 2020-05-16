@@ -78,7 +78,7 @@
 </template>
 
 <script>
-import { CRITTER_TYPES, SORT_OPTIONS } from '../constants';
+import { CRITTER_TYPES, SORT_OPTIONS, VUEX_MUTATIONS } from '../constants';
 
 export default {
   name: 'GalleryFilters',
@@ -166,23 +166,23 @@ export default {
 
   methods: {
     onSearchTermInput () {
-      this.$store.commit('setFiltersSearchTerm', this.searchTerm);
+      this.$store.commit(VUEX_MUTATIONS.SET_FILTERS_SEARCH_TERM, this.searchTerm);
     },
 
     onLocationChange () {
-      this.$store.commit('setFiltersLocation', this.location);
+      this.$store.commit(VUEX_MUTATIONS.SET_FILTERS_LOCATION, this.location);
     },
 
     onMinBasePriceInput () {
-      this.$store.commit('setFiltersMinBasePrice', this.minBasePrice);
+      this.$store.commit(VUEX_MUTATIONS.SET_FILTERS_MIN_BASE_PRICE, this.minBasePrice);
     },
 
     onMaxBasePriceInput () {
-      this.$store.commit('setFiltersMaxBasePrice', this.maxBasePrice);
+      this.$store.commit(VUEX_MUTATIONS.SET_FILTERS_MAX_BASE_PRICE, this.maxBasePrice);
     },
 
     onSortChange () {
-      this.$store.commit('setFiltersSort', this.sort);
+      this.$store.commit(VUEX_MUTATIONS.SET_FILTERS_SORT, this.sort);
     },
   },
 };

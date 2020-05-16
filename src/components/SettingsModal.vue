@@ -36,6 +36,8 @@
 </template>
 
 <script>
+import { VUEX_MUTATIONS } from '../constants';
+
 export default {
   name: 'SettingsModal',
 
@@ -69,11 +71,11 @@ export default {
 
   methods: {
     close () {
-      this.$store.commit('setSettingsModalOpen', false);
+      this.$store.commit(VUEX_MUTATIONS.SET_SETTINGS_MODAL_OPEN, false);
     },
 
     onThemeChange () {
-      this.$store.commit('setSettingsTheme', this.theme);
+      this.$store.commit(VUEX_MUTATIONS.SET_SETTINGS_THEME, this.theme);
     },
 
     resetCaughtBugs () {
@@ -83,7 +85,7 @@ export default {
         return;
       }
 
-      this.$store.commit('clearCaughtBugs');
+      this.$store.commit(VUEX_MUTATIONS.CLEAR_CAUGHT_BUGS);
     },
 
     resetCaughtFish () {
@@ -93,7 +95,7 @@ export default {
         return;
       }
 
-      this.$store.commit('clearCaughtFish');
+      this.$store.commit(VUEX_MUTATIONS.CLEAR_CAUGHT_FISH);
     },
   },
 };

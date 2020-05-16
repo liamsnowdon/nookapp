@@ -23,12 +23,14 @@
 </template>
 
 <script>
+import { VUEX_MUTATIONS } from '../constants';
+
 export default {
   name: 'Navigation',
 
   methods: {
     openSettingsModal () {
-      this.$store.commit('setSettingsModalOpen', true);
+      this.$store.commit(VUEX_MUTATIONS.SET_SETTINGS_MODAL_OPEN, true);
     },
   },
 };

@@ -128,7 +128,7 @@
 </template>
 
 <script>
-import { CRITTER_TYPES } from '../constants';
+import { CRITTER_TYPES, VUEX_MUTATIONS } from '../constants';
 
 export default {
   name: 'Detail',
@@ -247,7 +247,7 @@ export default {
         isCaught: this.isCaught,
       };
 
-      this.$store.commit('setCaughtCritterStatus', payload);
+      this.$store.commit(VUEX_MUTATIONS.SET_CAUGHT_CRITTER_STATUS, payload);
     },
 
     formatNumberWithCommas (num) {

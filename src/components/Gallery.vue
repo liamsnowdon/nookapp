@@ -50,7 +50,7 @@
 </template>
 
 <script>
-import { CRITTER_TYPES, SORT_OPTIONS } from '../constants';
+import { CRITTER_TYPES, SORT_OPTIONS, VUEX_MUTATIONS } from '../constants';
 import GalleryFilters from './GalleryFilters';
 import Spinner from './Spinner.vue';
 
@@ -184,13 +184,13 @@ export default {
           return;
         }
 
-        this.$store.commit('setSelectedBug', critter);
+        this.$store.commit(VUEX_MUTATIONS.SET_SELECTED_BUG, critter);
       } else {
         if (this.$store.state.selectedFish.id === critter.id) {
           return;
         }
 
-        this.$store.commit('setSelectedFish', critter);
+        this.$store.commit(VUEX_MUTATIONS.SET_SELECTED_FISH, critter);
       }
     },
 
@@ -211,7 +211,7 @@ export default {
     },
 
     openSettingsModal () {
-      this.$store.commit('setSettingsModalOpen', true);
+      this.$store.commit(VUEX_MUTATIONS.SET_SETTINGS_MODAL_OPEN, true);
     },
   },
 };

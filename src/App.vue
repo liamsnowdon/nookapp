@@ -11,7 +11,7 @@
 
 <script>
 import { storageAvailable } from './helpers';
-import { STORAGE } from './constants';
+import { STORAGE, VUEX_MUTATIONS } from './constants';
 import Navigation from './components/Navigation';
 import SettingsModal from './components/SettingsModal';
 
@@ -38,9 +38,9 @@ export default {
   methods: {
     setIsStorageAvailable () {
       if (storageAvailable('localStorage')) {
-        this.$store.commit('setIsStorageAvailable', true);
+        this.$store.commit(VUEX_MUTATIONS.SET_IS_STORAGE_AVAILABLE, true);
       } else {
-        this.$store.commit('setIsStorageAvailable', false);
+        this.$store.commit(VUEX_MUTATIONS.SET_IS_STORAGE_AVAILABLE, false);
       }
     },
 
@@ -64,8 +64,8 @@ export default {
         caughtBugs.sort((a, b) => a - b);
       }
 
-      this.$store.commit('setCaughtFish', caughtFish);
-      this.$store.commit('setCaughtBugs', caughtBugs);
+      this.$store.commit(VUEX_MUTATIONS.SET_CAUGHT_FISH, caughtFish);
+      this.$store.commit(VUEX_MUTATIONS.SET_CAUGHT_BUGS, caughtBugs);
     },
 
     setDefaultSettingsFromLocalStorage () {
@@ -75,7 +75,7 @@ export default {
 
       const theme = localStorage.getItem(STORAGE.SETTINGS_THEME);
 
-      this.$store.commit('setSettingsTheme', theme);
+      this.$store.commit(VUEX_MUTATIONS.SET_SETTINGS_THEME, theme);
     },
   },
 };
