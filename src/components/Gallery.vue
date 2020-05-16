@@ -173,6 +173,27 @@ export default {
         });
       }
 
+      // Caught
+      if (this.$store.state.filters.caught) {
+        if (this.$store.state.filters.caught === 'caught') {
+          critters = critters.filter((critter) => {
+            if (this.isBug) {
+              return this.$store.state.caughtBugs.includes(critter.id);
+            } else {
+              return this.$store.state.caughtFish.includes(critter.id);
+            }
+          });
+        } else if (this.$store.state.filters.caught === 'uncaught') {
+          critters = critters.filter((critter) => {
+            if (this.isBug) {
+              return !this.$store.state.caughtBugs.includes(critter.id);
+            } else {
+              return !this.$store.state.caughtFish.includes(critter.id);
+            }
+          });
+        }
+      }
+
       return critters;
     },
   },

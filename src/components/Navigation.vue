@@ -43,6 +43,8 @@ export default {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    max-width: $global-width;
+    margin: 0 auto;
 
     &__list {
       display: flex;

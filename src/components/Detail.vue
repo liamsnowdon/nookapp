@@ -9,14 +9,14 @@
         class="detail__caught-checkbox"
       >
         <input
-          id="caught"
+          id="critter-caught"
           v-model="isCaught"
           type="checkbox"
           class="detail__caught-checkbox-input"
           @change="onCaughtChange"
         />
         <label
-          for="caught"
+          for="critter-caught"
           class="detail__caught-checkbox-label"
         >
           <span class="detail__caught-checkbox-checkbox"></span>

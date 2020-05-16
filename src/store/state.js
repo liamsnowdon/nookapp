@@ -19,5 +19,6 @@ export default {
     location: '',
     minBasePrice: null,
     maxBasePrice: null,
+    caught: '',
   },
 };

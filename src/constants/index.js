@@ -46,6 +46,7 @@ export const VUEX_MUTATIONS = {
   SET_FILTERS_LOCATION: 'setFiltersLocation',
   SET_FILTERS_MIN_BASE_PRICE: 'setFiltersMinBasePrice',
   SET_FILTERS_MAX_BASE_PRICE: 'setFiltersMaxBasePrice',
+  SET_FILTERS_CAUGHT: 'setFiltersCaught',
   CLEAR_FILTERS: 'clearFilters',
 };
 

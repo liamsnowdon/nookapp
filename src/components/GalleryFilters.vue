@@ -33,7 +33,7 @@
           v-model="location"
           @change="onLocationChange"
         >
-          <option value="">Select a location</option>
+          <option value="">All</option>
           <option v-for="(location, index) in fishLocations" :key="index" :value="location">{{ location }}</option>
         </select>
       </template>
@@ -74,6 +74,20 @@
         placeholder="4000"
       />
     </div>
+
+    <!-- Caught -->
+    <div class="gallery__filters-item">
+      <label for="caught">Caught</label>
+      <select
+        id="caught"
+        v-model="caught"
+        @change="onCaughtChange"
+      >
+        <option value="">All</option>
+        <option value="caught">Caught</option>
+        <option value="uncaught">Uncaught</option>
+      </select>
+    </div>
   </div>
 </template>
 
@@ -95,6 +109,7 @@ export default {
       sort: 'id',
       searchTerm: '',
       location: '',
+      caught: '',
       minBasePrice: null,
       maxBasePrice: null,
       sortOptions: [
@@ -184,6 +199,10 @@ export default {
     onSortChange () {
       this.$store.commit(VUEX_MUTATIONS.SET_FILTERS_SORT, this.sort);
     },
+
+    onCaughtChange () {
+      this.$store.commit(VUEX_MUTATIONS.SET_FILTERS_CAUGHT, this.caught);
+    },
   },
 };
 </script>
@@ -203,7 +222,7 @@ export default {
 
       label {
         display: block;
-        margin-bottom: 5px;
+        margin-bottom: 10px;
       }
 
       select,

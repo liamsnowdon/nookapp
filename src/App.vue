@@ -5,7 +5,9 @@
   >
     <navigation />
     <settings-modal />
-    <router-view />
+    <div class="wrapper">
+      <router-view />
+    </div>
   </div>
 </template>
 
@@ -102,6 +104,10 @@ export default {
     max-height: 100%;
     height: auto;
     width: auto;
+  }
+
+  .wrapper {
+    background-color: $brown-medium;
   }
 
   .cross {

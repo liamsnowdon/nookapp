@@ -108,11 +108,16 @@ export default {
     state.filters.maxBasePrice = price;
   },
 
+  setFiltersCaught (state, caught) {
+    state.filters.caught = caught;
+  },
+
   clearFilters (state) {
     state.filters.sort = SORT_OPTIONS.ID;
     state.filters.searchTerm = '';
     state.filters.location = '';
     state.filters.minBasePrice = null;
     state.filters.maxBasePrice = null;
+    state.filters.caught = '';
   },
 };

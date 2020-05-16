@@ -53,6 +53,7 @@ export default {
     grid-template-rows: 260px calc(100% - 260px);
     grid-gap: 40px;
     padding: 20px;
-    background-color: $brown-medium;
+    max-width: $global-width;
+    margin: 0 auto;
   }
 </style>
