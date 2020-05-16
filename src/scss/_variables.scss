@@ -1,3 +1,10 @@
+$brown-light: #fffcdd;
+$brown-medium: #f0e6b8;
+$brown-dark: #d8cfa6;
+$brown-darkest: #583e27;
+$brown-border: #c1b995;
+
+
 $breakpoints: (
         '': 0,
         tiny: 320,
@@ -7,4 +14,8 @@ $breakpoints: (
         mega: 1440
 );
 
-$color: #f5f5f5;
+$z-index: (
+        modal: 100,
+        slider: 90,
+        sliderOverlay: 80
+);

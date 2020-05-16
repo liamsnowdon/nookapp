@@ -4,15 +4,25 @@
     class="detail"
   >
     <div class="detail__main">
-      <label v-if="isStorageAvailable" for="caught">
+      <div
+        v-if="isStorageAvailable"
+        class="detail__caught-checkbox"
+      >
         <input
           id="caught"
           v-model="isCaught"
           type="checkbox"
+          class="detail__caught-checkbox-input"
           @change="onCaughtChange"
         />
-        <span>Caught</span>
-      </label>
+        <label
+          for="caught"
+          class="detail__caught-checkbox-label"
+        >
+          <span class="detail__caught-checkbox-checkbox"></span>
+          <span class="detail__caught-checkbox-text">Caught</span>
+        </label>
+      </div>
 
       <h3 class="detail__name">{{ critter.name['name-en'] | capitalize }}</h3>
 
@@ -307,6 +317,77 @@ export default {
       align-items: center;
     }
 
+    &__caught-checkbox {
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    &__caught-checkbox-input {
+      opacity: 0;
+      position: absolute;
+
+      &:checked {
+        + .detail__caught-checkbox-label {
+          .detail__caught-checkbox-checkbox {
+            border-color: $brown-darkest;
+            &:before,
+            &:after {
+              opacity: 1;
+            }
+          }
+        }
+      }
+    }
+
+    &__caught-checkbox-label {
+      display: inline-flex;
+      align-items: center;
+      padding: 0;
+      font-weight: 400;
+      cursor: pointer;
+      user-select: none;
+
+      &:hover {
+        .detail__caught-checkbox-checkbox {
+          border-color: $brown-darkest;
+        }
+      }
+    }
+
+    &__caught-checkbox-checkbox {
+      position: relative;
+      display: inline-block;
+      height: 40px;
+      width: 40px;
+      margin-right: 10px;
+      border: 2px solid $brown-dark;
+      border-radius: 5px;
+      background: white;
+
+      &::before,
+      &::after {
+       opacity: 0;
+       position: absolute;
+       width: 5px;
+       content: '';
+       background-color: $brown-darkest;
+      }
+
+      &::before {
+        top: 17px;
+        left: 15px;
+        height: 15px;
+        transform: rotate(-45deg) translate(-50%, -50%);
+      }
+
+      &::after {
+        top: 15px;
+        left: 12px;
+        height: 25px;
+        transform: rotate(45deg) translate(-50%, -50%);
+      }
+    }
+
     &__blathers,
     &__empty-message {
       @include breakpoint(medium, down) {
@@ -325,7 +406,7 @@ export default {
 
     &__critter-image {
       width: 100%;
-      background-color: #d8cfa6;
+      background-color: $brown-dark;
       border-radius: 50%;
 
       @include breakpoint(medium) {
@@ -379,13 +460,13 @@ export default {
     }
 
     &__month {
-      background-color: #d8cfa6;
+      background-color: $brown-dark;
       padding: 15px 20px;
       border-radius: 10px;
       border: 2px dashed;
 
       &.is-active {
-        background-color: #fffcdd;
+        background-color: $brown-light;
       }
     }
 

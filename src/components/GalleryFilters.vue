@@ -1,8 +1,7 @@
 <template>
   <div class="gallery__filters">
-    <div class="gallery__filters-search">
-
-      <!-- Sort -->
+    <!-- Sort -->
+    <div class="gallery__filters-item">
       <label for="sort">Sort</label>
       <select
         id="sort"
@@ -11,8 +10,10 @@
       >
         <option v-for="option in sortOptions" :key="option.value" :value="option.value">{{ option.displayValue }}</option>
       </select>
+    </div>
 
-      <!-- Search term -->
+    <!-- Search term -->
+    <div class="gallery__filters-item">
       <label for="searchTerm">Search by name or ID</label>
       <input
         id="searchTerm"
@@ -21,8 +22,10 @@
         type="search"
         :placeholder="isFish ? 'Sea Bass' : 'Common Butterfly'"
       />
+    </div>
 
-      <!-- Location -->
+    <!-- Location -->
+    <div class="gallery__filters-item">
       <template v-if="isFish">
         <label for="fish-locations">Location</label>
         <select
@@ -46,8 +49,10 @@
           <option v-for="(location, index) in bugLocations" :key="index" :value="location">{{ location }}</option>
         </select>
       </template>
+    </div>
 
-      <!-- Min Base Price -->
+    <!-- Min Base Price -->
+    <div class="gallery__filters-item">
       <label for="min-base-price">Min Base Price</label>
       <input
         id="min-base-price"
@@ -56,8 +61,10 @@
         type="number"
         placeholder="200"
       />
+    </div>
 
-      <!-- Min Base Price -->
+    <!-- Min Base Price -->
+    <div class="gallery__filters-item">
       <label for="max-base-price">Max Base Price</label>
       <input
         id="max-base-price"
@@ -182,5 +189,36 @@ export default {
 </script>
 
 <style lang="scss">
+  @import '@/scss/_abstracts.scss';
 
+  .gallery {
+    &__filters {
+      @include breakpoint(medium, down) {
+        padding: 20px;
+      }
+    }
+
+    &__filters-item {
+      margin-bottom: 20px;
+
+      label {
+        display: block;
+        margin-bottom: 5px;
+      }
+
+      select,
+      [type="text"],
+      [type="number"],
+      [type="search"] {
+        width: 100%;
+        height: 40px;
+        background-color: white;
+        padding: 0 10px;
+        border-radius: 5px;
+        border: 1px solid #a6a6a6;
+        font-size: 16px;
+        appearance: none;
+      }
+    }
+  }
 </style>

@@ -1,9 +1,29 @@
 <template>
   <div class="gallery">
-    <gallery-filters :critter-type="critterType" />
+    <div class="gallery__mobile-buttons">
+      <button class="gallery__mobile-button" @click="openFiltersSlider">Sort/Filters</button>
+      <button class="gallery__mobile-button" @click="openSettingsModal">Settings</button>
+    </div>
+
+    <div
+      :class="{'is-active': filtersSliderOpen }"
+      class="gallery__filters-mobile-overlay"
+    />
+    <div
+      :class="{'is-active': filtersSliderOpen }"
+      class="gallery__filters-container"
+    >
+      <div class="gallery__filters-mobile-header">
+        <h2>Sort/Filters</h2>
+        <button class="cross" @click="closeFiltersSlider"></button>
+      </div>
+      <gallery-filters :critter-type="critterType" />
+    </div>
 
     <template v-if="loading">
-      Loading...
+      <div class="gallery__loading">
+        <spinner />
+      </div>
     </template>
 
     <template v-else>
@@ -32,6 +52,7 @@
 <script>
 import { CRITTER_TYPES, SORT_OPTIONS } from '../constants';
 import GalleryFilters from './GalleryFilters';
+import Spinner from './Spinner.vue';
 
 export default {
   name: 'Gallery',
@@ -49,11 +70,12 @@ export default {
 
   components: {
     GalleryFilters,
+    Spinner,
   },
 
   data () {
     return {
-
+      filtersSliderOpen: false,
     };
   },
 
@@ -179,6 +201,18 @@ export default {
         return this.$store.state.selectedFish.id === id;
       }
     },
+
+    openFiltersSlider () {
+      this.filtersSliderOpen = true;
+    },
+
+    closeFiltersSlider () {
+      this.filtersSliderOpen = false;
+    },
+
+    openSettingsModal () {
+      this.$store.commit('setSettingsModalOpen', true);
+    },
   },
 };
 </script>
@@ -189,11 +223,101 @@ export default {
   .gallery {
     $block: &;
 
+    @include breakpoint(medium) {
+      display: flex;
+      flex-direction: column;
+    }
+
+    &__mobile-buttons {
+      @include breakpoint(medium) {
+        display: none;
+      }
+
+      display: flex;
+      justify-content: space-evenly;
+      margin-bottom: 20px;
+    }
+
+    &__mobile-button {
+      @extend %button-reset;
+      text-decoration: underline;
+    }
+
+    &__filters-container {
+      @include breakpoint(medium, down) {
+        position: fixed;
+        left: -100%;
+        top: 0;
+        bottom: 0;
+        width: calc(100% - 60px);
+        @include z-index(slider);
+        background-color: $brown-light;
+        transition: left 0.5s ease-in-out;
+
+        &.is-active {
+          left: 0;
+        }
+      }
+    }
+
+    &__filters-mobile-overlay {
+      @include breakpoint(medium) {
+        display: none;
+      }
+
+      position: fixed;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      @include z-index(sliderOverlay);
+      background: rgba(0, 0, 0, 0.7);
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity .5s ease-in-out, visibility .5s ease-in-out;
+
+      &.is-active {
+        opacity: 1;
+        visibility: visible;
+      }
+    }
+
+    &__filters-mobile-header {
+      @include breakpoint(medium) {
+        display: none;
+      }
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px;
+      background-color: $brown-dark;
+
+      h2 {
+        margin: 0;
+      }
+    }
+
+    &__filters {
+      @include breakpoint(medium) {
+        margin-bottom: 40px;
+      }
+    }
+
+    &__loading {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+    }
+
     &__grid {
       display: flex;
       flex-flow: column wrap;
       overflow-x: auto;
       max-height: 100%;
+      padding: 20px;
+      margin: -20px;
 
       @include breakpoint(medium) {
         display: grid;
@@ -203,7 +327,8 @@ export default {
       }
 
       @include breakpoint(medium, down) {
-        height: 200px;
+        height: 260px;
+        border-bottom: 1px solid $brown-border;
       }
     }
 
@@ -213,7 +338,7 @@ export default {
       padding: 0;
       border: 1px solid black;
       border-radius: 50%;
-      background: center / contain no-repeat #fffcdd;
+      background: center / contain no-repeat $brown-light;
       appearance: none;
       overflow: hidden;
 

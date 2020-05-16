@@ -15,7 +15,9 @@
       </li>
     </ul>
     <div class="navigation__buttons">
-      <button @click="openSettingsModal">Settings</button>
+      <button class="navigation__button" @click="openSettingsModal">
+        <img src="../assets/cog.svg" alt="Settings" />
+      </button>
     </div>
   </nav>
 </template>
@@ -33,6 +35,8 @@ export default {
 </script>
 
 <style lang="scss">
+  @import '@/scss/_abstracts.scss';
+
   .navigation {
     display: flex;
     align-items: center;
@@ -43,13 +47,45 @@ export default {
       padding: 0;
       margin: 0;
       list-style: none;
+
+      @include breakpoint(medium, down) {
+        flex: 0 0 100%;
+        flex-direction: column;
+      }
+    }
+
+    &__buttons {
+      @include breakpoint(medium, down) {
+        display: none;
+      }
+    }
+
+    &__button {
+      @extend %button-reset;
+      margin: 0 10px;
+
+      &:not(:hover) {
+        opacity: 0.7;
+      }
+
+      img {
+        height: 40px;
+      }
     }
 
     &__list-item {
-      width: 200px;
+      width: 100%;
       height: 50px;
-      border-radius: 20px 20px 0 0;
-      margin-right: 20px;
+
+      @include breakpoint(medium) {
+        width: 200px;
+        border-radius: 20px 20px 0 0;
+        margin-right: 20px;
+      }
+
+      @include breakpoint(medium, down) {
+        border-bottom: 1px solid $brown-border;
+      }
     }
 
     &__link {
@@ -57,12 +93,14 @@ export default {
       height: 100%;
       width: 100%;
       font-weight: bold;
-      color: #2c3e50;
-      background: center no-repeat #d8cfa6;
-      border-radius: 20px 20px 0 0;
+      background: center no-repeat $brown-dark;
+
+      @include breakpoint(medium) {
+        border-radius: 20px 20px 0 0;
+      }
 
       &.is-active {
-        background-color: #F0E6B8;
+        background-color: $brown-medium;
       }
 
       &--fish {

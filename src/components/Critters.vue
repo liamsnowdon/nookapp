@@ -50,9 +50,9 @@ export default {
 
     display: grid;
     grid-template-columns: 100%;
-    grid-template-rows: 200px calc(100% - 200px);
+    grid-template-rows: 260px calc(100% - 260px);
     grid-gap: 40px;
     padding: 20px;
-    background-color: #F0E6B8;
+    background-color: $brown-medium;
   }
 </style>

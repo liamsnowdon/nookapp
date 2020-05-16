@@ -1,3 +1,12 @@
+/// Mixin to allow using z-index property with a map.
+///
+/// @param {key} $key - The key from the z-index map in `_variables.scss`.
+/// @group Helpers
+/// @require {function} z-index
+@mixin z-index($key) {
+  z-index: map-get($z-index, $key);
+}
+
 /// Mixin to create different media queries based on the breakpoints map in `_variables.scss`. The following can be created:
 /// * Min-width: `@include breakpoint('medium') { };`
 /// * Max-width: `@include breakpoint('large', 'down') { };`

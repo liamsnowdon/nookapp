@@ -82,6 +82,8 @@ export default {
 </script>
 
 <style lang="scss">
+  @import '@/scss/_abstracts.scss';
+
   *,
   :before,
   ::after {
@@ -100,5 +102,39 @@ export default {
     max-height: 100%;
     height: auto;
     width: auto;
+  }
+
+  .cross {
+    @extend %button-reset;
+    position: relative;
+    width: 32px;
+    height: 32px;
+
+    @include breakpoint(medium) {
+      opacity: 0.3;
+
+      &:hover {
+        opacity: 1;
+      }
+    }
+
+    &::before,
+    &::after {
+      position: absolute;
+      top: 0;
+      left: 15px;
+      content: ' ';
+      height: 33px;
+      width: 4px;
+      background-color: #333;
+    }
+
+    &::before {
+      transform: rotate(45deg);
+    }
+
+    &::after {
+      transform: rotate(-45deg);
+    }
   }
 </style>

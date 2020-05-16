@@ -5,7 +5,7 @@
       <div class="modal">
         <div class="modal__header">
           <h3>Settings</h3>
-          <button @click="close">Close</button>
+          <button class="cross" @click="close"></button>
         </div>
         <div class="modal__content">
           <template v-if="isStorageAvailable">
@@ -17,7 +17,7 @@
             <input type="radio" id="dark" value="dark" v-model="theme" @change="onThemeChange">
             <label for="dark">Dark theme</label>
 
-            <h4>Local Storage</h4>
+            <h4>Caught Critters</h4>
             <p>
               When you set a critter as "caught" using the checkbox, it will be saved on your device so when you come back
               later, it will remember. You can reset this here.
@@ -135,7 +135,7 @@ export default {
 
   .modal {
     width: 100%;
-    background-color: #fffcdd;
+    background-color: $brown-light;
     border-radius: 20px;
     overflow: hidden;
     z-index: 1;
@@ -153,7 +153,7 @@ export default {
       justify-content: space-between;
       align-items: center;
       padding: 20px;
-      background-color: #d8cfa6;
+      background-color: $brown-dark;
 
       h3 {
         margin: 0;
