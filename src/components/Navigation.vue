@@ -14,17 +14,29 @@
         />
       </li>
     </ul>
+    <div class="navigation__buttons">
+      <button @click="openSettingsModal">Settings</button>
+    </div>
   </nav>
 </template>
 
 <script>
 export default {
   name: 'Navigation',
+
+  methods: {
+    openSettingsModal () {
+      this.$store.commit('setSettingsModalOpen', true);
+    },
+  },
 };
 </script>
 
 <style lang="scss">
   .navigation {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 
     &__list {
       display: flex;

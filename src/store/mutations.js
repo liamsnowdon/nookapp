@@ -5,6 +5,17 @@ export default {
     state.loading = loading;
   },
 
+  setSettingsTheme (state, theme) {
+    theme = theme || 'light';
+
+    state.settings.theme = theme;
+    localStorage.setItem(STORAGE.SETTINGS_THEME, theme);
+  },
+
+  setSettingsModalOpen (state, open) {
+    state.settingsModalOpen = open;
+  },
+
   setFish (state, fish) {
     state.fish = fish;
   },
@@ -23,6 +34,16 @@ export default {
 
   setIsStorageAvailable (state, available) {
     state.isStorageAvailable = available;
+  },
+
+  clearCaughtFish (state) {
+    state.caughtFish = [];
+    localStorage.removeItem(STORAGE.CAUGHT_FISH);
+  },
+
+  clearCaughtBugs (state) {
+    state.caughtBugs = [];
+    localStorage.removeItem(STORAGE.CAUGHT_BUGS);
   },
 
   setCaughtFish (state, caughtFish) {

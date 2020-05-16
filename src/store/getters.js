@@ -1,6 +1,14 @@
 import { CRITTER_TYPES } from '../constants';
 
 export default {
+  hasCaughtFish (state) {
+    return !!state.caughtFish.length;
+  },
+
+  hasCaughtBugs (state) {
+    return !!state.caughtBugs.length;
+  },
+
   getCaughtCritter: (state) => (properties) => {
     if (properties.critterType === CRITTER_TYPES.BUGS) {
       return state.caughtBugs.find(bug => bug === properties.id);

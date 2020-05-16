@@ -2,6 +2,10 @@ import { SORT_OPTIONS } from '../constants';
 
 export default {
   loading: false,
+  settingsModalOpen: false,
+  settings: {
+    theme: 'light',
+  },
   fish: [],
   bugs: [],
   selectedFish: {},

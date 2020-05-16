@@ -158,6 +158,14 @@ export default {
       return this.isBug ? this.$store.state.selectedBug : this.$store.state.selectedFish;
     },
 
+    caughtFish () {
+      return this.$store.state.caughtFish;
+    },
+
+    caughtBugs () {
+      return this.$store.state.caughtBugs;
+    },
+
     /**
      * Northern months in readable form
      *
@@ -194,9 +202,34 @@ export default {
 
       this.isCaught = !!this.$store.getters.getCaughtCritter(properties);
     },
+
+    caughtFish () {
+      if (this.isBug) {
+        return;
+      }
+
+      this.refreshCaughtStatus();
+    },
+
+    caughtBugs () {
+      if (this.isFish) {
+        return;
+      }
+
+      this.refreshCaughtStatus();
+    },
   },
 
   methods: {
+    refreshCaughtStatus () {
+      const properties = {
+        id: this.critter.id,
+        critterType: this.critterType,
+      };
+
+      this.isCaught = !!this.$store.getters.getCaughtCritter(properties);
+    },
+
     onCaughtChange () {
       const payload = {
         id: this.critter.id,

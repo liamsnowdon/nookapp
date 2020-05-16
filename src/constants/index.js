@@ -6,6 +6,7 @@ export const CRITTER_TYPES = {
 export const STORAGE = {
   CAUGHT_BUGS: 'caughtBugs',
   CAUGHT_FISH: 'caughtFish',
+  SETTINGS_THEME: 'settingsTheme',
 };
 
 export const SORT_OPTIONS = {
