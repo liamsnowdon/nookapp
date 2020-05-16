@@ -4,8 +4,13 @@
     class="detail"
   >
     <div class="detail__main">
-      <label for="caught">
-        <input id="caught" type="checkbox" />
+      <label v-if="isStorageAvailable" for="caught">
+        <input
+          id="caught"
+          v-model="isCaught"
+          type="checkbox"
+          @change="onCaughtChange"
+        />
         <span>Caught</span>
       </label>
 
@@ -113,6 +118,8 @@
 </template>
 
 <script>
+import { CRITTER_TYPES } from '../constants';
+
 export default {
   name: 'Detail',
 
@@ -126,16 +133,21 @@ export default {
   data () {
     return {
       months: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+      isCaught: false,
     };
   },
 
   computed: {
+    isStorageAvailable () {
+      return this.$store.state.isStorageAvailable;
+    },
+
     isBug () {
-      return this.critterType === 'bugs';
+      return this.critterType === CRITTER_TYPES.BUGS;
     },
 
     isFish () {
-      return this.critterType === 'fish';
+      return this.critterType === CRITTER_TYPES.FISH;
     },
 
     higherPriceValue () {
@@ -173,7 +185,28 @@ export default {
     },
   },
 
+  watch: {
+    critter (newCritter) {
+      const properties = {
+        id: newCritter.id,
+        critterType: this.critterType,
+      };
+
+      this.isCaught = !!this.$store.getters.getCaughtCritter(properties);
+    },
+  },
+
   methods: {
+    onCaughtChange () {
+      const payload = {
+        id: this.critter.id,
+        critterType: this.critterType,
+        isCaught: this.isCaught,
+      };
+
+      this.$store.commit('setCaughtCritterStatus', payload);
+    },
+
     formatNumberWithCommas (num) {
       return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
     },

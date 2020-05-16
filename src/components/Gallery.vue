@@ -30,7 +30,7 @@
 </template>
 
 <script>
-import { SORT_OPTIONS } from '../constants';
+import { CRITTER_TYPES, SORT_OPTIONS } from '../constants';
 import GalleryFilters from './GalleryFilters';
 
 export default {
@@ -63,11 +63,11 @@ export default {
     },
 
     isBug () {
-      return this.critterType === 'bugs';
+      return this.critterType === CRITTER_TYPES.BUGS;
     },
 
     isFish () {
-      return this.critterType === 'fish';
+      return this.critterType === CRITTER_TYPES.FISH;
     },
 
     filteredCritters () {
@@ -157,7 +157,7 @@ export default {
 
   methods: {
     setSelectedCritter (critter) {
-      if (this.critterType === 'bugs') {
+      if (this.isBug) {
         if (this.$store.state.selectedBug.id === critter.id) {
           return;
         }
@@ -173,7 +173,7 @@ export default {
     },
 
     isActiveCritter (id) {
-      if (this.critterType === 'bugs') {
+      if (this.isBug) {
         return this.$store.state.selectedBug.id === id;
       } else {
         return this.$store.state.selectedFish.id === id;

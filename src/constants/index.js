@@ -1,3 +1,13 @@
+export const CRITTER_TYPES = {
+  BUGS: 'bugs',
+  FISH: 'fish',
+};
+
+export const STORAGE = {
+  CAUGHT_BUGS: 'caughtBugs',
+  CAUGHT_FISH: 'caughtFish',
+};
+
 export const SORT_OPTIONS = {
   ID: 'id',
   ALPHABETICAL_ASCENDING: 'alphabeticalAscending',

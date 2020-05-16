@@ -6,6 +6,9 @@ export default {
   bugs: [],
   selectedFish: {},
   selectedBug: {},
+  isStorageAvailable: false,
+  caughtFish: [],
+  caughtBugs: [],
   filters: {
     sort: SORT_OPTIONS.ID,
     searchTerm: '',
