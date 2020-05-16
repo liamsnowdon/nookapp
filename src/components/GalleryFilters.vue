@@ -30,7 +30,7 @@
           v-model="location"
           @change="onLocationChange"
         >
-          <option disabled value="">Select a location</option>
+          <option value="">Select a location</option>
           <option v-for="(location, index) in fishLocations" :key="index" :value="location">{{ location }}</option>
         </select>
       </template>
@@ -42,7 +42,7 @@
           v-model="location"
           @change="onLocationChange"
         >
-          <option disabled value="">Select a location</option>
+          <option value="">Select a location</option>
           <option v-for="(location, index) in bugLocations" :key="index" :value="location">{{ location }}</option>
         </select>
       </template>
