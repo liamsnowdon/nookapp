@@ -3,6 +3,8 @@ export const CRITTER_TYPES = {
   FISH: 'fish',
 };
 
+export const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+
 export const STORAGE = {
   CAUGHT_BUGS: 'caughtBugs',
   CAUGHT_FISH: 'caughtFish',
@@ -47,6 +49,8 @@ export const VUEX_MUTATIONS = {
   SET_FILTERS_MIN_BASE_PRICE: 'setFiltersMinBasePrice',
   SET_FILTERS_MAX_BASE_PRICE: 'setFiltersMaxBasePrice',
   SET_FILTERS_CAUGHT: 'setFiltersCaught',
+  SET_FILTERS_NORTHERN_MONTHS_AVAILABLE: 'setFiltersNorthernMonthsAvailable',
+  SET_FILTERS_SOUTHERN_MONTHS_AVAILABLE: 'setFiltersSouthernMonthsAvailable',
   CLEAR_FILTERS: 'clearFilters',
 };
 

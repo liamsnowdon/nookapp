@@ -50,7 +50,7 @@
 </template>
 
 <script>
-import { CRITTER_TYPES, SORT_OPTIONS, VUEX_MUTATIONS } from '../constants';
+import { CRITTER_TYPES, MONTHS, SORT_OPTIONS, VUEX_MUTATIONS } from '../constants';
 import GalleryFilters from './GalleryFilters';
 import Spinner from './Spinner.vue';
 
@@ -76,6 +76,7 @@ export default {
   data () {
     return {
       filtersSliderOpen: false,
+      months: MONTHS,
     };
   },
 
@@ -90,6 +91,14 @@ export default {
 
     isFish () {
       return this.critterType === CRITTER_TYPES.FISH;
+    },
+
+    hasSelectedNorthernMonthsInFilter () {
+      return this.$store.getters.hasSelectedNorthernMonthsInFilter;
+    },
+
+    hasSelectedSouthernMonthsInFilter () {
+      return this.$store.getters.hasSelectedSouthernMonthsInFilter;
     },
 
     filteredCritters () {
@@ -194,6 +203,32 @@ export default {
         }
       }
 
+      // Northern months available in
+      if (this.hasSelectedNorthernMonthsInFilter && this.$store.state.filters.northernMonthsAvailable.length !== 12) {
+        critters = critters.filter((critter) => {
+          if (critter.availability.isAllYear) {
+            return true;
+          }
+
+          const months = this.monthsStringToArray(critter, 'northern');
+
+          return months.some(month => this.$store.state.filters.northernMonthsAvailable.indexOf(month) !== -1);
+        });
+      }
+
+      // Southern months available in
+      if (this.hasSelectedSouthernMonthsInFilter && this.$store.state.filters.southernMonthsAvailable.length !== 12) {
+        critters = critters.filter((critter) => {
+          if (critter.availability.isAllYear) {
+            return true;
+          }
+
+          const months = this.monthsStringToArray(critter, 'southern');
+
+          return months.some(month => this.$store.state.filters.southernMonthsAvailable.indexOf(month) !== -1);
+        });
+      }
+
       return critters;
     },
   },
@@ -233,6 +268,43 @@ export default {
 
     openSettingsModal () {
       this.$store.commit(VUEX_MUTATIONS.SET_SETTINGS_MODAL_OPEN, true);
+    },
+
+    monthsStringToArray (critter, hemisphere) {
+      const monthsString = critter.availability[`month-${hemisphere}`];
+      const intervals = monthsString.split(' & ');
+
+      let months = [];
+
+      intervals.forEach((interval) => {
+        const intervalMonthsString = interval.split('-');
+        const intervalStartingMonth = Number(intervalMonthsString[0]);
+        const intervalEndingMonth = Number(intervalMonthsString[1]);
+
+        const intervalMonths = [];
+
+        if (intervalStartingMonth > intervalEndingMonth) {
+          for (let i = intervalStartingMonth; i <= 12; i++) {
+            intervalMonths.push(i);
+          }
+
+          for (let i = 1; i <= intervalEndingMonth; i++) {
+            intervalMonths.push(i);
+          }
+        } else {
+          for (let i = intervalStartingMonth; i <= intervalEndingMonth; i++) {
+            intervalMonths.push(i);
+          }
+        }
+
+        months = [...months, ...intervalMonths];
+      });
+
+      months = months.map(month => {
+        return this.months[month - 1];
+      });
+
+      return months;
     },
   },
 };

@@ -20,5 +20,7 @@ export default {
     minBasePrice: '',
     maxBasePrice: '',
     caught: '',
+    northernMonthsAvailable: [],
+    southernMonthsAvailable: [],
   },
 };

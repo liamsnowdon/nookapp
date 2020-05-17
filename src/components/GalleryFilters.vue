@@ -1,18 +1,20 @@
 <template>
   <div class="gallery__filters">
-    <!-- Sort -->
-    <div class="gallery__filters-item">
-      <label for="sort">Sort</label>
-      <select
-        id="sort"
-        v-model="sort"
-        @change="onSortChange"
-      >
-        <option v-for="option in sortOptions" :key="option.value" :value="option.value">{{ option.displayValue }}</option>
-      </select>
-    </div>
-
     <div class="gallery__filters-row">
+      <div class="gallery__filters-column">
+        <!-- Sort -->
+        <div class="gallery__filters-item">
+          <label for="sort">Sort</label>
+          <select
+            id="sort"
+            v-model="sort"
+            @change="onSortChange"
+          >
+            <option v-for="option in sortOptions" :key="option.value" :value="option.value">{{ option.displayValue }}</option>
+          </select>
+        </div>
+      </div>
+
       <div class="gallery__filters-column">
         <!-- Search term -->
         <div class="gallery__filters-item">
@@ -26,7 +28,9 @@
           />
         </div>
       </div>
+    </div>
 
+    <div class="gallery__filters-row">
       <div class="gallery__filters-column">
         <!-- Location -->
         <div class="gallery__filters-item">
@@ -53,6 +57,22 @@
               <option v-for="(location, index) in bugLocations" :key="index" :value="location">{{ location }}</option>
             </select>
           </template>
+        </div>
+      </div>
+
+      <div class="gallery__filters-column">
+        <!-- Caught -->
+        <div class="gallery__filters-item">
+          <label for="caught">Caught</label>
+          <select
+            id="caught"
+            v-model="caught"
+            @change="onCaughtChange"
+          >
+            <option value="">All</option>
+            <option value="caught">Caught</option>
+            <option value="uncaught">Uncaught</option>
+          </select>
         </div>
       </div>
     </div>
@@ -89,29 +109,29 @@
 
     <div class="gallery__filters-row">
       <div class="gallery__filters-column">
-        <!-- Caught -->
+        <!-- Northern months available in -->
         <div class="gallery__filters-item">
-          <label for="caught">Caught</label>
+          <label for="northern-months-available">Northern months available in</label>
           <select
-            id="caught"
-            v-model="caught"
-            @change="onCaughtChange"
+            id="northern-months-available"
+            v-model="northernMonthsAvailable"
+            multiple
+            @change="onNorthernMonthsAvailableChange"
           >
-            <option value="">All</option>
-            <option value="caught">Caught</option>
-            <option value="uncaught">Uncaught</option>
+            <option v-for="(month, index) in monthsOptions" :key="index" :value="month">{{ month }}</option>
           </select>
         </div>
       </div>
 
       <div class="gallery__filters-column">
-        <!-- Months -->
+        <!-- Southern months available in -->
         <div class="gallery__filters-item">
-          <label for="months-available">Months available in</label>
+          <label for="southern-months-available">Southern months available in</label>
           <select
-            id="months-available"
-            v-model="months"
+            id="southern-months-available"
+            v-model="southernMonthsAvailable"
             multiple
+            @change="onSouthernMonthsAvailableChange"
           >
             <option v-for="(month, index) in monthsOptions" :key="index" :value="month">{{ month }}</option>
           </select>
@@ -126,7 +146,7 @@
 </template>
 
 <script>
-import { CRITTER_TYPES, SORT_OPTIONS, VUEX_MUTATIONS } from '../constants';
+import { CRITTER_TYPES, MONTHS, SORT_OPTIONS, VUEX_MUTATIONS } from '../constants';
 
 export default {
   name: 'GalleryFilters',
@@ -144,8 +164,9 @@ export default {
       searchTerm: '',
       location: '',
       caught: '',
-      months: [],
-      monthsOptions: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+      northernMonthsAvailable: [],
+      southernMonthsAvailable: [],
+      monthsOptions: MONTHS,
       minBasePrice: null,
       maxBasePrice: null,
       sortOptions: [
@@ -240,6 +261,14 @@ export default {
       this.$store.commit(VUEX_MUTATIONS.SET_FILTERS_CAUGHT, this.caught);
     },
 
+    onNorthernMonthsAvailableChange () {
+      this.$store.commit(VUEX_MUTATIONS.SET_FILTERS_NORTHERN_MONTHS_AVAILABLE, this.northernMonthsAvailable);
+    },
+
+    onSouthernMonthsAvailableChange () {
+      this.$store.commit(VUEX_MUTATIONS.SET_FILTERS_SOUTHERN_MONTHS_AVAILABLE, this.southernMonthsAvailable);
+    },
+
     resetFilters () {
       this.sort = 'id';
       this.searchTerm = '';
@@ -247,6 +276,8 @@ export default {
       this.caught = '';
       this.minBasePrice = '';
       this.maxBasePrice = '';
+      this.northernMonthsAvailable = [];
+      this.southernMonthsAvailable = [];
 
       this.$store.commit(VUEX_MUTATIONS.CLEAR_FILTERS);
     },

@@ -128,7 +128,7 @@
 </template>
 
 <script>
-import { CRITTER_TYPES, VUEX_MUTATIONS } from '../constants';
+import { CRITTER_TYPES, MONTHS, VUEX_MUTATIONS } from '../constants';
 
 export default {
   name: 'Detail',
@@ -142,7 +142,7 @@ export default {
 
   data () {
     return {
-      months: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+      months: MONTHS,
       isCaught: false,
     };
   },

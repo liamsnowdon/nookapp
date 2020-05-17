@@ -112,6 +112,14 @@ export default {
     state.filters.caught = caught;
   },
 
+  setFiltersNorthernMonthsAvailable (state, monthsAvailable) {
+    state.filters.northernMonthsAvailable = monthsAvailable;
+  },
+
+  setFiltersSouthernMonthsAvailable (state, monthsAvailable) {
+    state.filters.southernMonthsAvailable = monthsAvailable;
+  },
+
   clearFilters (state) {
     state.filters.sort = SORT_OPTIONS.ID;
     state.filters.searchTerm = '';
@@ -119,5 +127,7 @@ export default {
     state.filters.minBasePrice = '';
     state.filters.maxBasePrice = '';
     state.filters.caught = '';
+    state.filters.northernMonthsAvailable = [];
+    state.filters.southernMonthsAvailable = [];
   },
 };

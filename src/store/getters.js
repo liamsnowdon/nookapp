@@ -16,4 +16,12 @@ export default {
       return state.caughtFish.find(bug => bug === properties.id);
     }
   },
+
+  hasSelectedNorthernMonthsInFilter (state) {
+    return !!state.filters.northernMonthsAvailable.length;
+  },
+
+  hasSelectedSouthernMonthsInFilter (state) {
+    return !!state.filters.southernMonthsAvailable.length;
+  },
 };
