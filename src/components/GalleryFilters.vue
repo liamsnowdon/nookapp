@@ -49,7 +49,7 @@
               v-model="location"
               @change="onLocationChange"
             >
-              <option value="">Select a location</option>
+              <option value="">All</option>
               <option v-for="(location, index) in bugLocations" :key="index" :value="location">{{ location }}</option>
             </select>
           </template>
