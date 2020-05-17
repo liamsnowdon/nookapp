@@ -54,7 +54,6 @@ export default {
 
       @include breakpoint(medium, down) {
         flex: 0 0 100%;
-        flex-direction: column;
       }
     }
 
@@ -78,7 +77,7 @@ export default {
     }
 
     &__list-item {
-      width: 100%;
+      width: 50%;
       height: 50px;
 
       @include breakpoint(medium) {
