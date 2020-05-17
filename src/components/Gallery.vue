@@ -46,7 +46,7 @@
         </button>
       </div>
 
-      <div v-show="!filteredCritters.length">
+      <div v-show="!filteredCritters.length" class="text-center">
         No critters match your filters.
       </div>
     </template>
