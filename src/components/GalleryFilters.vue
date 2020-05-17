@@ -16,6 +16,7 @@
             label="displayValue"
             :preselect-first="true"
             :allow-empty="false"
+            :disabled="isDisabled"
             @input="onSortChange"
           />
         </div>
@@ -29,8 +30,9 @@
             id="searchTerm"
             v-model="searchTerm"
             @input="onSearchTermInput"
-            type="search"
             :placeholder="isFish ? 'Sea Bass' : 'Common Butterfly'"
+            :disabled="isDisabled"
+            type="search"
           />
         </div>
       </div>
@@ -49,6 +51,7 @@
               :searchable="false"
               :close-on-select="true"
               :show-labels="false"
+              :disabled="isDisabled"
               @input="onLocationChange"
             />
           </template>
@@ -62,6 +65,7 @@
               :searchable="false"
               :close-on-select="true"
               :show-labels="false"
+              :disabled="isDisabled"
               @input="onLocationChange"
             />
           </template>
@@ -79,6 +83,7 @@
             :searchable="false"
             :close-on-select="true"
             :show-labels="false"
+            :disabled="isDisabled"
             track-by="value"
             label="displayValue"
             @input="onCaughtChange"
@@ -95,6 +100,7 @@
           <input
             id="min-base-price"
             v-model.number="minBasePrice"
+            :disabled="isDisabled"
             @input="onMinBasePriceInput"
             type="number"
             placeholder="200"
@@ -109,6 +115,7 @@
           <input
             id="max-base-price"
             v-model.number="maxBasePrice"
+            :disabled="isDisabled"
             @input="onMaxBasePriceInput"
             type="number"
             placeholder="4000"
@@ -130,6 +137,7 @@
             :show-labels="false"
             :searchable="false"
             :close-on-select="false"
+            :disabled="isDisabled"
             @input="onNorthernMonthsAvailableChange"
           />
         </div>
@@ -147,6 +155,7 @@
             :show-labels="false"
             :searchable="false"
             :close-on-select="false"
+            :disabled="isDisabled"
             @input="onSouthernMonthsAvailableChange"
           />
         </div>
@@ -154,7 +163,13 @@
     </div>
 
     <div class="gallery__filters-clear">
-      <button class="gallery__filters-clear-button" @click="resetFilters">Reset filters</button>
+      <button
+        @click="resetFilters"
+        :disabled="isDisabled"
+        class="gallery__filters-clear-button"
+      >
+        Reset filters
+      </button>
     </div>
   </div>
 </template>
@@ -264,6 +279,10 @@ export default {
     isFish () {
       return this.critterType === CRITTER_TYPES.FISH;
     },
+
+    isDisabled () {
+      return this.isBug ? this.$store.state.errorLoadingBugs : this.$store.state.errorLoadingFish;
+    },
   },
 
   methods: {
@@ -363,6 +382,11 @@ export default {
         border: 1px solid #a6a6a6;
         font-size: 16px;
         appearance: none;
+
+        &:disabled {
+          cursor: not-allowed;
+          opacity: .6;
+        }
       }
     }
 

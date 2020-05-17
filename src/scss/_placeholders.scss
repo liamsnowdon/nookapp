@@ -8,4 +8,8 @@
   font-size: inherit;
   font-family: inherit;
   cursor: pointer;
+
+  &:disabled {
+    cursor: not-allowed;
+  }
 }

@@ -5,6 +5,14 @@ export default {
     state.loading = loading;
   },
 
+  setErrorLoadingFish (state, error) {
+    state.errorLoadingFish = error;
+  },
+
+  setErrorLoadingBugs (state, error) {
+    state.errorLoadingBugs = error;
+  },
+
   setSettingsTheme (state, theme) {
     theme = theme || 'light';
 

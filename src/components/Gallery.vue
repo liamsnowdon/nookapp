@@ -26,6 +26,10 @@
       </div>
     </template>
 
+    <template v-else-if="error">
+      <div class="text-center">{{ errorMessage }}</div>
+    </template>
+
     <template v-else>
       <div v-show="filteredCritters.length" class="gallery__grid">
         <button
@@ -50,7 +54,7 @@
 </template>
 
 <script>
-import { CRITTER_TYPES, MONTHS, SORT_OPTIONS, VUEX_MUTATIONS } from '../constants';
+import { CRITTER_TYPES, MONTHS, SORT_OPTIONS, VUEX_MUTATIONS, MESSAGES } from '../constants';
 import GalleryFilters from './GalleryFilters';
 import Spinner from './Spinner.vue';
 
@@ -83,6 +87,14 @@ export default {
   computed: {
     loading () {
       return this.$store.state.loading;
+    },
+
+    error () {
+      return this.isBug ? this.$store.state.errorLoadingBugs : this.$store.state.errorLoadingFish;
+    },
+
+    errorMessage () {
+      return MESSAGES.API_ERROR;
     },
 
     isBug () {

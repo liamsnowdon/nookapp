@@ -106,6 +106,10 @@ export default {
     width: auto;
   }
 
+  .text-center {
+    text-align: center;
+  }
+
   .wrapper {
     background-color: $brown-medium;
   }

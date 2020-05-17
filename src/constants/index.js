@@ -5,6 +5,10 @@ export const CRITTER_TYPES = {
 
 export const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 
+export const MESSAGES = {
+  API_ERROR: 'Error fetching critter data. Please try again later.',
+};
+
 export const STORAGE = {
   CAUGHT_BUGS: 'caughtBugs',
   CAUGHT_FISH: 'caughtFish',
@@ -27,6 +31,8 @@ export const API = {
 
 export const VUEX_MUTATIONS = {
   SET_LOADING: 'setLoading',
+  SET_ERROR_LOADING_FISH: 'setErrorLoadingFish',
+  SET_ERROR_LOADING_BUGS: 'setErrorLoadingBugs',
   SET_IS_STORAGE_AVAILABLE: 'setIsStorageAvailable',
 
   SET_SETTINGS_THEME: 'setSettingsTheme',
