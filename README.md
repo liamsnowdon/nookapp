@@ -15,14 +15,15 @@ npm run serve
 npm run build
 ```
 
-### Run your tests
-```
-npm run test
-```
-
 ### Lints and fixes files
 ```
 npm run lint
+```
+
+### Deploy to GitHub Pages
+This script automatically runs on push to master via GitHub Actions.
+```
+npm run gh-pages-deploy
 ```
 
 ### Customize configuration
