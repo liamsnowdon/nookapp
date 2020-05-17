@@ -97,7 +97,7 @@ export default {
   },
 
   setFiltersLocation (state, location) {
-    state.filters.location = location;
+    state.filters.location = location || '';
   },
 
   setFiltersMinBasePrice (state, price) {

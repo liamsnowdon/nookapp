@@ -5,13 +5,19 @@
         <!-- Sort -->
         <div class="gallery__filters-item">
           <label for="sort">Sort</label>
-          <select
+          <multiselect
             id="sort"
             v-model="sort"
-            @change="onSortChange"
-          >
-            <option v-for="option in sortOptions" :key="option.value" :value="option.value">{{ option.displayValue }}</option>
-          </select>
+            :options="sortOptions"
+            :searchable="false"
+            :close-on-select="true"
+            :show-labels="false"
+            track-by="value"
+            label="displayValue"
+            :preselect-first="true"
+            :allow-empty="false"
+            @input="onSortChange"
+          />
         </div>
       </div>
 
@@ -36,26 +42,28 @@
         <div class="gallery__filters-item">
           <template v-if="isFish">
             <label for="fish-locations">Location</label>
-            <select
+            <multiselect
               id="fish-locations"
               v-model="location"
-              @change="onLocationChange"
-            >
-              <option value="">All</option>
-              <option v-for="(location, index) in fishLocations" :key="index" :value="location">{{ location }}</option>
-            </select>
+              :options="fishLocations"
+              :searchable="false"
+              :close-on-select="true"
+              :show-labels="false"
+              @input="onLocationChange"
+            />
           </template>
 
           <template v-if="isBug">
             <label for="bug-locations">Location</label>
-            <select
+            <multiselect
               id="bug-locations"
               v-model="location"
-              @change="onLocationChange"
-            >
-              <option value="">All</option>
-              <option v-for="(location, index) in bugLocations" :key="index" :value="location">{{ location }}</option>
-            </select>
+              :options="bugLocations"
+              :searchable="false"
+              :close-on-select="true"
+              :show-labels="false"
+              @input="onLocationChange"
+            />
           </template>
         </div>
       </div>
@@ -64,15 +72,17 @@
         <!-- Caught -->
         <div class="gallery__filters-item">
           <label for="caught">Caught</label>
-          <select
+          <multiselect
             id="caught"
             v-model="caught"
-            @change="onCaughtChange"
-          >
-            <option value="">All</option>
-            <option value="caught">Caught</option>
-            <option value="uncaught">Uncaught</option>
-          </select>
+            :options="caughtOptions"
+            :searchable="false"
+            :close-on-select="true"
+            :show-labels="false"
+            track-by="value"
+            label="displayValue"
+            @input="onCaughtChange"
+          />
         </div>
       </div>
     </div>
@@ -112,14 +122,16 @@
         <!-- Northern months available in -->
         <div class="gallery__filters-item">
           <label for="northern-months-available">Northern months available in</label>
-          <select
+          <multiselect
             id="northern-months-available"
             v-model="northernMonthsAvailable"
-            multiple
-            @change="onNorthernMonthsAvailableChange"
-          >
-            <option v-for="(month, index) in monthsOptions" :key="index" :value="month">{{ month }}</option>
-          </select>
+            :options="monthsOptions"
+            :multiple="true"
+            :show-labels="false"
+            :searchable="false"
+            :close-on-select="false"
+            @input="onNorthernMonthsAvailableChange"
+          />
         </div>
       </div>
 
@@ -127,14 +139,16 @@
         <!-- Southern months available in -->
         <div class="gallery__filters-item">
           <label for="southern-months-available">Southern months available in</label>
-          <select
+          <multiselect
             id="southern-months-available"
             v-model="southernMonthsAvailable"
-            multiple
-            @change="onSouthernMonthsAvailableChange"
-          >
-            <option v-for="(month, index) in monthsOptions" :key="index" :value="month">{{ month }}</option>
-          </select>
+            :options="monthsOptions"
+            :multiple="true"
+            :show-labels="false"
+            :searchable="false"
+            :close-on-select="false"
+            @input="onSouthernMonthsAvailableChange"
+          />
         </div>
       </div>
     </div>
@@ -146,6 +160,8 @@
 </template>
 
 <script>
+import Multiselect from 'vue-multiselect';
+import 'vue-multiselect/dist/vue-multiselect.min.css';
 import { CRITTER_TYPES, MONTHS, SORT_OPTIONS, VUEX_MUTATIONS } from '../constants';
 
 export default {
@@ -158,9 +174,13 @@ export default {
     },
   },
 
+  components: {
+    Multiselect,
+  },
+
   data () {
     return {
-      sort: 'id',
+      sort: '',
       searchTerm: '',
       location: '',
       caught: '',
@@ -169,6 +189,16 @@ export default {
       monthsOptions: MONTHS,
       minBasePrice: null,
       maxBasePrice: null,
+      caughtOptions: [
+        {
+          displayValue: 'Caught',
+          value: 'caught',
+        },
+        {
+          displayValue: 'Uncaught',
+          value: 'uncaught',
+        },
+      ],
       sortOptions: [
         {
           displayValue: 'ID',
@@ -254,11 +284,11 @@ export default {
     },
 
     onSortChange () {
-      this.$store.commit(VUEX_MUTATIONS.SET_FILTERS_SORT, this.sort);
+      this.$store.commit(VUEX_MUTATIONS.SET_FILTERS_SORT, this.sort.value);
     },
 
     onCaughtChange () {
-      this.$store.commit(VUEX_MUTATIONS.SET_FILTERS_CAUGHT, this.caught);
+      this.$store.commit(VUEX_MUTATIONS.SET_FILTERS_CAUGHT, this.caught ? this.caught.value : '');
     },
 
     onNorthernMonthsAvailableChange () {
@@ -291,7 +321,10 @@ export default {
   .gallery {
     &__filters {
       @include breakpoint(medium, down) {
+        max-height: calc(100% - 72px);
         padding: 20px;
+        margin-bottom: 20px;
+        overflow-y: auto;
       }
     }
 
@@ -341,6 +374,56 @@ export default {
     &__filters-clear-button {
       @extend %button-reset;
       text-decoration: underline;
+    }
+  }
+
+  .multiselect__tags {
+    cursor: pointer;
+    border: 1px solid #a6a6a6;
+
+    @include breakpoint(medium) {
+      height: 40px;
+      overflow-y: auto;
+    }
+  }
+
+  .multiselect__placeholder {
+    display: none;
+  }
+
+  .multiselect__tag {
+    background: $brown-darkest;
+  }
+
+  .multiselect__content-wrapper {
+    z-index: 100000;
+  }
+
+  .multiselect__option {
+    color: black;
+
+    &--highlight {
+      background: $brown-darkest;
+      color: white;
+    }
+
+    &--selected {
+      background: $brown-darkest;
+      color: white;
+      &.multiselect__option--highlight {
+        background: $brown-darkest;
+        color: white;
+      }
+    }
+  }
+
+  .multiselect__tag-icon {
+    &:hover {
+      background: $brown-darkest;
+    }
+
+    &::after {
+      color: white;
     }
   }
 </style>
