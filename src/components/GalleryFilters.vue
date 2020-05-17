@@ -12,81 +12,115 @@
       </select>
     </div>
 
-    <!-- Search term -->
-    <div class="gallery__filters-item">
-      <label for="searchTerm">Search by name or ID</label>
-      <input
-        id="searchTerm"
-        v-model="searchTerm"
-        @input="onSearchTermInput"
-        type="search"
-        :placeholder="isFish ? 'Sea Bass' : 'Common Butterfly'"
-      />
+    <div class="gallery__filters-row">
+      <div class="gallery__filters-column">
+        <!-- Search term -->
+        <div class="gallery__filters-item">
+          <label for="searchTerm">Search by name or ID</label>
+          <input
+            id="searchTerm"
+            v-model="searchTerm"
+            @input="onSearchTermInput"
+            type="search"
+            :placeholder="isFish ? 'Sea Bass' : 'Common Butterfly'"
+          />
+        </div>
+      </div>
+
+      <div class="gallery__filters-column">
+        <!-- Location -->
+        <div class="gallery__filters-item">
+          <template v-if="isFish">
+            <label for="fish-locations">Location</label>
+            <select
+              id="fish-locations"
+              v-model="location"
+              @change="onLocationChange"
+            >
+              <option value="">All</option>
+              <option v-for="(location, index) in fishLocations" :key="index" :value="location">{{ location }}</option>
+            </select>
+          </template>
+
+          <template v-if="isBug">
+            <label for="bug-locations">Location</label>
+            <select
+              id="bug-locations"
+              v-model="location"
+              @change="onLocationChange"
+            >
+              <option value="">Select a location</option>
+              <option v-for="(location, index) in bugLocations" :key="index" :value="location">{{ location }}</option>
+            </select>
+          </template>
+        </div>
+      </div>
     </div>
 
-    <!-- Location -->
-    <div class="gallery__filters-item">
-      <template v-if="isFish">
-        <label for="fish-locations">Location</label>
-        <select
-          id="fish-locations"
-          v-model="location"
-          @change="onLocationChange"
-        >
-          <option value="">All</option>
-          <option v-for="(location, index) in fishLocations" :key="index" :value="location">{{ location }}</option>
-        </select>
-      </template>
+    <div class="gallery__filters-row">
+      <div class="gallery__filters-column">
+        <!-- Min Base Price -->
+        <div class="gallery__filters-item">
+          <label for="min-base-price">Min Base Price</label>
+          <input
+            id="min-base-price"
+            v-model.number="minBasePrice"
+            @input="onMinBasePriceInput"
+            type="number"
+            placeholder="200"
+          />
+        </div>
+      </div>
 
-      <template v-if="isBug">
-        <label for="bug-locations">Location</label>
-        <select
-          id="bug-locations"
-          v-model="location"
-          @change="onLocationChange"
-        >
-          <option value="">Select a location</option>
-          <option v-for="(location, index) in bugLocations" :key="index" :value="location">{{ location }}</option>
-        </select>
-      </template>
+      <div class="gallery__filters-column">
+        <!-- Max Base Price -->
+        <div class="gallery__filters-item">
+          <label for="max-base-price">Max Base Price</label>
+          <input
+            id="max-base-price"
+            v-model.number="maxBasePrice"
+            @input="onMaxBasePriceInput"
+            type="number"
+            placeholder="4000"
+          />
+        </div>
+      </div>
     </div>
 
-    <!-- Min Base Price -->
-    <div class="gallery__filters-item">
-      <label for="min-base-price">Min Base Price</label>
-      <input
-        id="min-base-price"
-        v-model.number="minBasePrice"
-        @input="onMinBasePriceInput"
-        type="number"
-        placeholder="200"
-      />
+    <div class="gallery__filters-row">
+      <div class="gallery__filters-column">
+        <!-- Caught -->
+        <div class="gallery__filters-item">
+          <label for="caught">Caught</label>
+          <select
+            id="caught"
+            v-model="caught"
+            @change="onCaughtChange"
+          >
+            <option value="">All</option>
+            <option value="caught">Caught</option>
+            <option value="uncaught">Uncaught</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="gallery__filters-column">
+        <!-- Months -->
+        <div class="gallery__filters-item">
+          <label for="months-available">Months available in</label>
+          <select
+            id="months-available"
+            v-model="months"
+            multiple
+          >
+            <option v-for="(month, index) in monthsOptions" :key="index" :value="month">{{ month }}</option>
+          </select>
+        </div>
+      </div>
     </div>
 
-    <!-- Min Base Price -->
-    <div class="gallery__filters-item">
-      <label for="max-base-price">Max Base Price</label>
-      <input
-        id="max-base-price"
-        v-model.number="maxBasePrice"
-        @input="onMaxBasePriceInput"
-        type="number"
-        placeholder="4000"
-      />
-    </div>
-
-    <!-- Caught -->
-    <div class="gallery__filters-item">
-      <label for="caught">Caught</label>
-      <select
-        id="caught"
-        v-model="caught"
-        @change="onCaughtChange"
-      >
-        <option value="">All</option>
-        <option value="caught">Caught</option>
-        <option value="uncaught">Uncaught</option>
-      </select>
+    <div class="gallery__filters-clear">
+      <button class="gallery__filters-clear-button" @click="resetFilters">Reset filters</button>
     </div>
   </div>
 </template>
@@ -110,6 +144,8 @@ export default {
       searchTerm: '',
       location: '',
       caught: '',
+      months: [],
+      monthsOptions: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
       minBasePrice: null,
       maxBasePrice: null,
       sortOptions: [
@@ -203,6 +239,17 @@ export default {
     onCaughtChange () {
       this.$store.commit(VUEX_MUTATIONS.SET_FILTERS_CAUGHT, this.caught);
     },
+
+    resetFilters () {
+      this.sort = 'id';
+      this.searchTerm = '';
+      this.location = '';
+      this.caught = '';
+      this.minBasePrice = '';
+      this.maxBasePrice = '';
+
+      this.$store.commit(VUEX_MUTATIONS.CLEAR_FILTERS);
+    },
   },
 };
 </script>
@@ -214,6 +261,21 @@ export default {
     &__filters {
       @include breakpoint(medium, down) {
         padding: 20px;
+      }
+    }
+
+    &__filters-row {
+      display: flex;
+      flex-wrap: wrap;
+      margin: 0 -8px;
+    }
+
+    &__filters-column {
+      flex: 0 0 100%;
+      padding: 0 8px;
+
+      @include breakpoint(medium) {
+        flex: 0 0 50%;
       }
     }
 
@@ -238,6 +300,16 @@ export default {
         font-size: 16px;
         appearance: none;
       }
+    }
+
+    &__filters-clear {
+      margin-top: 10px;
+      text-align: center;
+    }
+
+    &__filters-clear-button {
+      @extend %button-reset;
+      text-decoration: underline;
     }
   }
 </style>

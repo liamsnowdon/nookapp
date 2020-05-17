@@ -17,8 +17,8 @@ export default {
     sort: SORT_OPTIONS.ID,
     searchTerm: '',
     location: '',
-    minBasePrice: null,
-    maxBasePrice: null,
+    minBasePrice: '',
+    maxBasePrice: '',
     caught: '',
   },
 };

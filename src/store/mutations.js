@@ -116,8 +116,8 @@ export default {
     state.filters.sort = SORT_OPTIONS.ID;
     state.filters.searchTerm = '';
     state.filters.location = '';
-    state.filters.minBasePrice = null;
-    state.filters.maxBasePrice = null;
+    state.filters.minBasePrice = '';
+    state.filters.maxBasePrice = '';
     state.filters.caught = '';
   },
 };
