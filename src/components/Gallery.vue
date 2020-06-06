@@ -41,7 +41,7 @@
           class="gallery__item"
         >
         <span class="gallery__item-hover">
-          {{ critter.name['name-en'] }}
+          {{ critter.name['name-EUen'] }}
         </span>
         </button>
       </div>
@@ -124,8 +124,8 @@ export default {
         case SORT_OPTIONS.ALPHABETICAL_ASCENDING:
         case SORT_OPTIONS.ALPHABETICAL_DESCENDING:
           critters.sort((a, b) => {
-            const nameA = a.name['name-en'].toLowerCase();
-            const nameB = b.name['name-en'].toLowerCase();
+            const nameA = a.name['name-EUen'].toLowerCase();
+            const nameB = b.name['name-EUen'].toLowerCase();
 
             if (this.$store.state.filters.sort === SORT_OPTIONS.ALPHABETICAL_ASCENDING) {
               if (nameA < nameB) {
@@ -168,7 +168,7 @@ export default {
        */
       if (this.$store.state.filters.searchTerm) {
         critters = critters.filter((critter) => {
-          return critter.name['name-en'].toLowerCase().includes(this.$store.state.filters.searchTerm.toLowerCase()) ||
+          return critter.name['name-EUen'].toLowerCase().includes(this.$store.state.filters.searchTerm.toLowerCase()) ||
              critter.id === Number(this.$store.state.filters.searchTerm);
         });
       }

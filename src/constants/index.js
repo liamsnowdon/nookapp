@@ -24,7 +24,7 @@ export const SORT_OPTIONS = {
 };
 
 export const API = {
-  BASE: 'https://acnhapi.com',
+  BASE: 'https://acnhapi.com/v1',
   FISH: '/fish',
   BUGS: '/bugs',
 };

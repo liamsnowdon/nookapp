@@ -48,7 +48,7 @@ export default {
  * @returns {array}
  */
 function setCorrectBugsData (bugs) {
-  const spiderIndex = bugs.findIndex(bug => bug.name['name-en'] === 'spider');
+  const spiderIndex = bugs.findIndex(bug => bug.name['name-EUen'] === 'spider');
 
   if (!bugs[spiderIndex].availability.location) {
     bugs[spiderIndex].availability.location = 'Shaking trees';

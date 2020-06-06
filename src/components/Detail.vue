@@ -24,11 +24,11 @@
         </label>
       </div>
 
-      <h3 class="detail__name">{{ critter.name['name-en'] | capitalize }}</h3>
+      <h3 class="detail__name">{{ critter.name['name-EUen'] | capitalize }}</h3>
 
       <img
         :src="`http://acnhapi.com/images/${critterType}/${critter.id}`"
-        :alt="critter.name['name-en']"
+        :alt="critter.name['name-EUen']"
         class="detail__critter-image"
       />
 
