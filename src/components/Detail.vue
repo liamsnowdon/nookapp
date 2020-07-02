@@ -307,6 +307,7 @@ export default {
     display: flex;
     flex-direction: column;
     text-align: center;
+    overflow-y: auto;
 
     @include breakpoint(medium, down) {
       height: calc(100% - 40px);
@@ -400,10 +401,6 @@ export default {
       justify-content: space-evenly;
     }
 
-    &__main {
-      flex: 1 0 0;
-    }
-
     &__critter-image {
       width: 100%;
       background-color: $brown-dark;
@@ -446,11 +443,6 @@ export default {
         content: '"';
         position: relative;
       }
-    }
-
-    &__information {
-      flex: 1 1 auto;
-      overflow-y: auto;
     }
 
     &__months {
