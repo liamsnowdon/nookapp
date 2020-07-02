@@ -307,7 +307,10 @@ export default {
     display: flex;
     flex-direction: column;
     text-align: center;
-    overflow-y: auto;
+
+    @include breakpoint(medium) {
+      overflow-y: auto;
+    }
 
     @include breakpoint(medium, down) {
       height: calc(100% - 40px);
