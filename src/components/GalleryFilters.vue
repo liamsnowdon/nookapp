@@ -30,7 +30,7 @@
             id="searchTerm"
             v-model="searchTerm"
             @input="onSearchTermInput"
-            :placeholder="isFish ? 'Sea Bass' : 'Common Butterfly'"
+            :placeholder="searchPlaceholder"
             :disabled="isDisabled"
             type="search"
           />
@@ -39,7 +39,10 @@
     </div>
 
     <div class="gallery__filters-row">
-      <div class="gallery__filters-column">
+      <div
+        v-if="isFish || isBug"
+        class="gallery__filters-column"
+      >
         <!-- Location -->
         <div class="gallery__filters-item">
           <template v-if="isFish">
@@ -280,8 +283,30 @@ export default {
       return this.critterType === CRITTER_TYPES.FISH;
     },
 
+    isSeaCreature () {
+      return this.critterType === CRITTER_TYPES.SEA_CREATURES;
+    },
+
     isDisabled () {
-      return this.isBug ? this.$store.state.errorLoadingBugs : this.$store.state.errorLoadingFish;
+      switch (this.critterType) {
+        case CRITTER_TYPES.BUGS:
+          return this.$store.state.errorLoadingBugs;
+        case CRITTER_TYPES.FISH:
+          return this.$store.state.errorLoadingFish;
+        default:
+          return this.$store.state.errorLoadingSeaCreatures;
+      }
+    },
+
+    searchPlaceholder () {
+      switch (this.critterType) {
+        case CRITTER_TYPES.BUGS:
+          return 'Common Butterfly';
+        case CRITTER_TYPES.FISH:
+          return 'Sea Bass';
+        default:
+          return 'Octopus';
+      }
     },
   },
 
@@ -358,7 +383,7 @@ export default {
       padding: 0 8px;
 
       @include breakpoint(medium) {
-        flex: 0 0 50%;
+        flex: 1 0 50%;
       }
     }
 

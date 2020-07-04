@@ -9,11 +9,18 @@ export default {
     return !!state.caughtBugs.length;
   },
 
+  hasCaughtSeaCreatures (state) {
+    return !!state.caughtSeaCreatures.length;
+  },
+
   getCaughtCritter: (state) => (properties) => {
-    if (properties.critterType === CRITTER_TYPES.BUGS) {
-      return state.caughtBugs.find(bug => bug === properties.id);
-    } else {
-      return state.caughtFish.find(bug => bug === properties.id);
+    switch (properties.critterType) {
+      case CRITTER_TYPES.BUGS:
+        return state.caughtBugs.find(bug => bug === properties.id);
+      case CRITTER_TYPES.FISH:
+        return state.caughtFish.find(fish => fish === properties.id);
+      default:
+        return state.caughtSeaCreatures.find(seaCreature => seaCreature === properties.id);
     }
   },
 

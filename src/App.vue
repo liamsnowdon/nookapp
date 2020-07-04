@@ -1,8 +1,5 @@
 <template>
-  <div
-    id="app"
-    :class="`theme-${theme}`"
-  >
+  <div id="app">
     <navigation />
     <settings-modal />
     <div class="wrapper">
@@ -28,13 +25,6 @@ export default {
   created () {
     this.setIsStorageAvailable();
     this.setCaughtCrittersFromLocalStorage();
-    this.setDefaultSettingsFromLocalStorage();
-  },
-
-  computed: {
-    theme () {
-      return this.$store.state.settings.theme;
-    },
   },
 
   methods: {
@@ -53,6 +43,7 @@ export default {
 
       let caughtFish = localStorage.getItem(STORAGE.CAUGHT_FISH);
       let caughtBugs = localStorage.getItem(STORAGE.CAUGHT_BUGS);
+      let caughtSeaCreatures = localStorage.getItem(STORAGE.CAUGHT_SEA_CREATURES);
 
       if (caughtFish) {
         caughtFish = caughtFish.split(',');
@@ -66,18 +57,15 @@ export default {
         caughtBugs.sort((a, b) => a - b);
       }
 
-      this.$store.commit(VUEX_MUTATIONS.SET_CAUGHT_FISH, caughtFish);
-      this.$store.commit(VUEX_MUTATIONS.SET_CAUGHT_BUGS, caughtBugs);
-    },
-
-    setDefaultSettingsFromLocalStorage () {
-      if (!this.$store.state.isStorageAvailable) {
-        return;
+      if (caughtSeaCreatures) {
+        caughtSeaCreatures = caughtSeaCreatures.split(',');
+        caughtSeaCreatures = caughtSeaCreatures.map(seaCreatures => Number(seaCreatures));
+        caughtSeaCreatures.sort((a, b) => a - b);
       }
 
-      const theme = localStorage.getItem(STORAGE.SETTINGS_THEME);
-
-      this.$store.commit(VUEX_MUTATIONS.SET_SETTINGS_THEME, theme);
+      this.$store.commit(VUEX_MUTATIONS.SET_CAUGHT_FISH, caughtFish);
+      this.$store.commit(VUEX_MUTATIONS.SET_CAUGHT_BUGS, caughtBugs);
+      this.$store.commit(VUEX_MUTATIONS.SET_CAUGHT_SEA_CREATURES, caughtSeaCreatures);
     },
   },
 };

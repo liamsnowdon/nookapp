@@ -32,7 +32,10 @@
         class="detail__critter-image"
       />
 
-      <div class="detail__museum-phrase">
+      <div
+        v-if="critter['museum-phrase']"
+        class="detail__museum-phrase"
+      >
         <blockquote class="detail__museum-quote">{{ critter['museum-phrase'] }}</blockquote>
         <div class="detail__museum-blathers">
           <img src="../assets/blathers.png" alt="Blathers" />
@@ -44,9 +47,28 @@
 
     <div class="detail__information">
       <div class="detail__two-column">
-        <div class="detail__two-column-col">
+        <div
+          v-if="critter.availablility && critter.availablility.location"
+          class="detail__two-column-col"
+        >
           <h4>Location</h4>
           <p>{{ critter.availability.location }}</p>
+        </div>
+
+        <div
+          v-if="critter.speed"
+          class="detail__two-column-col"
+        >
+          <h4>Speed</h4>
+          <p>{{ critter.speed }}</p>
+        </div>
+
+        <div
+          v-if="critter.shadow"
+          class="detail__two-column-col"
+        >
+          <h4>Shadow</h4>
+          <p>{{ critter.shadow }}</p>
         </div>
 
         <div class="detail__two-column-col">
@@ -96,7 +118,11 @@
             <span class="detail__price-value">{{ formatNumberWithCommas(critter.price) }}</span>
           </div>
         </div>
-        <div class="detail__two-column-col">
+
+        <div
+          v-if="higherPriceValue"
+          class="detail__two-column-col"
+        >
           <div class="detail__price">
             <template v-if="isFish">
               <div class="detail__price-image">
@@ -160,12 +186,30 @@ export default {
       return this.critterType === CRITTER_TYPES.FISH;
     },
 
+    isSeaCreature () {
+      return this.critterType === CRITTER_TYPES.SEA_CREATURES;
+    },
+
     higherPriceValue () {
-      return this.isBug ? this.critter['price-flick'] : this.critter['price-cj'];
+      switch (this.critterType) {
+        case CRITTER_TYPES.BUGS:
+          return this.critter['price-flick'];
+        case CRITTER_TYPES.FISH:
+          return this.critter['price-cj'];
+        default:
+          return null;
+      }
     },
 
     critter () {
-      return this.isBug ? this.$store.state.selectedBug : this.$store.state.selectedFish;
+      switch (this.critterType) {
+        case CRITTER_TYPES.BUGS:
+          return this.$store.state.selectedBug;
+        case CRITTER_TYPES.FISH:
+          return this.$store.state.selectedFish;
+        default:
+          return this.$store.state.selectedSeaCreature;
+      }
     },
 
     caughtFish () {
@@ -174,6 +218,10 @@ export default {
 
     caughtBugs () {
       return this.$store.state.caughtBugs;
+    },
+
+    caughtSeaCreatures () {
+      return this.$store.state.caughtSeaCreatures;
     },
 
     /**
@@ -228,6 +276,14 @@ export default {
 
       this.refreshCaughtStatus();
     },
+
+    caughtSeaCreatures () {
+      if (this.isSeaCreature) {
+        return;
+      }
+
+      this.refreshCaughtStatus();
+    },
   },
 
   methods: {
@@ -261,7 +317,20 @@ export default {
      * @returns {Array}
      */
     monthsStringToArray (hemisphere) {
-      const monthsString = this.isBug ? this.$store.state.selectedBug.availability[`month-${hemisphere}`] : this.$store.state.selectedFish.availability[`month-${hemisphere}`];
+      let monthsString;
+
+      switch (this.critterType) {
+        case CRITTER_TYPES.BUGS:
+          monthsString = this.$store.state.selectedBug.availability[`month-${hemisphere}`];
+          break;
+        case CRITTER_TYPES.FISH:
+          monthsString = this.$store.state.selectedFish.availability[`month-${hemisphere}`];
+          break;
+        case CRITTER_TYPES.SEA_CREATURES:
+          monthsString = this.$store.state.selectedSeaCreature.availability[`month-${hemisphere}`];
+          break;
+      }
+
       const intervals = monthsString.split(' & ');
 
       let months = [];

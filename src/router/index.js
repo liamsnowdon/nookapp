@@ -2,6 +2,7 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 import Fish from '../views/Fish.vue';
 import Bugs from '../views/Bugs.vue';
+import SeaCreatures from '../views/SeaCreatures.vue';
 
 Vue.use(VueRouter);
 
@@ -22,6 +23,11 @@ const routes = [
     path: '/bugs',
     name: 'Bugs',
     component: Bugs,
+  },
+  {
+    path: '/sea-creatures',
+    name: 'Sea Creatures',
+    component: SeaCreatures,
   },
 ];
 

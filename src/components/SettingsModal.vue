@@ -9,21 +9,14 @@
         </div>
         <div class="modal__content">
           <template v-if="isStorageAvailable">
-            <h4>General</h4>
-
-            <input type="radio" id="light" value="light" v-model="theme" @change="onThemeChange">
-            <label for="light">Light theme</label>
-            <br>
-            <input type="radio" id="dark" value="dark" v-model="theme" @change="onThemeChange">
-            <label for="dark">Dark theme</label>
-
-            <h4>Caught Critters</h4>
+            <h4 style="margin: 0 0 20px 0;">Caught Critters</h4>
             <p>
               When you set a critter as "caught" using the checkbox, it will be saved on your device so when you come back
               later, it will remember. You can reset this here.
             </p>
             <button @click="resetCaughtBugs" :disabled="!hasCaughtBugs">Reset caught bugs</button>
             <button @click="resetCaughtFish" :disabled="!hasCaughtFish">Reset caught fish</button>
+            <button @click="resetCaughtSeaCreatures" :disabled="!hasCaughtSeaCreatures">Reset caught sea creatures</button>
           </template>
 
           <template v-else>
@@ -41,16 +34,6 @@ import { VUEX_MUTATIONS } from '../constants';
 export default {
   name: 'SettingsModal',
 
-  data () {
-    return {
-      theme: 'light',
-    };
-  },
-
-  mounted () {
-    this.theme = this.$store.state.settings.theme;
-  },
-
   computed: {
     isOpen () {
       return this.$store.state.settingsModalOpen;
@@ -64,6 +47,10 @@ export default {
       return this.$store.getters.hasCaughtBugs;
     },
 
+    hasCaughtSeaCreatures () {
+      return this.$store.getters.hasCaughtSeaCreatures;
+    },
+
     isStorageAvailable () {
       return this.$store.state.isStorageAvailable;
     },
@@ -72,10 +59,6 @@ export default {
   methods: {
     close () {
       this.$store.commit(VUEX_MUTATIONS.SET_SETTINGS_MODAL_OPEN, false);
-    },
-
-    onThemeChange () {
-      this.$store.commit(VUEX_MUTATIONS.SET_SETTINGS_THEME, this.theme);
     },
 
     resetCaughtBugs () {
@@ -96,6 +79,16 @@ export default {
       }
 
       this.$store.commit(VUEX_MUTATIONS.CLEAR_CAUGHT_FISH);
+    },
+
+    resetCaughtSeaCreatures () {
+      const confirmation = confirm('Are you sure you want to reset your sea creatures progress? This cannot be undone.');
+
+      if (!confirmation) {
+        return;
+      }
+
+      this.$store.commit(VUEX_MUTATIONS.CLEAR_CAUGHT_SEA_CREATURES);
     },
   },
 };

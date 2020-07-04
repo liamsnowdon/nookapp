@@ -90,7 +90,14 @@ export default {
     },
 
     error () {
-      return this.isBug ? this.$store.state.errorLoadingBugs : this.$store.state.errorLoadingFish;
+      switch (this.critterType) {
+        case CRITTER_TYPES.FISH:
+          return this.$store.state.errorLoadingFish;
+        case CRITTER_TYPES.BUGS:
+          return this.$store.state.errorLoadingBugs;
+        default:
+          return this.$store.state.errorLoadingSeaCreatures;
+      }
     },
 
     errorMessage () {
@@ -103,6 +110,10 @@ export default {
 
     isFish () {
       return this.critterType === CRITTER_TYPES.FISH;
+    },
+
+    isSeaCreature () {
+      return this.critterType === CRITTER_TYPES.SEA_CREATURES;
     },
 
     hasSelectedNorthernMonthsInFilter () {
@@ -200,6 +211,8 @@ export default {
           critters = critters.filter((critter) => {
             if (this.isBug) {
               return this.$store.state.caughtBugs.includes(critter.id);
+            } else if (this.isSeaCreature) {
+              return this.$store.state.caughtSeaCreatures.includes(critter.id);
             } else {
               return this.$store.state.caughtFish.includes(critter.id);
             }
@@ -208,6 +221,8 @@ export default {
           critters = critters.filter((critter) => {
             if (this.isBug) {
               return !this.$store.state.caughtBugs.includes(critter.id);
+            } else if (this.isSeaCreature) {
+              return !this.$store.state.caughtSeaCreatures.includes(critter.id);
             } else {
               return !this.$store.state.caughtFish.includes(critter.id);
             }
@@ -253,6 +268,12 @@ export default {
         }
 
         this.$store.commit(VUEX_MUTATIONS.SET_SELECTED_BUG, critter);
+      } else if (this.isSeaCreature) {
+        if (this.$store.state.selectedSeaCreature.id === critter.id) {
+          return;
+        }
+
+        this.$store.commit(VUEX_MUTATIONS.SET_SELECTED_SEA_CREATURE, critter);
       } else {
         if (this.$store.state.selectedFish.id === critter.id) {
           return;
@@ -265,6 +286,8 @@ export default {
     isActiveCritter (id) {
       if (this.isBug) {
         return this.$store.state.selectedBug.id === id;
+      } else if (this.isSeaCreature) {
+        return this.$store.state.selectedSeaCreature.id === id;
       } else {
         return this.$store.state.selectedFish.id === id;
       }

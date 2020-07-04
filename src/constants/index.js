@@ -1,6 +1,7 @@
 export const CRITTER_TYPES = {
   BUGS: 'bugs',
   FISH: 'fish',
+  SEA_CREATURES: 'sea',
 };
 
 export const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
@@ -12,7 +13,7 @@ export const MESSAGES = {
 export const STORAGE = {
   CAUGHT_BUGS: 'caughtBugs',
   CAUGHT_FISH: 'caughtFish',
-  SETTINGS_THEME: 'settingsTheme',
+  CAUGHT_SEA_CREATURES: 'caughtSeaCreatures',
 };
 
 export const SORT_OPTIONS = {
@@ -27,26 +28,31 @@ export const API = {
   BASE: 'https://acnhapi.com/v1',
   FISH: '/fish',
   BUGS: '/bugs',
+  SEA_CREATURES: '/sea',
 };
 
 export const VUEX_MUTATIONS = {
   SET_LOADING: 'setLoading',
   SET_ERROR_LOADING_FISH: 'setErrorLoadingFish',
   SET_ERROR_LOADING_BUGS: 'setErrorLoadingBugs',
+  SET_ERROR_LOADING_SEA_CREATURES: 'setErrorLoadingSeaCreatures',
   SET_IS_STORAGE_AVAILABLE: 'setIsStorageAvailable',
 
-  SET_SETTINGS_THEME: 'setSettingsTheme',
   SET_SETTINGS_MODAL_OPEN: 'setSettingsModalOpen',
 
   SET_FISH: 'setFish',
   SET_BUGS: 'setBugs',
+  SET_SEA_CREATURES: 'setSeaCreatures',
   SET_SELECTED_FISH: 'setSelectedFish',
   SET_SELECTED_BUG: 'setSelectedBug',
+  SET_SELECTED_SEA_CREATURE: 'setSelectedSeaCreature',
 
   CLEAR_CAUGHT_FISH: 'clearCaughtFish',
   CLEAR_CAUGHT_BUGS: 'clearCaughtBugs',
+  CLEAR_CAUGHT_SEA_CREATURES: 'clearCaughtSeaCreatures',
   SET_CAUGHT_FISH: 'setCaughtFish',
   SET_CAUGHT_BUGS: 'setCaughtBugs',
+  SET_CAUGHT_SEA_CREATURES: 'setCaughtSeaCreatures',
   SET_CAUGHT_CRITTER_STATUS: 'setCaughtCritterStatus',
 
   SET_FILTERS_SORT: 'setFiltersSort',
@@ -63,4 +69,5 @@ export const VUEX_MUTATIONS = {
 export const VUEX_ACTIONS = {
   CATCH_FISH: 'catchFish',
   CATCH_BUGS: 'catchBugs',
+  CATCH_SEA_CREATURES: 'catchSeaCreatures',
 };

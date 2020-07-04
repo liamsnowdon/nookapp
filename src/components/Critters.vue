@@ -11,6 +11,7 @@
 </template>
 
 <script>
+import { CRITTER_TYPES } from '../constants';
 import Gallery from '@/components/Gallery.vue';
 import Detail from '@/components/Detail.vue';
 
@@ -31,7 +32,14 @@ export default {
 
   computed: {
     critters () {
-      return this.critterType === 'fish' ? this.$store.state.fish : this.$store.state.bugs;
+      switch (this.critterType) {
+        case CRITTER_TYPES.FISH:
+          return this.$store.state.fish;
+        case CRITTER_TYPES.BUGS:
+          return this.$store.state.bugs;
+        default:
+          return this.$store.state.seaCreatures;
+      }
     },
   },
 };

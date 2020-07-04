@@ -13,11 +13,8 @@ export default {
     state.errorLoadingBugs = error;
   },
 
-  setSettingsTheme (state, theme) {
-    theme = theme || 'light';
-
-    state.settings.theme = theme;
-    localStorage.setItem(STORAGE.SETTINGS_THEME, theme);
+  setErrorLoadingSeaCreatures (state, error) {
+    state.setErrorLoadingSeaCreatures = error;
   },
 
   setSettingsModalOpen (state, open) {
@@ -32,12 +29,20 @@ export default {
     state.bugs = bugs;
   },
 
+  setSeaCreatures (state, seaCreatures) {
+    state.seaCreatures = seaCreatures;
+  },
+
   setSelectedFish (state, fish) {
     state.selectedFish = fish;
   },
 
   setSelectedBug (state, bug) {
     state.selectedBug = bug;
+  },
+
+  setSelectedSeaCreature (state, seaCreature) {
+    state.selectedSeaCreature = seaCreature;
   },
 
   setIsStorageAvailable (state, available) {
@@ -54,6 +59,11 @@ export default {
     localStorage.removeItem(STORAGE.CAUGHT_BUGS);
   },
 
+  clearCaughtSeaCreatures (state) {
+    state.caughtSeaCreatures = [];
+    localStorage.removeItem(STORAGE.CAUGHT_SEA_CREATURES);
+  },
+
   setCaughtFish (state, caughtFish) {
     state.caughtFish = caughtFish || [];
   },
@@ -62,12 +72,28 @@ export default {
     state.caughtBugs = caughtBugs || [];
   },
 
+  setCaughtSeaCreatures (state, caughtSeaCreatures) {
+    state.caughtSeaCreatures = caughtSeaCreatures || [];
+  },
+
   setCaughtCritterStatus (state, payload) {
     const isCaught = payload.isCaught;
     const id = payload.id;
     const critterType = payload.critterType;
 
-    const currentCaughtCritters = critterType === CRITTER_TYPES.BUGS ? [...state.caughtBugs] : [...state.caughtFish];
+    let currentCaughtCritters;
+
+    switch (critterType) {
+      case CRITTER_TYPES.BUGS:
+        currentCaughtCritters = [...state.caughtBugs];
+        break;
+      case CRITTER_TYPES.FISH:
+        currentCaughtCritters = [...state.caughtFish];
+        break;
+      default:
+        currentCaughtCritters = [...state.caughtSeaCreatures];
+    }
+
     const currentCaughtCritterIndex = currentCaughtCritters.findIndex(critter => critter === id);
 
     if (isCaught) {
@@ -87,12 +113,18 @@ export default {
     // Reorder numerically
     currentCaughtCritters.sort((a, b) => a - b);
 
-    if (critterType === CRITTER_TYPES.BUGS) {
-      state.caughtBugs = currentCaughtCritters;
-      localStorage.setItem(STORAGE.CAUGHT_BUGS, state.caughtBugs.toString());
-    } else {
-      state.caughtFish = currentCaughtCritters;
-      localStorage.setItem(STORAGE.CAUGHT_FISH, state.caughtFish.toString());
+    switch (critterType) {
+      case CRITTER_TYPES.BUGS:
+        state.caughtBugs = currentCaughtCritters;
+        localStorage.setItem(STORAGE.CAUGHT_BUGS, state.caughtBugs.toString());
+        break;
+      case CRITTER_TYPES.FISH:
+        state.caughtFish = currentCaughtCritters;
+        localStorage.setItem(STORAGE.CAUGHT_FISH, state.caughtFish.toString());
+        break;
+      default:
+        state.caughtSeaCreatures = currentCaughtCritters;
+        localStorage.setItem(STORAGE.CAUGHT_SEA_CREATURES, state.caughtSeaCreatures.toString());
     }
   },
 

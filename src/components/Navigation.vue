@@ -13,6 +13,12 @@
           to="/bugs"
         />
       </li>
+      <li class="navigation__list-item">
+        <router-link
+          class="navigation__link navigation__link--sea-creatures"
+          to="/sea-creatures"
+        />
+      </li>
     </ul>
     <div class="navigation__buttons">
       <button class="navigation__button" @click="openSettingsModal">
@@ -114,6 +120,11 @@ export default {
       &--bugs {
         background-image: url(~@/assets/critterpedia-bugs.png);
         background-size: 45px;
+      }
+
+      &--sea-creatures {
+        background-image: url(~@/assets/critterpedia-sea-creatures.png);
+        background-size: 60px;
       }
     }
   }

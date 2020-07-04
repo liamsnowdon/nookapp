@@ -39,6 +39,24 @@ export default {
 
     commit(VUEX_MUTATIONS.SET_LOADING, false);
   },
+
+  async catchSeaCreatures ({ commit }) {
+    let response, seaCreatures;
+    commit(VUEX_MUTATIONS.SET_LOADING, true);
+
+    try {
+      response = await axios.get(`${API.BASE}${API.SEA_CREATURES}`);
+      seaCreatures = Object.values(response.data);
+
+      commit(VUEX_MUTATIONS.SET_SEA_CREATURES, seaCreatures);
+      commit(VUEX_MUTATIONS.SET_ERROR_LOADING_SEA_CREATURES, false);
+    } catch {
+      commit(VUEX_MUTATIONS.SET_ERROR_LOADING_SEA_CREATURES, true);
+      console.error(MESSAGES.API_ERROR);
+    }
+
+    commit(VUEX_MUTATIONS.SET_LOADING, false);
+  },
 };
 
 /**
