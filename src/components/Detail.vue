@@ -49,7 +49,7 @@
       <div class="detail__section">
         <div class="detail__two-column">
           <div
-            v-if="critter.availablility && critter.availablility.location"
+            v-if="critter.availability && critter.availability.location"
             class="detail__two-column-col"
           >
             <h4>Location</h4>
