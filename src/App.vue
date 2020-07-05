@@ -1,7 +1,5 @@
 <template>
   <div id="app">
-    <navigation />
-    <settings-modal />
     <div class="wrapper">
       <router-view />
     </div>
@@ -9,70 +7,13 @@
 </template>
 
 <script>
-import { storageAvailable } from './helpers';
-import { STORAGE, VUEX_MUTATIONS } from './constants';
-import Navigation from './components/Navigation';
-import SettingsModal from './components/SettingsModal';
-
 export default {
   name: 'App',
-
-  components: {
-    Navigation,
-    SettingsModal,
-  },
-
-  created () {
-    this.setIsStorageAvailable();
-    this.setCaughtCrittersFromLocalStorage();
-  },
-
-  methods: {
-    setIsStorageAvailable () {
-      if (storageAvailable('localStorage')) {
-        this.$store.commit(VUEX_MUTATIONS.SET_IS_STORAGE_AVAILABLE, true);
-      } else {
-        this.$store.commit(VUEX_MUTATIONS.SET_IS_STORAGE_AVAILABLE, false);
-      }
-    },
-
-    setCaughtCrittersFromLocalStorage () {
-      if (!this.$store.state.isStorageAvailable) {
-        return;
-      }
-
-      let caughtFish = localStorage.getItem(STORAGE.CAUGHT_FISH);
-      let caughtBugs = localStorage.getItem(STORAGE.CAUGHT_BUGS);
-      let caughtSeaCreatures = localStorage.getItem(STORAGE.CAUGHT_SEA_CREATURES);
-
-      if (caughtFish) {
-        caughtFish = caughtFish.split(',');
-        caughtFish = caughtFish.map(fish => Number(fish));
-        caughtFish.sort((a, b) => a - b);
-      }
-
-      if (caughtBugs) {
-        caughtBugs = caughtBugs.split(',');
-        caughtBugs = caughtBugs.map(bugs => Number(bugs));
-        caughtBugs.sort((a, b) => a - b);
-      }
-
-      if (caughtSeaCreatures) {
-        caughtSeaCreatures = caughtSeaCreatures.split(',');
-        caughtSeaCreatures = caughtSeaCreatures.map(seaCreatures => Number(seaCreatures));
-        caughtSeaCreatures.sort((a, b) => a - b);
-      }
-
-      this.$store.commit(VUEX_MUTATIONS.SET_CAUGHT_FISH, caughtFish);
-      this.$store.commit(VUEX_MUTATIONS.SET_CAUGHT_BUGS, caughtBugs);
-      this.$store.commit(VUEX_MUTATIONS.SET_CAUGHT_SEA_CREATURES, caughtSeaCreatures);
-    },
-  },
 };
 </script>
 
 <style lang="scss">
-  @import '@/scss/_abstracts.scss';
+  @import '@/Core/scss/_abstracts.scss';
 
   *,
   :before,
@@ -105,10 +46,6 @@ export default {
 
   .text-center {
     text-align: center;
-  }
-
-  .wrapper {
-    background-color: $brown-medium;
   }
 
   .cross {
