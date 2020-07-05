@@ -94,6 +94,15 @@ export default {
     width: auto;
   }
 
+  hr {
+    margin: 0;
+  }
+
+  h4,
+  h5 {
+    margin: 0 0 15px 0;
+  }
+
   .text-center {
     text-align: center;
   }

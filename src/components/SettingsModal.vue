@@ -157,6 +157,12 @@ export default {
 
     &__content {
       padding: 20px;
+
+      button {
+        &:not(:last-child) {
+          margin-right: 10px;
+        }
+      }
     }
   }
 </style>

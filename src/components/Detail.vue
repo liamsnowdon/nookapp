@@ -41,101 +41,107 @@
           <img src="../assets/blathers.png" alt="Blathers" />
         </div>
       </div>
-
-      <hr>
     </div>
 
     <div class="detail__information">
-      <div class="detail__two-column">
-        <div
-          v-if="critter.availablility && critter.availablility.location"
-          class="detail__two-column-col"
-        >
-          <h4>Location</h4>
-          <p>{{ critter.availability.location }}</p>
-        </div>
-
-        <div
-          v-if="critter.speed"
-          class="detail__two-column-col"
-        >
-          <h4>Speed</h4>
-          <p>{{ critter.speed }}</p>
-        </div>
-
-        <div
-          v-if="critter.shadow"
-          class="detail__two-column-col"
-        >
-          <h4>Shadow</h4>
-          <p>{{ critter.shadow }}</p>
-        </div>
-
-        <div class="detail__two-column-col">
-          <h4>Time of day</h4>
-          <span>{{ critter.availability.isAllDay ? 'All day' : critter.availability.time }}</span>
-        </div>
-      </div>
-
       <hr>
 
-      <h4>Time of year</h4>
-
-      <h5>Northern Hemisphere</h5>
-
-      <div class="detail__months">
-        <span
-          v-for="(month, index) in northernMonths"
-          :key="`north${index}`"
-          class="detail__month"
+      <div class="detail__section">
+        <div class="detail__two-column">
+          <div
+            v-if="critter.availablility && critter.availablility.location"
+            class="detail__two-column-col"
           >
-          {{ month }}
-        </span>
-      </div>
+            <h4>Location</h4>
+            <span>{{ critter.availability.location }}</span>
+          </div>
 
-      <h5>Southern Hemisphere</h5>
+          <div
+            v-if="critter.speed"
+            class="detail__two-column-col"
+          >
+            <h4>Speed</h4>
+            <span>{{ critter.speed }}</span>
+          </div>
 
-      <div class="detail__months">
-        <span
-          v-for="(month, index) in southernMonths"
-          :key="`north${index}`"
-          class="detail__month"
-        >
-          {{ month }}
-        </span>
-      </div>
+          <div
+            v-if="critter.shadow"
+            class="detail__two-column-col"
+          >
+            <h4>Shadow</h4>
+            <span>{{ critter.shadow }}</span>
+          </div>
 
-      <hr>
-
-      <h4>Prices</h4>
-
-      <div class="detail__two-column">
-        <div class="detail__two-column-col">
-          <div class="detail__price">
-            <div class="detail__price-image">
-              <img src="../assets/timmy-and-tommy.png" alt="Timmy and Tommy" />
-            </div>
-            <span class="detail__price-value">{{ formatNumberWithCommas(critter.price) }}</span>
+          <div class="detail__two-column-col">
+            <h4>Time of day</h4>
+            <span>{{ critter.availability.isAllDay ? 'All day' : critter.availability.time }}</span>
           </div>
         </div>
+      </div>
 
-        <div
-          v-if="higherPriceValue"
-          class="detail__two-column-col"
-        >
-          <div class="detail__price">
-            <template v-if="isFish">
+      <hr>
+
+      <div class="detail__section">
+        <h4>Time of year</h4>
+
+        <h5>Northern Hemisphere</h5>
+
+        <div class="detail__months with-margin">
+          <span
+            v-for="(month, index) in northernMonths"
+            :key="`north${index}`"
+            class="detail__month"
+          >
+            {{ month }}
+          </span>
+        </div>
+
+        <h5>Southern Hemisphere</h5>
+
+        <div class="detail__months">
+          <span
+            v-for="(month, index) in southernMonths"
+            :key="`north${index}`"
+            class="detail__month"
+          >
+            {{ month }}
+          </span>
+        </div>
+      </div>
+
+      <hr>
+
+      <div class="detail__section">
+        <h4>Prices</h4>
+
+        <div class="detail__two-column">
+          <div class="detail__two-column-col">
+            <div class="detail__price">
               <div class="detail__price-image">
-                <img src="../assets/cj.png" alt="C.J." />
+                <img src="../assets/timmy-and-tommy.png" alt="Timmy and Tommy" />
               </div>
-              <span class="detail__price-value">{{ formatNumberWithCommas(higherPriceValue) }}</span>
-            </template>
-            <template v-if="isBug">
-              <div class="detail__price-image">
-                <img src="../assets/flick.png" alt="Flick" />
-              </div>
-              <span class="detail__price-value">{{ formatNumberWithCommas(higherPriceValue) }}</span>
-            </template>
+              <span class="detail__price-value">{{ formatNumberWithCommas(critter.price) }}</span>
+            </div>
+          </div>
+
+          <div
+            v-if="higherPriceValue"
+            class="detail__two-column-col"
+          >
+            <div class="detail__price">
+              <template v-if="isFish">
+                <div class="detail__price-image">
+                  <img src="../assets/cj.png" alt="C.J." />
+                </div>
+                <span class="detail__price-value">{{ formatNumberWithCommas(higherPriceValue) }}</span>
+              </template>
+              <template v-if="isBug">
+                <div class="detail__price-image">
+                  <img src="../assets/flick.png" alt="Flick" />
+                </div>
+                <span class="detail__price-value">{{ formatNumberWithCommas(higherPriceValue) }}</span>
+              </template>
+            </div>
           </div>
         </div>
       </div>
@@ -461,6 +467,10 @@ export default {
       }
     }
 
+    &__information {
+      margin-top: 20px;
+    }
+
     &__blathers,
     &__empty-message {
       @include breakpoint(medium, down) {
@@ -498,7 +508,7 @@ export default {
 
     &__museum-quote {
       position: relative;
-      margin: 16px 0;
+      margin: 16px 0 0;
       padding: 10px 20px;
       border: 1px dashed;
       border-radius: 20px;
@@ -507,7 +517,7 @@ export default {
       text-align: left;
 
       @include breakpoint(medium) {
-        margin: 16px 40px;
+        margin: 16px 40px 0;
       }
 
       &::before,
@@ -521,6 +531,10 @@ export default {
       display: grid;
       grid-gap: 15px;
       grid-template-columns: repeat(auto-fill, minmax(125px, 1fr));
+
+      &.with-margin {
+        margin-bottom: 20px;
+      }
     }
 
     &__month {
@@ -544,6 +558,10 @@ export default {
 
     &__price-value {
       font-size: 20px;
+    }
+
+    &__section {
+      padding: 20px 0;
     }
   }
 </style>
