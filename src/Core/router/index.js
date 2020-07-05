@@ -2,11 +2,13 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 
 import Index from '@/Index/views/Index.vue';
-import Critterpedia from '@/Critterpedia/views/Critterpedia.vue';
 
+import Critterpedia from '@/Critterpedia/views/Critterpedia.vue';
 import Fish from '@/Critterpedia/views/Fish.vue';
 import Bugs from '@/Critterpedia/views/Bugs';
 import SeaCreatures from '@/Critterpedia/views/SeaCreatures';
+
+import Fossils from '@/Fossils/views/Fossils.vue';
 
 Vue.use(VueRouter);
 
@@ -43,6 +45,11 @@ const routes = [
         component: SeaCreatures,
       },
     ],
+  },
+  {
+    path: '/fossils',
+    name: 'Fossils',
+    component: Fossils,
   },
 ];
 
