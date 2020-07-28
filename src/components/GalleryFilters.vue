@@ -128,10 +128,16 @@
     </div>
 
     <div class="gallery__filters-row">
-      <div class="gallery__filters-column">
+      <div
+        v-if="hemispherePreference === HEMISPHERE_NORTHERN || hemispherePreference === ''"
+        class="gallery__filters-column"
+      >
         <!-- Northern months available in -->
         <div class="gallery__filters-item">
-          <label for="northern-months-available">Northern months available in</label>
+          <label for="northern-months-available">
+            <template v-if="hemispherePreference === HEMISPHERE_NORTHERN">Months available in</template>
+            <template v-if="hemispherePreference === ''">Northern hemisphere months available in</template>
+          </label>
           <multiselect
             id="northern-months-available"
             v-model="northernMonthsAvailable"
@@ -146,10 +152,16 @@
         </div>
       </div>
 
-      <div class="gallery__filters-column">
+      <div
+        v-if="hemispherePreference === HEMISPHERE_SOUTHERN || hemispherePreference === ''"
+        class="gallery__filters-column"
+      >
         <!-- Southern months available in -->
         <div class="gallery__filters-item">
-          <label for="southern-months-available">Southern months available in</label>
+          <label for="southern-months-available">
+            <template v-if="hemispherePreference === HEMISPHERE_SOUTHERN">Months available in</template>
+            <template v-if="hemispherePreference === ''">Southern hemisphere months available in</template>
+          </label>
           <multiselect
             id="southern-months-available"
             v-model="southernMonthsAvailable"
@@ -180,7 +192,7 @@
 <script>
 import Multiselect from 'vue-multiselect';
 import 'vue-multiselect/dist/vue-multiselect.min.css';
-import { CRITTER_TYPES, MONTHS, SORT_OPTIONS, VUEX_MUTATIONS } from '../constants';
+import { CRITTER_TYPES, MONTHS, SETTINGS, SORT_OPTIONS, VUEX_MUTATIONS } from '../constants';
 
 export default {
   name: 'GalleryFilters',
@@ -274,6 +286,11 @@ export default {
     };
   },
 
+  created () {
+    this.HEMISPHERE_NORTHERN = SETTINGS.HEMISPHERE_NORTHERN;
+    this.HEMISPHERE_SOUTHERN = SETTINGS.HEMISPHERE_SOUTHERN;
+  },
+
   computed: {
     isBug () {
       return this.critterType === CRITTER_TYPES.BUGS;
@@ -306,6 +323,20 @@ export default {
           return 'Sea Bass';
         default:
           return 'Octopus';
+      }
+    },
+
+    hemispherePreference () {
+      return this.$store.state.settings.hemisphere;
+    },
+  },
+
+  watch: {
+    hemispherePreference (newValue) {
+      if (newValue === SETTINGS.HEMISPHERE_NORTHERN) {
+        this.southernMonthsAvailable = [];
+      } else if (newValue === SETTINGS.HEMISPHERE_SOUTHERN) {
+        this.northernMonthsAvailable = [];
       }
     },
   },

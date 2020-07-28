@@ -9,6 +9,21 @@
         </div>
         <div class="modal__content">
           <template v-if="isStorageAvailable">
+            <h4>Preferred Hemisphere</h4>
+            <p>
+              With a preferred hemisphere selected, there will be only one filter called "Months" instead of having one
+              for northern hemisphere and one for southern hemisphere.
+            </p>
+
+            <select
+              v-model="hemisphere"
+              @change="onHemisphereChange"
+            >
+              <option value="">No preference</option>
+              <option value="northern">Northern</option>
+              <option value="southern">Southern</option>
+            </select>
+
             <h4 style="margin: 0 0 20px 0;">Caught Critters</h4>
             <p>
               When you set a critter as "caught" using the checkbox, it will be saved on your device so when you come back
@@ -29,10 +44,20 @@
 </template>
 
 <script>
-import { VUEX_MUTATIONS } from '../constants';
+import { SETTINGS, VUEX_MUTATIONS } from '../constants';
 
 export default {
   name: 'SettingsModal',
+
+  data () {
+    return {
+      hemisphere: '',
+    };
+  },
+
+  mounted () {
+    this.hemisphere = this.$store.state.settings.hemisphere;
+  },
 
   computed: {
     isOpen () {
@@ -89,6 +114,16 @@ export default {
       }
 
       this.$store.commit(VUEX_MUTATIONS.CLEAR_CAUGHT_SEA_CREATURES);
+    },
+
+    onHemisphereChange () {
+      this.$store.commit(VUEX_MUTATIONS.SET_SETTINGS_HEMISPHERE, this.hemisphere);
+
+      if (this.hemisphere === SETTINGS.HEMISPHERE_NORTHERN) {
+        this.$store.commit(VUEX_MUTATIONS.SET_FILTERS_SOUTHERN_MONTHS_AVAILABLE, []);
+      } else if (this.hemisphere === SETTINGS.HEMISPHERE_SOUTHERN) {
+        this.$store.commit(VUEX_MUTATIONS.SET_FILTERS_NORTHERN_MONTHS_AVAILABLE, []);
+      }
     },
   },
 };

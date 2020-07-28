@@ -21,6 +21,13 @@ export default {
     state.settingsModalOpen = open;
   },
 
+  setSettingsHemisphere (state, hemisphere) {
+    hemisphere = hemisphere || '';
+
+    state.settings.hemisphere = hemisphere;
+    localStorage.setItem(STORAGE.SETTINGS_HEMISPHERE, hemisphere);
+  },
+
   setFish (state, fish) {
     state.fish = fish;
   },

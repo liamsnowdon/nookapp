@@ -25,6 +25,7 @@ export default {
   created () {
     this.setIsStorageAvailable();
     this.setCaughtCrittersFromLocalStorage();
+    this.setDefaultSettingsFromLocalStorage();
   },
 
   methods: {
@@ -66,6 +67,16 @@ export default {
       this.$store.commit(VUEX_MUTATIONS.SET_CAUGHT_FISH, caughtFish);
       this.$store.commit(VUEX_MUTATIONS.SET_CAUGHT_BUGS, caughtBugs);
       this.$store.commit(VUEX_MUTATIONS.SET_CAUGHT_SEA_CREATURES, caughtSeaCreatures);
+    },
+
+    setDefaultSettingsFromLocalStorage () {
+      if (!this.$store.state.isStorageAvailable) {
+        return;
+      }
+
+      const hemisphere = localStorage.getItem(STORAGE.SETTINGS_HEMISPHERE);
+
+      this.$store.commit(VUEX_MUTATIONS.SET_SETTINGS_HEMISPHERE, hemisphere);
     },
   },
 };

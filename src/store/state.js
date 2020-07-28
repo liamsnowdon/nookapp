@@ -6,6 +6,9 @@ export default {
   errorLoadingBugs: false,
   errorLoadingSeaCreatures: false,
   settingsModalOpen: false,
+  settings: {
+    hemisphere: '',
+  },
   fish: [],
   bugs: [],
   seaCreatures: [],
