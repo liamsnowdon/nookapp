@@ -128,21 +128,21 @@
 
       <div class="gallery__filters-column">
         <!-- Available Now -->
-        <div class="gallery__filters-item">
-          <div class="detail__caught-checkbox">
+        <div class="gallery__filters-item gallery__filters-item--checkbox">
+          <div class="c-checkbox">
             <input
               id="available-now"
               v-model="availableNow"
               type="checkbox"
-              class="detail__caught-checkbox-input"
+              class="c-checkbox__input"
               @change="onAvailableNowChange"
             />
             <label
               for="available-now"
-              class="detail__caught-checkbox-label"
+              class="c-checkbox__label"
             >
-              <span class="detail__caught-checkbox-checkbox"></span>
-              <span class="detail__caught-checkbox-text">Available now</span>
+              <span class="c-checkbox__checkbox"></span>
+              <span class="c-checkbox__checkbox-text">Available now</span>
             </label>
           </div>
         </div>
@@ -451,8 +451,9 @@ export default {
 
     &__filters-item {
       margin-bottom: 20px;
+      height: calc(100% - 20px);
 
-      label {
+      > label {
         display: block;
         margin-bottom: 10px;
       }
@@ -475,6 +476,15 @@ export default {
           opacity: .6;
         }
       }
+
+      &--checkbox {
+        display: flex;
+        align-items: flex-end;
+
+        @include breakpoint(medium) {
+          justify-content: center;
+        }
+      }
     }
 
     &__filters-clear {
@@ -487,6 +497,80 @@ export default {
       text-decoration: underline;
     }
   }
+
+  .c-checkbox {
+    display: flex;
+    justify-content: flex-end;
+
+    &__input {
+      opacity: 0;
+      position: absolute;
+
+      &:checked {
+        + .c-checkbox__label {
+          .c-checkbox__checkbox {
+            border-color: $brown-darkest;
+
+            &:before,
+            &:after {
+              opacity: 1;
+            }
+          }
+        }
+      }
+    }
+
+    &__label {
+      display: inline-flex;
+      align-items: center;
+      padding: 0;
+      font-weight: 400;
+      cursor: pointer;
+      user-select: none;
+
+      &:hover {
+        .detail__caught-checkbox-checkbox {
+          border-color: $brown-darkest;
+        }
+      }
+    }
+
+    &__checkbox {
+      position: relative;
+      display: inline-block;
+      height: 40px;
+      width: 40px;
+      margin-right: 10px;
+      border: 2px solid #a6a6a6;
+      border-radius: 5px;
+      background: white;
+
+      &::before,
+      &::after {
+        opacity: 0;
+        position: absolute;
+        width: 5px;
+        content: '';
+        background-color: $brown-darkest;
+      }
+
+      &::before {
+        top: 17px;
+        left: 15px;
+        height: 15px;
+        transform: rotate(-45deg) translate(-50%, -50%);
+      }
+
+      &::after {
+        top: 15px;
+        left: 12px;
+        height: 25px;
+        transform: rotate(45deg) translate(-50%, -50%);
+      }
+    }
+  }
+
+  // Multiselect
 
   .multiselect__tags {
     cursor: pointer;

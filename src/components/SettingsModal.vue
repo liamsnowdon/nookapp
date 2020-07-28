@@ -9,29 +9,57 @@
         </div>
         <div class="modal__content">
           <template v-if="isStorageAvailable">
-            <h4>Preferred Hemisphere</h4>
-            <p>
-              With a preferred hemisphere selected, there will be only one filter called "Months" instead of having one
-              for northern hemisphere and one for southern hemisphere.
-            </p>
+            <div class="modal__section">
+              <h4>Preferred Hemisphere</h4>
+              <p>
+                With a preferred hemisphere selected, there will be only one filter called "Months" instead of having one
+                for northern hemisphere and one for southern hemisphere.
+              </p>
+              <p>
+                The "Available now" filter will show all critters available in your selected hemisphere only. If none is
+                selected, it will show critters available now in either of them.
+              </p>
 
-            <select
-              v-model="hemisphere"
-              @change="onHemisphereChange"
-            >
-              <option value="">No preference</option>
-              <option value="northern">Northern</option>
-              <option value="southern">Southern</option>
-            </select>
+              <multiselect
+                id="hemisphere"
+                v-model="hemisphere"
+                :options="hemisphereOptions"
+                :searchable="false"
+                :close-on-select="true"
+                :show-labels="false"
+                track-by="value"
+                label="displayValue"
+                @input="onHemisphereChange"
+              />
+            </div>
 
-            <h4 style="margin: 0 0 20px 0;">Caught Critters</h4>
-            <p>
-              When you set a critter as "caught" using the checkbox, it will be saved on your device so when you come back
-              later, it will remember. You can reset this here.
-            </p>
-            <button @click="resetCaughtBugs" :disabled="!hasCaughtBugs">Reset caught bugs</button>
-            <button @click="resetCaughtFish" :disabled="!hasCaughtFish">Reset caught fish</button>
-            <button @click="resetCaughtSeaCreatures" :disabled="!hasCaughtSeaCreatures">Reset caught sea creatures</button>
+            <div class="modal__section">
+              <h4>Caught Critters</h4>
+              <p>
+                When you set a critter as "caught" using the checkbox, it will be saved on your device so when you come back
+                later, it will remember. You can reset this here.
+              </p>
+              <Button
+                @click="resetCaughtBugs"
+                :disabled="!hasCaughtBugs"
+              >
+                Reset caught bugs
+              </Button>
+
+              <Button
+                @click="resetCaughtFish"
+                :disabled="!hasCaughtFish"
+              >
+                Reset caught fish
+              </Button>
+
+              <Button
+                @click="resetCaughtSeaCreatures"
+                :disabled="!hasCaughtSeaCreatures"
+              >
+                Reset caught sea creatures
+              </Button>
+            </div>
           </template>
 
           <template v-else>
@@ -44,19 +72,36 @@
 </template>
 
 <script>
+import Multiselect from 'vue-multiselect';
 import { SETTINGS, VUEX_MUTATIONS } from '../constants';
+import Button from './Button.vue';
 
 export default {
   name: 'SettingsModal',
 
+  components: {
+    Button,
+    Multiselect,
+  },
+
   data () {
     return {
       hemisphere: '',
+      hemisphereOptions: [
+        {
+          displayValue: 'Northern',
+          value: SETTINGS.HEMISPHERE_NORTHERN,
+        },
+        {
+          displayValue: 'Southern',
+          value: SETTINGS.HEMISPHERE_SOUTHERN,
+        },
+      ],
     };
   },
 
   mounted () {
-    this.hemisphere = this.$store.state.settings.hemisphere;
+    this.hemisphere = this.hemisphereOptions.find(option => option.value === this.$store.state.settings.hemisphere);
   },
 
   computed: {
@@ -117,7 +162,7 @@ export default {
     },
 
     onHemisphereChange () {
-      this.$store.commit(VUEX_MUTATIONS.SET_SETTINGS_HEMISPHERE, this.hemisphere);
+      this.$store.commit(VUEX_MUTATIONS.SET_SETTINGS_HEMISPHERE, this.hemisphere ? this.hemisphere.value : '');
 
       if (this.hemisphere === SETTINGS.HEMISPHERE_NORTHERN) {
         this.$store.commit(VUEX_MUTATIONS.SET_FILTERS_SOUTHERN_MONTHS_AVAILABLE, []);
@@ -197,6 +242,12 @@ export default {
         &:not(:last-child) {
           margin-right: 10px;
         }
+      }
+    }
+
+    &__section {
+      &:not(:last-child) {
+        margin-bottom: 25px;
       }
     }
   }
