@@ -364,6 +364,9 @@ export default {
 
   .gallery {
     &__filters {
+      position: relative;
+      z-index: 1;
+
       @include breakpoint(medium, down) {
         max-height: calc(100% - 72px);
         padding: 20px;
