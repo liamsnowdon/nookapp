@@ -6,6 +6,9 @@ export default {
   errorLoadingBugs: false,
   errorLoadingSeaCreatures: false,
   settingsModalOpen: false,
+  settings: {
+    hemisphere: '',
+  },
   fish: [],
   bugs: [],
   seaCreatures: [],
@@ -25,5 +28,6 @@ export default {
     caught: '',
     northernMonthsAvailable: [],
     southernMonthsAvailable: [],
+    availableNow: false,
   },
 };
