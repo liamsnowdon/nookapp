@@ -28,5 +28,6 @@ export default {
     caught: '',
     northernMonthsAvailable: [],
     southernMonthsAvailable: [],
+    availableNow: false,
   },
 };

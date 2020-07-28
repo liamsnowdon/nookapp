@@ -70,6 +70,7 @@ export const VUEX_MUTATIONS = {
   SET_FILTERS_CAUGHT: 'setFiltersCaught',
   SET_FILTERS_NORTHERN_MONTHS_AVAILABLE: 'setFiltersNorthernMonthsAvailable',
   SET_FILTERS_SOUTHERN_MONTHS_AVAILABLE: 'setFiltersSouthernMonthsAvailable',
+  SET_FILTERS_AVAILABLE_NOW: 'setFiltersAvailableNow',
   CLEAR_FILTERS: 'clearFilters',
 };
 

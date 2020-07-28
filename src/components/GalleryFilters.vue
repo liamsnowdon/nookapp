@@ -125,6 +125,28 @@
           />
         </div>
       </div>
+
+      <div class="gallery__filters-column">
+        <!-- Available Now -->
+        <div class="gallery__filters-item">
+          <div class="detail__caught-checkbox">
+            <input
+              id="available-now"
+              v-model="availableNow"
+              type="checkbox"
+              class="detail__caught-checkbox-input"
+              @change="onAvailableNowChange"
+            />
+            <label
+              for="available-now"
+              class="detail__caught-checkbox-label"
+            >
+              <span class="detail__caught-checkbox-checkbox"></span>
+              <span class="detail__caught-checkbox-text">Available now</span>
+            </label>
+          </div>
+        </div>
+      </div>
     </div>
 
     <div class="gallery__filters-row">
@@ -219,6 +241,7 @@ export default {
       monthsOptions: MONTHS,
       minBasePrice: null,
       maxBasePrice: null,
+      availableNow: false,
       caughtOptions: [
         {
           displayValue: 'Caught',
@@ -374,6 +397,10 @@ export default {
       this.$store.commit(VUEX_MUTATIONS.SET_FILTERS_SOUTHERN_MONTHS_AVAILABLE, this.southernMonthsAvailable);
     },
 
+    onAvailableNowChange () {
+      this.$store.commit(VUEX_MUTATIONS.SET_FILTERS_AVAILABLE_NOW, this.availableNow);
+    },
+
     resetFilters () {
       this.sort = 'id';
       this.searchTerm = '';
@@ -383,6 +410,7 @@ export default {
       this.maxBasePrice = '';
       this.northernMonthsAvailable = [];
       this.southernMonthsAvailable = [];
+      this.availableNow = false;
 
       this.$store.commit(VUEX_MUTATIONS.CLEAR_FILTERS);
     },
@@ -417,7 +445,7 @@ export default {
       padding: 0 8px;
 
       @include breakpoint(medium) {
-        flex: 1 0 50%;
+        flex: 1 0 0;
       }
     }
 
