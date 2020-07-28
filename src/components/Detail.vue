@@ -27,7 +27,7 @@
       <h3 class="detail__name">{{ critter.name['name-EUen'] | capitalize }}</h3>
 
       <img
-        :src="`http://acnhapi.com/v1/images/${critterType}/${critter.id}`"
+        :src="`https://acnhapi.com/v1/images/${critterType}/${critter.id}`"
         :alt="critter.name['name-EUen']"
         class="detail__critter-image"
       />
