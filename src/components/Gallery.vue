@@ -36,7 +36,7 @@
           v-for="critter in filteredCritters"
           :key="critter.id"
           @click="setSelectedCritter(critter)"
-          :style="{backgroundImage: `url(http://acnhapi.com/v1/icons/${critterType}/${critter.id}`}"
+          :style="{backgroundImage: `url(https://acnhapi.com/v1/icons/${critterType}/${critter.id}`}"
           :class="{'is-active': isActiveCritter(critter.id)}"
           class="gallery__item"
         >
