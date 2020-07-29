@@ -1,26 +1,26 @@
 import { CRITTER_TYPES } from '../constants';
 
 export default {
-  hasCaughtFish (state) {
-    return !!state.caughtFish.length;
+  hasDonatedFish (state) {
+    return !!state.donatedFish.length;
   },
 
-  hasCaughtBugs (state) {
-    return !!state.caughtBugs.length;
+  hasDonatedBugs (state) {
+    return !!state.donatedBugs.length;
   },
 
-  hasCaughtSeaCreatures (state) {
-    return !!state.caughtSeaCreatures.length;
+  hasDonatedSeaCreatures (state) {
+    return !!state.donatedSeaCreatures.length;
   },
 
-  getCaughtCritter: (state) => (properties) => {
+  getDonatedCritter: (state) => (properties) => {
     switch (properties.critterType) {
       case CRITTER_TYPES.BUGS:
-        return state.caughtBugs.find(bug => bug === properties.id);
+        return state.donatedBugs.find(bug => bug === properties.id);
       case CRITTER_TYPES.FISH:
-        return state.caughtFish.find(fish => fish === properties.id);
+        return state.donatedFish.find(fish => fish === properties.id);
       default:
-        return state.caughtSeaCreatures.find(seaCreature => seaCreature === properties.id);
+        return state.donatedSeaCreatures.find(seaCreature => seaCreature === properties.id);
     }
   },
 
