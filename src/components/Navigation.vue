@@ -21,6 +21,9 @@
       </li>
     </ul>
     <div class="navigation__buttons">
+      <button class="navigation__button" @click="openQuickAddModal">
+        Quick Add
+      </button>
       <button class="navigation__button" @click="openSettingsModal">
         <img src="../assets/cog.svg" alt="Settings" />
       </button>
@@ -37,6 +40,10 @@ export default {
   methods: {
     openSettingsModal () {
       this.$store.commit(VUEX_MUTATIONS.SET_SETTINGS_MODAL_OPEN, true);
+    },
+
+    openQuickAddModal () {
+      this.$store.commit(VUEX_MUTATIONS.SET_QUICK_ADD_MODAL_OPEN, true);
     },
   },
 };

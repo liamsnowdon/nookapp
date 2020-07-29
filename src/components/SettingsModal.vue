@@ -1,85 +1,86 @@
 <template>
-  <transition name="fade">
-    <div class="modal-wrapper" v-if="isOpen">
-      <div class="modal-overlay"></div>
-      <div class="modal">
-        <div class="modal__header">
-          <h3>Settings</h3>
-          <button class="cross" @click="close"></button>
+  <Modal
+    ref="modal"
+    :is-open="isOpen"
+    @close="onClose"
+  >
+    <template #title>
+      Settings
+    </template>
+
+    <template #content>
+      <template v-if="isStorageAvailable">
+        <div class="modal__section">
+          <h4>Preferred Hemisphere</h4>
+          <p>
+            With a preferred hemisphere selected, there will be only one filter called "Months" instead of having one
+            for northern hemisphere and one for southern hemisphere.
+          </p>
+          <p>
+            The "Available now" filter will show all critters available in your selected hemisphere only. If none is
+            selected, it will show critters available now in either of them.
+          </p>
+
+          <multiselect
+            id="hemisphere"
+            v-model="hemisphere"
+            :options="hemisphereOptions"
+            :searchable="false"
+            :close-on-select="true"
+            :show-labels="false"
+            track-by="value"
+            label="displayValue"
+            @input="onHemisphereChange"
+          />
         </div>
-        <div class="modal__content">
-          <template v-if="isStorageAvailable">
-            <div class="modal__section">
-              <h4>Preferred Hemisphere</h4>
-              <p>
-                With a preferred hemisphere selected, there will be only one filter called "Months" instead of having one
-                for northern hemisphere and one for southern hemisphere.
-              </p>
-              <p>
-                The "Available now" filter will show all critters available in your selected hemisphere only. If none is
-                selected, it will show critters available now in either of them.
-              </p>
 
-              <multiselect
-                id="hemisphere"
-                v-model="hemisphere"
-                :options="hemisphereOptions"
-                :searchable="false"
-                :close-on-select="true"
-                :show-labels="false"
-                track-by="value"
-                label="displayValue"
-                @input="onHemisphereChange"
-              />
-            </div>
+        <div class="modal__section">
+          <h4>Caught Critters</h4>
+          <p>
+            When you set a critter as "caught" using the checkbox, it will be saved on your device so when you come back
+            later, it will remember. You can reset this here.
+          </p>
+          <Button
+            @click="resetCaughtBugs"
+            :disabled="!hasCaughtBugs"
+          >
+            Reset caught bugs
+          </Button>
 
-            <div class="modal__section">
-              <h4>Caught Critters</h4>
-              <p>
-                When you set a critter as "caught" using the checkbox, it will be saved on your device so when you come back
-                later, it will remember. You can reset this here.
-              </p>
-              <Button
-                @click="resetCaughtBugs"
-                :disabled="!hasCaughtBugs"
-              >
-                Reset caught bugs
-              </Button>
+          <Button
+            @click="resetCaughtFish"
+            :disabled="!hasCaughtFish"
+          >
+            Reset caught fish
+          </Button>
 
-              <Button
-                @click="resetCaughtFish"
-                :disabled="!hasCaughtFish"
-              >
-                Reset caught fish
-              </Button>
-
-              <Button
-                @click="resetCaughtSeaCreatures"
-                :disabled="!hasCaughtSeaCreatures"
-              >
-                Reset caught sea creatures
-              </Button>
-            </div>
-          </template>
-
-          <template v-else>
-            <p>Your browser does not support local storage, so some settings are not available to you.</p>
-          </template>
+          <Button
+            @click="resetCaughtSeaCreatures"
+            :disabled="!hasCaughtSeaCreatures"
+          >
+            Reset caught sea creatures
+          </Button>
         </div>
-      </div>
-    </div>
-  </transition>
+      </template>
+
+      <template v-else>
+        <p>Your browser does not support local storage, so some settings are not available to you.</p>
+      </template>
+    </template>
+  </Modal>
 </template>
 
 <script>
 import Multiselect from 'vue-multiselect';
 import { SETTINGS, VUEX_MUTATIONS } from '../constants';
 import Button from './Button.vue';
+import Modal from './Modal.vue';
 
 export default {
   name: 'SettingsModal',
 
   components: {
+    Modal,
     Button,
     Multiselect,
   },
@@ -127,7 +128,7 @@ export default {
   },
 
   methods: {
-    close () {
+    onClose () {
       this.$store.commit(VUEX_MUTATIONS.SET_SETTINGS_MODAL_OPEN, false);
     },
 

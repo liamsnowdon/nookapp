@@ -47,6 +47,8 @@ export const VUEX_MUTATIONS = {
   SET_SETTINGS_MODAL_OPEN: 'setSettingsModalOpen',
   SET_SETTINGS_HEMISPHERE: 'setSettingsHemisphere',
 
+  SET_QUICK_ADD_MODAL_OPEN: 'setQuickAddModalOpen',
+
   SET_FISH: 'setFish',
   SET_BUGS: 'setBugs',
   SET_SEA_CREATURES: 'setSeaCreatures',

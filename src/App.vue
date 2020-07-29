@@ -1,9 +1,10 @@
 <template>
   <div id="app">
-    <navigation />
-    <settings-modal />
+    <Navigation />
+    <SettingsModal />
+    <QuickAddModal />
     <div class="wrapper">
-      <router-view />
+      <RouterView />
     </div>
   </div>
 </template>
@@ -11,8 +12,9 @@
 <script>
 import { storageAvailable } from './helpers';
 import { STORAGE, VUEX_MUTATIONS } from './constants';
-import Navigation from './components/Navigation';
-import SettingsModal from './components/SettingsModal';
+import Navigation from './components/Navigation.vue';
+import SettingsModal from './components/SettingsModal.vue';
+import QuickAddModal from './components/QuickAddModal.vue';
 
 export default {
   name: 'App',
@@ -20,6 +22,7 @@ export default {
   components: {
     Navigation,
     SettingsModal,
+    QuickAddModal,
   },
 
   created () {
