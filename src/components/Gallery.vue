@@ -2,6 +2,7 @@
   <div class="gallery">
     <div class="gallery__mobile-buttons">
       <button class="gallery__mobile-button" @click="openFiltersSlider">Sort/Filters</button>
+      <button class="gallery__mobile-button" @click="openQuickAddModal">Quick Add</button>
       <button class="gallery__mobile-button" @click="openSettingsModal">Settings</button>
     </div>
 
@@ -208,6 +209,10 @@ export default {
 
     closeFiltersSlider () {
       this.filtersSliderOpen = false;
+    },
+
+    openQuickAddModal () {
+      this.$store.commit(VUEX_MUTATIONS.SET_QUICK_ADD_MODAL_OPEN, true);
     },
 
     openSettingsModal () {

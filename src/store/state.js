@@ -6,6 +6,7 @@ export default {
   errorLoadingBugs: false,
   errorLoadingSeaCreatures: false,
   settingsModalOpen: false,
+  quickAddModalOpen: false,
   settings: {
     hemisphere: '',
   },

@@ -32,7 +32,7 @@ export default {
 
   methods: {
     getSeaCreatures () {
-      if (Object.keys(this.$store.state.seaCreatures).length) {
+      if (this.$store.state.seaCreatures.length) {
         return;
       }
 
