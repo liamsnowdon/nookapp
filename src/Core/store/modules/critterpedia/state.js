@@ -16,7 +16,6 @@ export default {
   selectedFish: {},
   selectedBug: {},
   selectedSeaCreature: {},
-  isStorageAvailable: false,
   donatedFish: [],
   donatedBugs: [],
   donatedSeaCreatures: [],

@@ -74,14 +74,17 @@
 </template>
 
 <script>
-import { createNamespacedHelpers } from 'vuex';
+import { mapState, mapGetters, mapMutations } from 'vuex';
 import Multiselect from 'vue-multiselect';
-import { MODULE, MUTATIONS } from 'Critterpedia/constants/vuex';
+import { MODULE as CORE_MODULE } from 'Core/constants/vuex';
+import {
+  MODULE as CRITTERPEDIA_MODULE,
+  MUTATIONS as CRITTERPEDIA_MUTATIONS,
+  GETTERS as CRITTERPEDIA_GETTERS,
+} from 'Critterpedia/constants/vuex';
 import { SETTINGS } from 'Critterpedia/constants/settings';
 import Button from 'Core/components/Button.vue';
 import Modal from 'Core/components/Modal.vue';
-
-const { mapState, mapGetters, mapMutations } = createNamespacedHelpers(MODULE);
 
 export default {
   name: 'SettingsModal',
@@ -113,29 +116,32 @@ export default {
   },
 
   computed: {
-    ...mapState({
-      isOpen: state => state.settingsModalOpen,
+    ...mapState(CORE_MODULE, {
       isStorageAvailable: state => state.isStorageAvailable,
+    }),
+
+    ...mapState(CRITTERPEDIA_MODULE, {
+      isOpen: state => state.settingsModalOpen,
       settings: state => state.settings,
     }),
 
-    ...mapGetters({
-      hasDonatedFish: 'hasDonatedFish',
-      hasDonatedBugs: 'hasDonatedBugs',
-      hasDonatedSeaCreatures: 'hasDonatedSeaCreatures',
-    }),
+    ...mapGetters(CRITTERPEDIA_MODULE, [
+      CRITTERPEDIA_GETTERS.HAS_DONATED_FISH,
+      CRITTERPEDIA_GETTERS.HAS_DONATED_BUGS,
+      CRITTERPEDIA_GETTERS.HAS_DONATED_SEA_CREATURES,
+    ]),
   },
 
   methods: {
-    ...mapMutations([
-      MUTATIONS.SET_QUICK_ADD_MODAL_OPEN,
-      MUTATIONS.CLEAR_DONATED_BUGS,
-      MUTATIONS.CLEAR_DONATED_FISH,
-      MUTATIONS.CLEAR_DONATED_SEA_CREATURES,
-      MUTATIONS.SET_SETTINGS_MODAL_OPEN,
-      MUTATIONS.SET_SETTINGS_HEMISPHERE,
-      MUTATIONS.SET_FILTERS_SOUTHERN_MONTHS_AVAILABLE,
-      MUTATIONS.SET_FILTERS_NORTHERN_MONTHS_AVAILABLE,
+    ...mapMutations(CRITTERPEDIA_MODULE, [
+      CRITTERPEDIA_MUTATIONS.SET_QUICK_ADD_MODAL_OPEN,
+      CRITTERPEDIA_MUTATIONS.CLEAR_DONATED_BUGS,
+      CRITTERPEDIA_MUTATIONS.CLEAR_DONATED_FISH,
+      CRITTERPEDIA_MUTATIONS.CLEAR_DONATED_SEA_CREATURES,
+      CRITTERPEDIA_MUTATIONS.SET_SETTINGS_MODAL_OPEN,
+      CRITTERPEDIA_MUTATIONS.SET_SETTINGS_HEMISPHERE,
+      CRITTERPEDIA_MUTATIONS.SET_FILTERS_SOUTHERN_MONTHS_AVAILABLE,
+      CRITTERPEDIA_MUTATIONS.SET_FILTERS_NORTHERN_MONTHS_AVAILABLE,
     ]),
 
     onClose () {

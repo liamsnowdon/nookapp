@@ -160,12 +160,15 @@
 </template>
 
 <script>
-import { createNamespacedHelpers } from 'vuex';
+import { mapState, mapGetters, mapMutations } from 'vuex';
 import { CRITTER_TYPES } from 'Critterpedia/constants/critter-types';
 import { MONTHS } from 'Core/constants/date';
-import { MODULE, MUTATIONS } from '../constants/vuex';
-
-const { mapState, mapGetters, mapMutations } = createNamespacedHelpers(MODULE);
+import { MODULE as CORE_MODULE } from 'Core/constants/vuex';
+import {
+  MODULE as CRITTERPEDIA_MODULE,
+  MUTATIONS as CRITTERPEDIA_MUTATIONS,
+  GETTERS as CRITTERPEDIA_GETTERS,
+} from 'Critterpedia/constants/vuex';
 
 export default {
   name: 'Detail',
@@ -185,8 +188,11 @@ export default {
   },
 
   computed: {
-    ...mapState({
+    ...mapState(CORE_MODULE, {
       isStorageAvailable: state => state.isStorageAvailable,
+    }),
+
+    ...mapState(CRITTERPEDIA_MODULE, {
       selectedBug: state => state.selectedBug,
       selectedFish: state => state.selectedFish,
       selectedSeaCreature: state => state.selectedSeaCreature,
@@ -195,9 +201,9 @@ export default {
       donatedSeaCreatures: state => state.donatedSeaCreatures,
     }),
 
-    ...mapGetters({
-      getDonatedCritter: 'getDonatedCritter',
-    }),
+    ...mapGetters(CRITTERPEDIA_MODULE, [
+      CRITTERPEDIA_GETTERS.GET_DONATED_CRITTER,
+    ]),
 
     isBug () {
       return this.critterType === CRITTER_TYPES.BUGS;
@@ -296,8 +302,8 @@ export default {
   },
 
   methods: {
-    ...mapMutations([
-      MUTATIONS.SET_DONATED_CRITTER_STATUS,
+    ...mapMutations(CRITTERPEDIA_MODULE, [
+      CRITTERPEDIA_MUTATIONS.SET_DONATED_CRITTER_STATUS,
     ]),
 
     refreshDonatedStatus () {

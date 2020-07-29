@@ -87,7 +87,7 @@ import { createNamespacedHelpers } from 'vuex';
 import { mixin as clickaway } from 'vue-clickaway';
 import Modal from 'Core/components/Modal';
 import Button from 'Core/components/Button';
-import { MODULE, MUTATIONS, ACTIONS } from 'Critterpedia/constants/vuex';
+import { MODULE, MUTATIONS, ACTIONS, GETTERS } from 'Critterpedia/constants/vuex';
 import { CRITTER_TYPES } from 'Critterpedia/constants/critter-types';
 
 const { mapState, mapGetters, mapMutations, mapActions } = createNamespacedHelpers(MODULE);
@@ -125,7 +125,7 @@ export default {
     }),
 
     ...mapGetters({
-      getDonatedCritter: 'getDonatedCritter',
+      getDonatedCritter: GETTERS.GET_DONATED_CRITTER,
     }),
 
     autocompleteGroups () {

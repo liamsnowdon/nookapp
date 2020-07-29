@@ -1,11 +1,19 @@
 export const MODULE = 'critterpedia';
 
+export const GETTERS = {
+  HAS_DONATED_FISH: 'hasDonatedFish',
+  HAS_DONATED_BUGS: 'hasDonatedBugs',
+  HAS_DONATED_SEA_CREATURES: 'hasDonatedSeaCreatures',
+  GET_DONATED_CRITTER: 'getDonatedCritter',
+  HAS_SELECTED_NORTHERN_MONTHS_IN_FILTER: 'hasSelectedNorthernMonthsInFilter',
+  HAS_SELECTED_SOUTHERN_MONTHS_IN_FILTER: 'hasSelectedSouthernMonthsInFilter',
+};
+
 export const MUTATIONS = {
   SET_LOADING: 'setLoading',
   SET_ERROR_LOADING_FISH: 'setErrorLoadingFish',
   SET_ERROR_LOADING_BUGS: 'setErrorLoadingBugs',
   SET_ERROR_LOADING_SEA_CREATURES: 'setErrorLoadingSeaCreatures',
-  SET_IS_STORAGE_AVAILABLE: 'setIsStorageAvailable',
 
   SET_SETTINGS_MODAL_OPEN: 'setSettingsModalOpen',
   SET_SETTINGS_HEMISPHERE: 'setSettingsHemisphere',

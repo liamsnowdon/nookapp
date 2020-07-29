@@ -10,15 +10,14 @@
 </template>
 
 <script>
-import { createNamespacedHelpers } from 'vuex';
+import { mapState, mapMutations } from 'vuex';
 import { storageAvailable } from 'Core/helpers';
 import { STORAGE } from 'Critterpedia/constants/storage';
-import { MODULE, MUTATIONS } from 'Critterpedia/constants/vuex';
+import { MODULE as CORE_MODULE, MUTATIONS as CORE_MUTATIONS } from 'Core/constants/vuex';
+import { MODULE as CRITTERPEDIA_MODULE, MUTATIONS as CRITTERPEDIA_MUTATIONS } from 'Critterpedia/constants/vuex';
 import Navigation from 'Critterpedia/components/Navigation.vue';
 import SettingsModal from 'Critterpedia/components/SettingsModal.vue';
 import QuickAddModal from 'Critterpedia/components/QuickAddModal.vue';
-
-const { mapState, mapMutations } = createNamespacedHelpers(MODULE);
 
 export default {
   name: 'App',
@@ -36,18 +35,21 @@ export default {
   },
 
   computed: {
-    ...mapState({
+    ...mapState(CORE_MODULE, {
       isStorageAvailable: state => state.isStorageAvailable,
     }),
   },
 
   methods: {
-    ...mapMutations([
-      MUTATIONS.SET_IS_STORAGE_AVAILABLE,
-      MUTATIONS.SET_DONATED_FISH,
-      MUTATIONS.SET_DONATED_BUGS,
-      MUTATIONS.SET_DONATED_SEA_CREATURES,
-      MUTATIONS.SET_SETTINGS_HEMISPHERE,
+    ...mapMutations(CORE_MODULE, [
+      CORE_MUTATIONS.SET_IS_STORAGE_AVAILABLE,
+    ]),
+
+    ...mapMutations(CRITTERPEDIA_MODULE, [
+      CRITTERPEDIA_MUTATIONS.SET_DONATED_FISH,
+      CRITTERPEDIA_MUTATIONS.SET_DONATED_BUGS,
+      CRITTERPEDIA_MUTATIONS.SET_DONATED_SEA_CREATURES,
+      CRITTERPEDIA_MUTATIONS.SET_SETTINGS_HEMISPHERE,
     ]),
 
     checkDeviceForStorageApi () {

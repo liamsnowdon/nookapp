@@ -59,7 +59,7 @@ import { createNamespacedHelpers } from 'vuex';
 import { CRITTER_TYPES } from 'Critterpedia/constants/critter-types';
 import { MONTHS } from 'Core/constants/date';
 import { SORT_OPTIONS } from 'Critterpedia/constants/sort-options';
-import { MODULE, MUTATIONS } from 'Critterpedia/constants/vuex';
+import { MODULE, MUTATIONS, GETTERS } from 'Critterpedia/constants/vuex';
 import { MESSAGES } from 'Critterpedia/constants/messages';
 import { SETTINGS } from 'Critterpedia/constants/settings';
 import GalleryFilters from 'Critterpedia/components/GalleryFilters.vue';
@@ -114,8 +114,8 @@ export default {
     }),
 
     ...mapGetters({
-      hasSelectedNorthernMonthsInFilter: 'hasSelectedNorthernMonthsInFilter',
-      hasSelectedSouthernMonthsInFilter: 'hasSelectedSouthernMonthsInFilter',
+      hasSelectedNorthernMonthsInFilter: GETTERS.HAS_SELECTED_NORTHERN_MONTHS_IN_FILTER,
+      hasSelectedSouthernMonthsInFilter: GETTERS.HAS_SELECTED_SOUTHERN_MONTHS_IN_FILTER,
     }),
 
     error () {

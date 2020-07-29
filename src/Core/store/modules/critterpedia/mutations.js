@@ -58,10 +58,6 @@ export default {
     state.selectedSeaCreature = seaCreature;
   },
 
-  setIsStorageAvailable (state, available) {
-    state.isStorageAvailable = available;
-  },
-
   clearDonatedFish (state) {
     state.donatedFish = [];
     localStorage.removeItem(STORAGE.DONATED_FISH);
