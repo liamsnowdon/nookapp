@@ -1,5 +1,3 @@
-/* eslint-disable */
-
 import Vue from 'vue';
 import App from './App.vue';
 import store from 'Core/store';
@@ -16,5 +14,5 @@ Vue.filter('capitalize', function (value) {
 new Vue({
   router,
   store,
-  render: h => h(App)
+  render: h => h(App),
 }).$mount('#app');
