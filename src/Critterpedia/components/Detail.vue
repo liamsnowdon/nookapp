@@ -271,7 +271,7 @@ export default {
     },
 
     donatedFish () {
-      if (this.isBug) {
+      if (this.isBug || this.isSeaCreature) {
         return;
       }
 
@@ -279,7 +279,7 @@ export default {
     },
 
     donatedBugs () {
-      if (this.isFish) {
+      if (this.isFish || this.isSeaCreature) {
         return;
       }
 
@@ -287,7 +287,7 @@ export default {
     },
 
     donatedSeaCreatures () {
-      if (this.isSeaCreature) {
+      if (this.isFish || this.isBug) {
         return;
       }
 
