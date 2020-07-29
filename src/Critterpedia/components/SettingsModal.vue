@@ -74,10 +74,14 @@
 </template>
 
 <script>
+import { createNamespacedHelpers } from 'vuex';
 import Multiselect from 'vue-multiselect';
-import { SETTINGS, VUEX_MUTATIONS } from '../constants';
-import Button from './Button.vue';
-import Modal from './Modal.vue';
+import { MODULE, MUTATIONS } from 'Critterpedia/constants/vuex';
+import { SETTINGS } from 'Critterpedia/constants/settings';
+import Button from 'Core/components/Button.vue';
+import Modal from 'Core/components/Modal.vue';
+
+const { mapState, mapGetters, mapMutations } = createNamespacedHelpers(MODULE);
 
 export default {
   name: 'SettingsModal',
@@ -105,34 +109,37 @@ export default {
   },
 
   mounted () {
-    this.hemisphere = this.hemisphereOptions.find(option => option.value === this.$store.state.settings.hemisphere);
+    this.hemisphere = this.hemisphereOptions.find(option => option.value === this.settings.hemisphere);
   },
 
   computed: {
-    isOpen () {
-      return this.$store.state.settingsModalOpen;
-    },
+    ...mapState({
+      isOpen: state => state.settingsModalOpen,
+      isStorageAvailable: state => state.isStorageAvailable,
+      settings: state => state.settings,
+    }),
 
-    hasDonatedFish () {
-      return this.$store.getters.hasDonatedFish;
-    },
-
-    hasDonatedBugs () {
-      return this.$store.getters.hasDonatedBugs;
-    },
-
-    hasDonatedSeaCreatures () {
-      return this.$store.getters.hasDonatedSeaCreatures;
-    },
-
-    isStorageAvailable () {
-      return this.$store.state.isStorageAvailable;
-    },
+    ...mapGetters({
+      hasDonatedFish: 'hasDonatedFish',
+      hasDonatedBugs: 'hasDonatedBugs',
+      hasDonatedSeaCreatures: 'hasDonatedSeaCreatures',
+    }),
   },
 
   methods: {
+    ...mapMutations([
+      MUTATIONS.SET_QUICK_ADD_MODAL_OPEN,
+      MUTATIONS.CLEAR_DONATED_BUGS,
+      MUTATIONS.CLEAR_DONATED_FISH,
+      MUTATIONS.CLEAR_DONATED_SEA_CREATURES,
+      MUTATIONS.SET_SETTINGS_MODAL_OPEN,
+      MUTATIONS.SET_SETTINGS_HEMISPHERE,
+      MUTATIONS.SET_FILTERS_SOUTHERN_MONTHS_AVAILABLE,
+      MUTATIONS.SET_FILTERS_NORTHERN_MONTHS_AVAILABLE,
+    ]),
+
     onClose () {
-      this.$store.commit(VUEX_MUTATIONS.SET_SETTINGS_MODAL_OPEN, false);
+      this.setSettingsModalOpen(false);
     },
 
     resetDonatedBugs () {
@@ -142,7 +149,7 @@ export default {
         return;
       }
 
-      this.$store.commit(VUEX_MUTATIONS.CLEAR_DONATED_BUGS);
+      this.clearDonatedBugs();
     },
 
     resetDonatedFish () {
@@ -152,7 +159,7 @@ export default {
         return;
       }
 
-      this.$store.commit(VUEX_MUTATIONS.CLEAR_DONATED_FISH);
+      this.clearDonatedFish();
     },
 
     resetDonatedSeaCreatures () {
@@ -162,16 +169,16 @@ export default {
         return;
       }
 
-      this.$store.commit(VUEX_MUTATIONS.CLEAR_DONATED_SEA_CREATURES);
+      this.clearDonatedSeaCreatures();
     },
 
     onHemisphereChange () {
-      this.$store.commit(VUEX_MUTATIONS.SET_SETTINGS_HEMISPHERE, this.hemisphere ? this.hemisphere.value : '');
+      this.setSettingsHemisphere(this.hemisphere ? this.hemisphere.value : '');
 
       if (this.hemisphere === SETTINGS.HEMISPHERE_NORTHERN) {
-        this.$store.commit(VUEX_MUTATIONS.SET_FILTERS_SOUTHERN_MONTHS_AVAILABLE, []);
+        this.setFiltersSouthernMonthsAvailable([]);
       } else if (this.hemisphere === SETTINGS.HEMISPHERE_SOUTHERN) {
-        this.$store.commit(VUEX_MUTATIONS.SET_FILTERS_NORTHERN_MONTHS_AVAILABLE, []);
+        this.setFiltersNorthernMonthsAvailable([]);
       }
     },
   },
@@ -179,7 +186,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  @import '@/scss/_abstracts.scss';
+  @import 'Core/scss/_abstracts.scss';
 
   .buttons {
     @include breakpoint(medium, down) {

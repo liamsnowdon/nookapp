@@ -82,10 +82,15 @@
 </template>
 
 <script>
+import { createNamespacedHelpers } from 'vuex';
+
 import { mixin as clickaway } from 'vue-clickaway';
-import Modal from './Modal.vue';
-import Button from './Button.vue';
-import { VUEX_MUTATIONS, VUEX_ACTIONS, CRITTER_TYPES } from '../constants';
+import Modal from 'Core/components/Modal';
+import Button from 'Core/components/Button';
+import { MODULE, MUTATIONS, ACTIONS } from 'Critterpedia/constants/vuex';
+import { CRITTER_TYPES } from 'Critterpedia/constants/critter-types';
+
+const { mapState, mapGetters, mapMutations, mapActions } = createNamespacedHelpers(MODULE);
 
 export default {
   name: 'QuickAddModal',
@@ -112,21 +117,16 @@ export default {
   },
 
   computed: {
-    isOpen () {
-      return this.$store.state.quickAddModalOpen;
-    },
+    ...mapState({
+      isOpen: state => state.quickAddModalOpen,
+      bugs: state => state.bugs,
+      fish: state => state.fish,
+      seaCreatures: state => state.seaCreatures,
+    }),
 
-    bugs () {
-      return this.$store.state.bugs;
-    },
-
-    fish () {
-      return this.$store.state.fish;
-    },
-
-    seaCreatures () {
-      return this.$store.state.seaCreatures;
-    },
+    ...mapGetters({
+      getDonatedCritter: 'getDonatedCritter',
+    }),
 
     autocompleteGroups () {
       return [
@@ -134,21 +134,21 @@ export default {
           groupName: 'Bugs',
           critterType: CRITTER_TYPES.BUGS,
           groupOptions: this.bugs.filter(bug => {
-            return !this.$store.getters.getDonatedCritter({ id: bug.id, critterType: CRITTER_TYPES.BUGS });
+            return !this.getDonatedCritter({ id: bug.id, critterType: CRITTER_TYPES.BUGS });
           }),
         },
         {
           groupName: 'Fish',
           critterType: CRITTER_TYPES.FISH,
           groupOptions: this.fish.filter(fish => {
-            return !this.$store.getters.getDonatedCritter({ id: fish.id, critterType: CRITTER_TYPES.FISH });
+            return !this.getDonatedCritter({ id: fish.id, critterType: CRITTER_TYPES.FISH });
           }),
         },
         {
           groupName: 'Sea Creatures',
           critterType: CRITTER_TYPES.SEA_CREATURES,
           groupOptions: this.seaCreatures.filter(seaCreature => {
-            return !this.$store.getters.getDonatedCritter({ id: seaCreature.id, critterType: CRITTER_TYPES.SEA_CREATURES });
+            return !this.getDonatedCritter({ id: seaCreature.id, critterType: CRITTER_TYPES.SEA_CREATURES });
           }),
         },
       ];
@@ -182,6 +182,17 @@ export default {
   },
 
   methods: {
+    ...mapMutations([
+      MUTATIONS.SET_QUICK_ADD_MODAL_OPEN,
+      MUTATIONS.SET_DONATED_CRITTER_STATUS,
+    ]),
+
+    ...mapActions([
+      ACTIONS.CATCH_FISH,
+      ACTIONS.CATCH_BUGS,
+      ACTIONS.CATCH_SEA_CREATURES,
+    ]),
+
     openResults () {
       this.resultsOpen = true;
     },
@@ -191,7 +202,7 @@ export default {
     },
 
     onClose () {
-      this.$store.commit(VUEX_MUTATIONS.SET_QUICK_ADD_MODAL_OPEN, false);
+      this.setQuickAddModalOpen(false);
     },
 
     getBugs () {
@@ -199,7 +210,7 @@ export default {
         return;
       }
 
-      this.$store.dispatch(VUEX_ACTIONS.CATCH_BUGS);
+      this.catchBugs();
     },
 
     getFish () {
@@ -207,7 +218,7 @@ export default {
         return;
       }
 
-      this.$store.dispatch(VUEX_ACTIONS.CATCH_FISH);
+      this.catchFish();
     },
 
     getSeaCreatures () {
@@ -215,7 +226,7 @@ export default {
         return;
       }
 
-      this.$store.dispatch(VUEX_ACTIONS.CATCH_SEA_CREATURES);
+      this.catchSeaCreatures();
     },
 
     add (critter, type) {
@@ -230,7 +241,7 @@ export default {
         critter,
       });
 
-      this.$store.commit(VUEX_MUTATIONS.SET_DONATED_CRITTER_STATUS, payload);
+      this.setDonatedCritterStatus(payload);
     },
 
     undo (critter, type, index) {
@@ -241,14 +252,14 @@ export default {
       };
 
       this.quickAddedCritters.splice(index, 1);
-      this.$store.commit(VUEX_MUTATIONS.SET_DONATED_CRITTER_STATUS, payload);
+      this.setDonatedCritterStatus(payload);
     },
   },
 };
 </script>
 
 <style lang="scss" scoped>
-  @import '@/scss/_abstracts.scss';
+  @import 'Core/scss/_abstracts.scss';
 
   .autocomplete {
     @include breakpoint(medium) {

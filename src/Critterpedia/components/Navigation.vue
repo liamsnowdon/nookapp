@@ -32,25 +32,33 @@
 </template>
 
 <script>
-import { VUEX_MUTATIONS } from '../constants';
+import { createNamespacedHelpers } from 'vuex';
+import { MODULE, MUTATIONS } from 'Critterpedia/constants/vuex';
+
+const { mapMutations } = createNamespacedHelpers(MODULE);
 
 export default {
   name: 'Navigation',
 
   methods: {
+    ...mapMutations([
+      MUTATIONS.SET_SETTINGS_MODAL_OPEN,
+      MUTATIONS.SET_QUICK_ADD_MODAL_OPEN,
+    ]),
+
     openSettingsModal () {
-      this.$store.commit(VUEX_MUTATIONS.SET_SETTINGS_MODAL_OPEN, true);
+      this.setSettingsModalOpen(true);
     },
 
     openQuickAddModal () {
-      this.$store.commit(VUEX_MUTATIONS.SET_QUICK_ADD_MODAL_OPEN, true);
+      this.setQuickAddModalOpen(true);
     },
   },
 };
 </script>
 
 <style lang="scss">
-  @import '@/scss/_abstracts.scss';
+  @import 'Core/scss/_abstracts.scss';
 
   .navigation {
     display: flex;
@@ -123,17 +131,17 @@ export default {
       }
 
       &--fish {
-        background-image: url(~@/assets/critterpedia-fish.png);
+        background-image: url(~Critterpedia/assets/critterpedia-fish.png);
         background-size: 65px;
       }
 
       &--bugs {
-        background-image: url(~@/assets/critterpedia-bugs.png);
+        background-image: url(~Critterpedia/assets/critterpedia-bugs.png);
         background-size: 45px;
       }
 
       &--sea-creatures {
-        background-image: url(~@/assets/critterpedia-sea-creatures.png);
+        background-image: url(~Critterpedia/assets/critterpedia-sea-creatures.png);
         background-size: 60px;
       }
     }

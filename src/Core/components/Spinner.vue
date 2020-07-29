@@ -3,7 +3,7 @@
 </template>
 
 <style lang="scss">
-  @import '@/scss/_abstracts.scss';
+  @import 'Core/scss/_abstracts.scss';
 
   .spinner {
     display: inline-block;

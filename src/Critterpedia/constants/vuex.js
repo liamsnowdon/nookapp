@@ -1,43 +1,6 @@
-export const CRITTER_TYPES = {
-  BUGS: 'bugs',
-  FISH: 'fish',
-  SEA_CREATURES: 'sea',
-};
+export const MODULE = 'critterpedia';
 
-export const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-
-export const MESSAGES = {
-  API_ERROR: 'Error fetching critter data. Please try again later.',
-};
-
-export const STORAGE = {
-  SETTINGS_HEMISPHERE: 'settingsHemisphere',
-  DONATED_BUGS: 'donatedBugs',
-  DONATED_FISH: 'donatedFish',
-  DONATED_SEA_CREATURES: 'donatedSeaCreatures',
-};
-
-export const SORT_OPTIONS = {
-  ID: 'id',
-  ALPHABETICAL_ASCENDING: 'alphabeticalAscending',
-  ALPHABETICAL_DESCENDING: 'alphabeticalDescending',
-  PRICE_ASCENDING: 'priceAscending',
-  PRICE_DESCENDING: 'priceDescending',
-};
-
-export const SETTINGS = {
-  HEMISPHERE_NORTHERN: 'northern',
-  HEMISPHERE_SOUTHERN: 'southern',
-};
-
-export const API = {
-  BASE: 'https://acnhapi.com/v1',
-  FISH: '/fish',
-  BUGS: '/bugs',
-  SEA_CREATURES: '/sea',
-};
-
-export const VUEX_MUTATIONS = {
+export const MUTATIONS = {
   SET_LOADING: 'setLoading',
   SET_ERROR_LOADING_FISH: 'setErrorLoadingFish',
   SET_ERROR_LOADING_BUGS: 'setErrorLoadingBugs',
@@ -76,7 +39,7 @@ export const VUEX_MUTATIONS = {
   CLEAR_FILTERS: 'clearFilters',
 };
 
-export const VUEX_ACTIONS = {
+export const ACTIONS = {
   CATCH_FISH: 'catchFish',
   CATCH_BUGS: 'catchBugs',
   CATCH_SEA_CREATURES: 'catchSeaCreatures',

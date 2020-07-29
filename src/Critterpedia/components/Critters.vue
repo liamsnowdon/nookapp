@@ -11,9 +11,13 @@
 </template>
 
 <script>
-import { CRITTER_TYPES } from '../constants';
-import Gallery from '@/components/Gallery.vue';
-import Detail from '@/components/Detail.vue';
+import { createNamespacedHelpers } from 'vuex';
+import { CRITTER_TYPES } from 'Critterpedia/constants/critter-types';
+import { MODULE } from 'Critterpedia/constants/vuex';
+import Gallery from 'Critterpedia/components/Gallery.vue';
+import Detail from 'Critterpedia/components/Detail.vue';
+
+const { mapState } = createNamespacedHelpers(MODULE);
 
 export default {
   name: 'Critters',
@@ -31,14 +35,20 @@ export default {
   },
 
   computed: {
+    ...mapState({
+      fish: state => state.fish,
+      bugs: state => state.bugs,
+      seaCreatures: state => state.seaCreatures,
+    }),
+
     critters () {
       switch (this.critterType) {
         case CRITTER_TYPES.FISH:
-          return this.$store.state.fish;
+          return this.fish;
         case CRITTER_TYPES.BUGS:
-          return this.$store.state.bugs;
+          return this.bugs;
         default:
-          return this.$store.state.seaCreatures;
+          return this.seaCreatures;
       }
     },
   },
@@ -46,7 +56,7 @@ export default {
 </script>
 
 <style lang="scss">
-  @import '@/scss/_abstracts.scss';
+  @import 'Core/scss/_abstracts.scss';
 
   .critters {
     @include breakpoint(medium) {

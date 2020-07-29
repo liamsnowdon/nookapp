@@ -20,6 +20,8 @@
 
 <script>
 export default {
+  name: 'Modal',
+
   props: {
     isOpen: {
       type: Boolean,
@@ -36,7 +38,7 @@ export default {
 </script>
 
 <style lang="scss">
-  @import '@/scss/_abstracts.scss';
+  @import 'Core/scss/_abstracts.scss';
 
   .fade-enter-active,
   .fade-leave-active {

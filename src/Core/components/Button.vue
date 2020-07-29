@@ -20,7 +20,7 @@ export default {
 </script>
 
 <style lang="scss">
-  @import '@/scss/_abstracts.scss';
+  @import 'Core/scss/_abstracts.scss';
 
   .c-button {
     position: relative;

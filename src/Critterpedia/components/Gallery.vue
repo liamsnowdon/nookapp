@@ -55,9 +55,17 @@
 </template>
 
 <script>
-import { CRITTER_TYPES, MONTHS, SORT_OPTIONS, VUEX_MUTATIONS, MESSAGES, SETTINGS } from '../constants';
-import GalleryFilters from './GalleryFilters';
-import Spinner from './Spinner.vue';
+import { createNamespacedHelpers } from 'vuex';
+import { CRITTER_TYPES } from 'Critterpedia/constants/critter-types';
+import { MONTHS } from 'Core/constants/date';
+import { SORT_OPTIONS } from 'Critterpedia/constants/sort-options';
+import { MODULE, MUTATIONS } from 'Critterpedia/constants/vuex';
+import { MESSAGES } from 'Critterpedia/constants/messages';
+import { SETTINGS } from 'Critterpedia/constants/settings';
+import GalleryFilters from 'Critterpedia/components/GalleryFilters.vue';
+import Spinner from 'Core/components/Spinner.vue';
+
+const { mapState, mapGetters, mapMutations } = createNamespacedHelpers(MODULE);
 
 export default {
   name: 'Gallery',
@@ -85,19 +93,39 @@ export default {
     };
   },
 
+  created () {
+    this.MONTHS = MONTHS;
+  },
+
   computed: {
-    loading () {
-      return this.$store.state.loading;
-    },
+    ...mapState({
+      loading: state => state.loading,
+      errorLoadingFish: state => state.errorLoadingFish,
+      errorLoadingBugs: state => state.errorLoadingBugs,
+      errorLoadingSeaCreatures: state => state.errorLoadingSeaCreatures,
+      filters: state => state.filters,
+      donatedBugs: state => state.donatedBugs,
+      donatedFish: state => state.donatedFish,
+      donatedSeaCreatures: state => state.donatedSeaCreatures,
+      selectedBug: state => state.selectedBug,
+      selectedFish: state => state.selectedFish,
+      selectedSeaCreature: state => state.selectedSeaCreature,
+      hemispherePreference: state => state.hemispherePreference,
+    }),
+
+    ...mapGetters({
+      hasSelectedNorthernMonthsInFilter: 'hasSelectedNorthernMonthsInFilter',
+      hasSelectedSouthernMonthsInFilter: 'hasSelectedSouthernMonthsInFilter',
+    }),
 
     error () {
       switch (this.critterType) {
         case CRITTER_TYPES.FISH:
-          return this.$store.state.errorLoadingFish;
+          return this.errorLoadingFish;
         case CRITTER_TYPES.BUGS:
-          return this.$store.state.errorLoadingBugs;
+          return this.errorLoadingBugs;
         default:
-          return this.$store.state.errorLoadingSeaCreatures;
+          return this.errorLoadingSeaCreatures;
       }
     },
 
@@ -117,18 +145,6 @@ export default {
       return this.critterType === CRITTER_TYPES.SEA_CREATURES;
     },
 
-    hasSelectedNorthernMonthsInFilter () {
-      return this.$store.getters.hasSelectedNorthernMonthsInFilter;
-    },
-
-    hasSelectedSouthernMonthsInFilter () {
-      return this.$store.getters.hasSelectedSouthernMonthsInFilter;
-    },
-
-    hemispherePreference () {
-      return this.$store.state.settings.hemisphere;
-    },
-
     filteredCritters () {
       let critters = this.critters;
 
@@ -137,69 +153,77 @@ export default {
       // -------------------------------------- //
 
       // Search term
-      critters = this.filterByTerm(critters, this.$store.state.filters.searchTerm);
+      critters = this.filterByTerm(critters, this.filters.searchTerm);
 
       // Location
-      critters = this.filterByLocation(critters, this.$store.state.filters.location);
+      critters = this.filterByLocation(critters, this.filters.location);
 
       // Min base price
-      critters = this.filterByMinBasePrice(critters, this.$store.state.filters.minBasePrice);
+      critters = this.filterByMinBasePrice(critters, this.filters.minBasePrice);
 
       // Max base price
-      critters = this.filterByMaxBasePrice(critters, this.$store.state.filters.maxBasePrice);
+      critters = this.filterByMaxBasePrice(critters, this.filters.maxBasePrice);
 
       // Donated
-      critters = this.filterByDonatedStatus(critters, this.$store.state.filters.donated);
+      critters = this.filterByDonatedStatus(critters, this.filters.donated);
 
       // Northern months available in
-      critters = this.filterByNorthernMonthsAvailableIn(critters, this.$store.state.filters.northernMonthsAvailable);
+      critters = this.filterByNorthernMonthsAvailableIn(critters, this.filters.northernMonthsAvailable);
 
       // Southern months available in
-      critters = this.filterBySouthernMonthsAvailableIn(critters, this.$store.state.filters.southernMonthsAvailable);
+      critters = this.filterBySouthernMonthsAvailableIn(critters, this.filters.southernMonthsAvailable);
 
       // Available now
-      critters = this.filterByAvailableNow(critters, this.$store.state.filters.availableNow);
+      critters = this.filterByAvailableNow(critters, this.filters.availableNow);
 
       // --------------------------------------- //
       //                  SORT                   //
       // --------------------------------------- //
 
-      critters = this.sortBy(critters, this.$store.state.filters.sort);
+      critters = this.sortBy(critters, this.filters.sort);
 
       return critters;
     },
   },
 
   methods: {
+    ...mapMutations([
+      MUTATIONS.SET_SELECTED_BUG,
+      MUTATIONS.SET_SELECTED_SEA_CREATURE,
+      MUTATIONS.SET_SELECTED_FISH,
+      MUTATIONS.SET_SETTINGS_MODAL_OPEN,
+      MUTATIONS.SET_QUICK_ADD_MODAL_OPEN,
+    ]),
+
     setSelectedCritter (critter) {
       if (this.isBug) {
-        if (this.$store.state.selectedBug.id === critter.id) {
+        if (this.selectedBug.id === critter.id) {
           return;
         }
 
-        this.$store.commit(VUEX_MUTATIONS.SET_SELECTED_BUG, critter);
+        this.setSelectedBug(critter);
       } else if (this.isSeaCreature) {
-        if (this.$store.state.selectedSeaCreature.id === critter.id) {
+        if (this.selectedSeaCreature.id === critter.id) {
           return;
         }
 
-        this.$store.commit(VUEX_MUTATIONS.SET_SELECTED_SEA_CREATURE, critter);
+        this.setSelectedSeaCreature(critter);
       } else {
-        if (this.$store.state.selectedFish.id === critter.id) {
+        if (this.selectedFish.id === critter.id) {
           return;
         }
 
-        this.$store.commit(VUEX_MUTATIONS.SET_SELECTED_FISH, critter);
+        this.setSelectedFish(critter);
       }
     },
 
     isActiveCritter (id) {
       if (this.isBug) {
-        return this.$store.state.selectedBug.id === id;
+        return this.selectedBug.id === id;
       } else if (this.isSeaCreature) {
-        return this.$store.state.selectedSeaCreature.id === id;
+        return this.selectedSeaCreature.id === id;
       } else {
-        return this.$store.state.selectedFish.id === id;
+        return this.selectedFish.id === id;
       }
     },
 
@@ -212,11 +236,11 @@ export default {
     },
 
     openQuickAddModal () {
-      this.$store.commit(VUEX_MUTATIONS.SET_QUICK_ADD_MODAL_OPEN, true);
+      this.setQuickAddModalOpen(true);
     },
 
     openSettingsModal () {
-      this.$store.commit(VUEX_MUTATIONS.SET_SETTINGS_MODAL_OPEN, true);
+      this.setSettingsModalOpen(true);
     },
 
     monthsStringToArray (critter, hemisphere) {
@@ -250,7 +274,7 @@ export default {
       });
 
       months = months.map(month => {
-        return this.months[month - 1];
+        return this.MONTHS[month - 1];
       });
 
       return months;
@@ -341,21 +365,21 @@ export default {
       if (donated === 'donated') {
         return critters.filter((critter) => {
           if (this.isBug) {
-            return this.$store.state.donatedBugs.includes(critter.id);
+            return this.donatedBugs.includes(critter.id);
           } else if (this.isSeaCreature) {
-            return this.$store.state.donatedSeaCreatures.includes(critter.id);
+            return this.donatedSeaCreatures.includes(critter.id);
           } else {
-            return this.$store.state.donatedFish.includes(critter.id);
+            return this.donatedFish.includes(critter.id);
           }
         });
       } else if (donated === 'not_donated') {
         return critters.filter((critter) => {
           if (this.isBug) {
-            return !this.$store.state.donatedBugs.includes(critter.id);
+            return !this.donatedBugs.includes(critter.id);
           } else if (this.isSeaCreature) {
-            return !this.$store.state.donatedSeaCreatures.includes(critter.id);
+            return !this.donatedSeaCreatures.includes(critter.id);
           } else {
-            return !this.$store.state.donatedFish.includes(critter.id);
+            return !this.donatedFish.includes(critter.id);
           }
         });
       }
@@ -369,7 +393,7 @@ export default {
      * @returns {Array}
      */
     filterByNorthernMonthsAvailableIn (critters, northernMonths) {
-      if (!this.hasSelectedNorthernMonthsInFilter || this.$store.state.filters.northernMonthsAvailable.length === 12) {
+      if (!this.hasSelectedNorthernMonthsInFilter || this.filters.northernMonthsAvailable.length === 12) {
         return critters;
       }
 
@@ -392,7 +416,7 @@ export default {
      * @returns {Array}
      */
     filterBySouthernMonthsAvailableIn (critters, southernMonths) {
-      if (!this.hasSelectedSouthernMonthsInFilter || this.$store.state.filters.southernMonthsAvailable.length === 12) {
+      if (!this.hasSelectedSouthernMonthsInFilter || this.filters.southernMonthsAvailable.length === 12) {
         return critters;
       }
 
@@ -485,7 +509,7 @@ export default {
 </script>
 
 <style lang="scss">
-  @import '@/scss/_abstracts.scss';
+  @import 'Core/scss/_abstracts.scss';
 
   .gallery {
     $block: &;

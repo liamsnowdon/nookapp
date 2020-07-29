@@ -1,8 +1,8 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-import Fish from '../views/Fish.vue';
-import Bugs from '../views/Bugs.vue';
-import SeaCreatures from '../views/SeaCreatures.vue';
+import Fish from 'Critterpedia/views/Fish.vue';
+import Bugs from 'Critterpedia/views/Bugs.vue';
+import SeaCreatures from 'Critterpedia/views/SeaCreatures.vue';
 
 Vue.use(VueRouter);
 

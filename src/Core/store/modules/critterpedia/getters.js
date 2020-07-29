@@ -1,4 +1,4 @@
-import { CRITTER_TYPES } from '../constants';
+import { CRITTER_TYPES } from 'Critterpedia/constants/critter-types';
 
 export default {
   hasDonatedFish (state) {

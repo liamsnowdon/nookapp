@@ -212,9 +212,16 @@
 </template>
 
 <script>
+import { createNamespacedHelpers } from 'vuex';
 import Multiselect from 'vue-multiselect';
 import 'vue-multiselect/dist/vue-multiselect.min.css';
-import { CRITTER_TYPES, MONTHS, SETTINGS, SORT_OPTIONS, VUEX_MUTATIONS } from '../constants';
+import { CRITTER_TYPES } from 'Critterpedia/constants/critter-types';
+import { MONTHS } from 'Core/constants/date';
+import { SETTINGS } from 'Critterpedia/constants/settings';
+import { SORT_OPTIONS } from 'Critterpedia/constants/sort-options';
+import { MODULE, MUTATIONS } from 'Critterpedia/constants/vuex';
+
+const { mapState, mapMutations } = createNamespacedHelpers(MODULE);
 
 export default {
   name: 'GalleryFilters',
@@ -315,6 +322,13 @@ export default {
   },
 
   computed: {
+    ...mapState({
+      errorLoadingFish: state => state.errorLoadingFish,
+      errorLoadingBugs: state => state.errorLoadingBugs,
+      errorLoadingSeaCreatures: state => state.errorLoadingSeaCreatures,
+      hemispherePreference: state => state.settings.hemisphere,
+    }),
+
     isBug () {
       return this.critterType === CRITTER_TYPES.BUGS;
     },
@@ -330,11 +344,11 @@ export default {
     isDisabled () {
       switch (this.critterType) {
         case CRITTER_TYPES.BUGS:
-          return this.$store.state.errorLoadingBugs;
+          return this.errorLoadingBugs;
         case CRITTER_TYPES.FISH:
-          return this.$store.state.errorLoadingFish;
+          return this.errorLoadingFish;
         default:
-          return this.$store.state.errorLoadingSeaCreatures;
+          return this.errorLoadingSeaCreatures;
       }
     },
 
@@ -347,10 +361,6 @@ export default {
         default:
           return 'Octopus';
       }
-    },
-
-    hemispherePreference () {
-      return this.$store.state.settings.hemisphere;
     },
   },
 
@@ -365,40 +375,53 @@ export default {
   },
 
   methods: {
+    ...mapMutations([
+      MUTATIONS.SET_FILTERS_SEARCH_TERM,
+      MUTATIONS.SET_FILTERS_LOCATION,
+      MUTATIONS.SET_FILTERS_MIN_BASE_PRICE,
+      MUTATIONS.SET_FILTERS_MAX_BASE_PRICE,
+      MUTATIONS.SET_FILTERS_SORT,
+      MUTATIONS.SET_FILTERS_DONATED,
+      MUTATIONS.SET_FILTERS_NORTHERN_MONTHS_AVAILABLE,
+      MUTATIONS.SET_FILTERS_SOUTHERN_MONTHS_AVAILABLE,
+      MUTATIONS.SET_FILTERS_AVAILABLE_NOW,
+      MUTATIONS.CLEAR_FILTERS,
+    ]),
+
     onSearchTermInput () {
-      this.$store.commit(VUEX_MUTATIONS.SET_FILTERS_SEARCH_TERM, this.searchTerm);
+      this.setFiltersSearchTerm(this.searchTerm);
     },
 
     onLocationChange () {
-      this.$store.commit(VUEX_MUTATIONS.SET_FILTERS_LOCATION, this.location);
+      this.setFiltersLocation(this.location);
     },
 
     onMinBasePriceInput () {
-      this.$store.commit(VUEX_MUTATIONS.SET_FILTERS_MIN_BASE_PRICE, this.minBasePrice);
+      this.setFiltersMinBasePrice(this.minBasePrice);
     },
 
     onMaxBasePriceInput () {
-      this.$store.commit(VUEX_MUTATIONS.SET_FILTERS_MAX_BASE_PRICE, this.maxBasePrice);
+      this.setFiltersMaxBasePrice(this.maxBasePrice);
     },
 
     onSortChange () {
-      this.$store.commit(VUEX_MUTATIONS.SET_FILTERS_SORT, this.sort.value);
+      this.setFiltersSort(this.sort.value);
     },
 
     onDonatedChange () {
-      this.$store.commit(VUEX_MUTATIONS.SET_FILTERS_DONATED, this.donated ? this.donated.value : '');
+      this.setFiltersDonated(this.donated ? this.donated.value : '');
     },
 
     onNorthernMonthsAvailableChange () {
-      this.$store.commit(VUEX_MUTATIONS.SET_FILTERS_NORTHERN_MONTHS_AVAILABLE, this.northernMonthsAvailable);
+      this.setFiltersNorthernMonthsAvailable(this.northernMonthsAvailable);
     },
 
     onSouthernMonthsAvailableChange () {
-      this.$store.commit(VUEX_MUTATIONS.SET_FILTERS_SOUTHERN_MONTHS_AVAILABLE, this.southernMonthsAvailable);
+      this.setFiltersSouthernMonthsAvailable(this.southernMonthsAvailable);
     },
 
     onAvailableNowChange () {
-      this.$store.commit(VUEX_MUTATIONS.SET_FILTERS_AVAILABLE_NOW, this.availableNow);
+      this.setFiltersAvailableNow(this.availableNow);
     },
 
     resetFilters () {
@@ -412,14 +435,14 @@ export default {
       this.southernMonthsAvailable = [];
       this.availableNow = false;
 
-      this.$store.commit(VUEX_MUTATIONS.CLEAR_FILTERS);
+      this.clearFilters();
     },
   },
 };
 </script>
 
 <style lang="scss">
-  @import '@/scss/_abstracts.scss';
+  @import 'Core/scss/_abstracts.scss';
 
   .gallery {
     &__filters {

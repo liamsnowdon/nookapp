@@ -160,7 +160,12 @@
 </template>
 
 <script>
-import { CRITTER_TYPES, MONTHS, VUEX_MUTATIONS } from '../constants';
+import { createNamespacedHelpers } from 'vuex';
+import { CRITTER_TYPES } from 'Critterpedia/constants/critter-types';
+import { MONTHS } from 'Core/constants/date';
+import { MODULE, MUTATIONS } from '../constants/vuex';
+
+const { mapState, mapGetters, mapMutations } = createNamespacedHelpers(MODULE);
 
 export default {
   name: 'Detail',
@@ -180,9 +185,19 @@ export default {
   },
 
   computed: {
-    isStorageAvailable () {
-      return this.$store.state.isStorageAvailable;
-    },
+    ...mapState({
+      isStorageAvailable: state => state.isStorageAvailable,
+      selectedBug: state => state.selectedBug,
+      selectedFish: state => state.selectedFish,
+      selectedSeaCreature: state => state.selectedSeaCreature,
+      donatedFish: state => state.donatedFish,
+      donatedBugs: state => state.donatedBugs,
+      donatedSeaCreatures: state => state.donatedSeaCreatures,
+    }),
+
+    ...mapGetters({
+      getDonatedCritter: 'getDonatedCritter',
+    }),
 
     isBug () {
       return this.critterType === CRITTER_TYPES.BUGS;
@@ -210,24 +225,12 @@ export default {
     critter () {
       switch (this.critterType) {
         case CRITTER_TYPES.BUGS:
-          return this.$store.state.selectedBug;
+          return this.selectedBug;
         case CRITTER_TYPES.FISH:
-          return this.$store.state.selectedFish;
+          return this.selectedFish;
         default:
-          return this.$store.state.selectedSeaCreature;
+          return this.selectedSeaCreature;
       }
-    },
-
-    donatedFish () {
-      return this.$store.state.donatedFish;
-    },
-
-    donatedBugs () {
-      return this.$store.state.donatedBugs;
-    },
-
-    donatedSeaCreatures () {
-      return this.$store.state.donatedSeaCreatures;
     },
 
     /**
@@ -264,7 +267,7 @@ export default {
         critterType: this.critterType,
       };
 
-      this.isDonated = !!this.$store.getters.getDonatedCritter(properties);
+      this.isDonated = !!this.getDonatedCritter(properties);
     },
 
     donatedFish () {
@@ -293,13 +296,17 @@ export default {
   },
 
   methods: {
+    ...mapMutations([
+      MUTATIONS.SET_DONATED_CRITTER_STATUS,
+    ]),
+
     refreshDonatedStatus () {
       const properties = {
         id: this.critter.id,
         critterType: this.critterType,
       };
 
-      this.isDonated = !!this.$store.getters.getDonatedCritter(properties);
+      this.isDonated = !!this.getDonatedCritter(properties);
     },
 
     onDonatedChange () {
@@ -309,7 +316,7 @@ export default {
         isDonated: this.isDonated,
       };
 
-      this.$store.commit(VUEX_MUTATIONS.SET_DONATED_CRITTER_STATUS, payload);
+      this.setDonatedCritterStatus(payload);
     },
 
     formatNumberWithCommas (num) {
@@ -327,13 +334,13 @@ export default {
 
       switch (this.critterType) {
         case CRITTER_TYPES.BUGS:
-          monthsString = this.$store.state.selectedBug.availability[`month-${hemisphere}`];
+          monthsString = this.selectedBug.availability[`month-${hemisphere}`];
           break;
         case CRITTER_TYPES.FISH:
-          monthsString = this.$store.state.selectedFish.availability[`month-${hemisphere}`];
+          monthsString = this.selectedFish.availability[`month-${hemisphere}`];
           break;
         case CRITTER_TYPES.SEA_CREATURES:
-          monthsString = this.$store.state.selectedSeaCreature.availability[`month-${hemisphere}`];
+          monthsString = this.selectedSeaCreature.availability[`month-${hemisphere}`];
           break;
       }
 
@@ -376,7 +383,7 @@ export default {
 </script>
 
 <style lang="scss">
-  @import '@/scss/_abstracts.scss';
+  @import 'Core/scss/_abstracts.scss';
 
   .detail {
     display: flex;

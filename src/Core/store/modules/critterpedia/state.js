@@ -1,4 +1,4 @@
-import { SORT_OPTIONS } from '../constants';
+import { SORT_OPTIONS } from 'Critterpedia/constants/sort-options';
 
 export default {
   loading: false,

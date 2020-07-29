@@ -1,4 +1,6 @@
-import { CRITTER_TYPES, STORAGE, SORT_OPTIONS } from '../constants';
+import { CRITTER_TYPES } from 'Critterpedia/constants/critter-types';
+import { STORAGE } from 'Critterpedia/constants/storage';
+import { SORT_OPTIONS } from 'Critterpedia/constants/sort-options';
 
 export default {
   setLoading (state, loading = true) {

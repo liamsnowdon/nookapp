@@ -10,11 +10,15 @@
 </template>
 
 <script>
-import { storageAvailable } from './helpers';
-import { STORAGE, VUEX_MUTATIONS } from './constants';
-import Navigation from './components/Navigation.vue';
-import SettingsModal from './components/SettingsModal.vue';
-import QuickAddModal from './components/QuickAddModal.vue';
+import { createNamespacedHelpers } from 'vuex';
+import { storageAvailable } from 'Core/helpers';
+import { STORAGE } from 'Critterpedia/constants/storage';
+import { MODULE, MUTATIONS } from 'Critterpedia/constants/vuex';
+import Navigation from 'Critterpedia/components/Navigation.vue';
+import SettingsModal from 'Critterpedia/components/SettingsModal.vue';
+import QuickAddModal from 'Critterpedia/components/QuickAddModal.vue';
+
+const { mapState, mapMutations } = createNamespacedHelpers(MODULE);
 
 export default {
   name: 'App',
@@ -26,22 +30,36 @@ export default {
   },
 
   created () {
-    this.setIsStorageAvailable();
+    this.checkDeviceForStorageApi();
     this.setDonatedCrittersFromLocalStorage();
     this.setDefaultSettingsFromLocalStorage();
   },
 
+  computed: {
+    ...mapState({
+      isStorageAvailable: state => state.isStorageAvailable,
+    }),
+  },
+
   methods: {
-    setIsStorageAvailable () {
+    ...mapMutations([
+      MUTATIONS.SET_IS_STORAGE_AVAILABLE,
+      MUTATIONS.SET_DONATED_FISH,
+      MUTATIONS.SET_DONATED_BUGS,
+      MUTATIONS.SET_DONATED_SEA_CREATURES,
+      MUTATIONS.SET_SETTINGS_HEMISPHERE,
+    ]),
+
+    checkDeviceForStorageApi () {
       if (storageAvailable('localStorage')) {
-        this.$store.commit(VUEX_MUTATIONS.SET_IS_STORAGE_AVAILABLE, true);
+        this.setIsStorageAvailable(true);
       } else {
-        this.$store.commit(VUEX_MUTATIONS.SET_IS_STORAGE_AVAILABLE, false);
+        this.setIsStorageAvailable(false);
       }
     },
 
     setDonatedCrittersFromLocalStorage () {
-      if (!this.$store.state.isStorageAvailable) {
+      if (!this.isStorageAvailable) {
         return;
       }
 
@@ -67,26 +85,26 @@ export default {
         donatedSeaCreatures.sort((a, b) => a - b);
       }
 
-      this.$store.commit(VUEX_MUTATIONS.SET_DONATED_FISH, donatedFish);
-      this.$store.commit(VUEX_MUTATIONS.SET_DONATED_BUGS, donatedBugs);
-      this.$store.commit(VUEX_MUTATIONS.SET_DONATED_SEA_CREATURES, donatedSeaCreatures);
+      this.setDonatedFish(donatedFish);
+      this.setDonatedBugs(donatedBugs);
+      this.setDonatedSeaCreatures(donatedSeaCreatures);
     },
 
     setDefaultSettingsFromLocalStorage () {
-      if (!this.$store.state.isStorageAvailable) {
+      if (!this.isStorageAvailable) {
         return;
       }
 
       const hemisphere = localStorage.getItem(STORAGE.SETTINGS_HEMISPHERE);
 
-      this.$store.commit(VUEX_MUTATIONS.SET_SETTINGS_HEMISPHERE, hemisphere);
+      this.setSettingsHemisphere(hemisphere);
     },
   },
 };
 </script>
 
 <style lang="scss">
-  @import '@/scss/_abstracts.scss';
+  @import 'Core/scss/_abstracts.scss';
 
   *,
   :before,
