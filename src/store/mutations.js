@@ -60,82 +60,82 @@ export default {
     state.isStorageAvailable = available;
   },
 
-  clearCaughtFish (state) {
-    state.caughtFish = [];
-    localStorage.removeItem(STORAGE.CAUGHT_FISH);
+  clearDonatedFish (state) {
+    state.donatedFish = [];
+    localStorage.removeItem(STORAGE.DONATED_FISH);
   },
 
-  clearCaughtBugs (state) {
-    state.caughtBugs = [];
-    localStorage.removeItem(STORAGE.CAUGHT_BUGS);
+  clearDonatedBugs (state) {
+    state.donatedBugs = [];
+    localStorage.removeItem(STORAGE.DONATED_BUGS);
   },
 
-  clearCaughtSeaCreatures (state) {
-    state.caughtSeaCreatures = [];
-    localStorage.removeItem(STORAGE.CAUGHT_SEA_CREATURES);
+  clearDonatedSeaCreatures (state) {
+    state.donatedSeaCreatures = [];
+    localStorage.removeItem(STORAGE.DONATED_SEA_CREATURES);
   },
 
-  setCaughtFish (state, caughtFish) {
-    state.caughtFish = caughtFish || [];
+  setDonatedFish (state, donatedFish) {
+    state.donatedFish = donatedFish || [];
   },
 
-  setCaughtBugs (state, caughtBugs) {
-    state.caughtBugs = caughtBugs || [];
+  setDonatedBugs (state, donatedBugs) {
+    state.donatedBugs = donatedBugs || [];
   },
 
-  setCaughtSeaCreatures (state, caughtSeaCreatures) {
-    state.caughtSeaCreatures = caughtSeaCreatures || [];
+  setDonatedSeaCreatures (state, donatedSeaCreatures) {
+    state.donatedSeaCreatures = donatedSeaCreatures || [];
   },
 
-  setCaughtCritterStatus (state, payload) {
-    const isCaught = payload.isCaught;
+  setDonatedCritterStatus (state, payload) {
+    const isDonated = payload.isDonated;
     const id = payload.id;
     const critterType = payload.critterType;
 
-    let currentCaughtCritters;
+    let currentDonatedCritters;
 
     switch (critterType) {
       case CRITTER_TYPES.BUGS:
-        currentCaughtCritters = [...state.caughtBugs];
+        currentDonatedCritters = [...state.donatedBugs];
         break;
       case CRITTER_TYPES.FISH:
-        currentCaughtCritters = [...state.caughtFish];
+        currentDonatedCritters = [...state.donatedFish];
         break;
       default:
-        currentCaughtCritters = [...state.caughtSeaCreatures];
+        currentDonatedCritters = [...state.donatedSeaCreatures];
     }
 
-    const currentCaughtCritterIndex = currentCaughtCritters.findIndex(critter => critter === id);
+    const currentDonatedCritterIndex = currentDonatedCritters.findIndex(critter => critter === id);
 
-    if (isCaught) {
-      if (currentCaughtCritterIndex !== -1) {
+    if (isDonated) {
+      if (currentDonatedCritterIndex !== -1) {
         return;
       }
 
-      currentCaughtCritters.push(id);
+      currentDonatedCritters.push(id);
     } else {
-      if (currentCaughtCritterIndex === -1) {
+      if (currentDonatedCritterIndex === -1) {
         return;
       }
 
-      currentCaughtCritters.splice(currentCaughtCritterIndex, 1);
+      currentDonatedCritters.splice(currentDonatedCritterIndex, 1);
     }
 
     // Reorder numerically
-    currentCaughtCritters.sort((a, b) => a - b);
+    currentDonatedCritters.sort((a, b) => a - b);
 
     switch (critterType) {
       case CRITTER_TYPES.BUGS:
-        state.caughtBugs = currentCaughtCritters;
-        localStorage.setItem(STORAGE.CAUGHT_BUGS, state.caughtBugs.toString());
+        state.donatedBugs = currentDonatedCritters;
+        localStorage.setItem(STORAGE.DONATED_BUGS, state.donatedBugs.toString());
         break;
       case CRITTER_TYPES.FISH:
-        state.caughtFish = currentCaughtCritters;
-        localStorage.setItem(STORAGE.CAUGHT_FISH, state.caughtFish.toString());
+        state.donatedFish = currentDonatedCritters;
+        localStorage.setItem(STORAGE.DONATED_FISH, state.donatedFish.toString());
         break;
       default:
-        state.caughtSeaCreatures = currentCaughtCritters;
-        localStorage.setItem(STORAGE.CAUGHT_SEA_CREATURES, state.caughtSeaCreatures.toString());
+        state.donatedSeaCreatures = currentDonatedCritters;
+        localStorage.setItem(STORAGE.DONATED_SEA_CREATURES, state.donatedSeaCreatures.toString());
     }
   },
 
@@ -159,8 +159,8 @@ export default {
     state.filters.maxBasePrice = price;
   },
 
-  setFiltersCaught (state, caught) {
-    state.filters.caught = caught;
+  setFiltersDonated (state, donated) {
+    state.filters.donated = donated;
   },
 
   setFiltersNorthernMonthsAvailable (state, monthsAvailable) {
@@ -181,7 +181,7 @@ export default {
     state.filters.location = '';
     state.filters.minBasePrice = '';
     state.filters.maxBasePrice = '';
-    state.filters.caught = '';
+    state.filters.donated = '';
     state.filters.northernMonthsAvailable = [];
     state.filters.southernMonthsAvailable = [];
     state.filters.availableNow = false;

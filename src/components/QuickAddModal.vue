@@ -10,7 +10,7 @@
 
     <template #content>
       <p class="text-center">
-        Use the text box below to "Quick Add" a critter and mark it as caught.
+        Use the text box below to "Quick Add" a critter and mark it as donated.
       </p>
 
       <div
@@ -134,21 +134,21 @@ export default {
           groupName: 'Bugs',
           critterType: CRITTER_TYPES.BUGS,
           groupOptions: this.bugs.filter(bug => {
-            return !this.$store.getters.getCaughtCritter({ id: bug.id, critterType: CRITTER_TYPES.BUGS });
+            return !this.$store.getters.getDonatedCritter({ id: bug.id, critterType: CRITTER_TYPES.BUGS });
           }),
         },
         {
           groupName: 'Fish',
           critterType: CRITTER_TYPES.FISH,
           groupOptions: this.fish.filter(fish => {
-            return !this.$store.getters.getCaughtCritter({ id: fish.id, critterType: CRITTER_TYPES.FISH });
+            return !this.$store.getters.getDonatedCritter({ id: fish.id, critterType: CRITTER_TYPES.FISH });
           }),
         },
         {
           groupName: 'Sea Creatures',
           critterType: CRITTER_TYPES.SEA_CREATURES,
           groupOptions: this.seaCreatures.filter(seaCreature => {
-            return !this.$store.getters.getCaughtCritter({ id: seaCreature.id, critterType: CRITTER_TYPES.SEA_CREATURES });
+            return !this.$store.getters.getDonatedCritter({ id: seaCreature.id, critterType: CRITTER_TYPES.SEA_CREATURES });
           }),
         },
       ];
@@ -222,7 +222,7 @@ export default {
       const payload = {
         id: critter.id,
         critterType: type,
-        isCaught: true,
+        isDonated: true,
       };
 
       this.quickAddedCritters.push({
@@ -230,18 +230,18 @@ export default {
         critter,
       });
 
-      this.$store.commit(VUEX_MUTATIONS.SET_CAUGHT_CRITTER_STATUS, payload);
+      this.$store.commit(VUEX_MUTATIONS.SET_DONATED_CRITTER_STATUS, payload);
     },
 
     undo (critter, type, index) {
       const payload = {
         id: critter.id,
         critterType: type,
-        isCaught: false,
+        isDonated: false,
       };
 
       this.quickAddedCritters.splice(index, 1);
-      this.$store.commit(VUEX_MUTATIONS.SET_CAUGHT_CRITTER_STATUS, payload);
+      this.$store.commit(VUEX_MUTATIONS.SET_DONATED_CRITTER_STATUS, payload);
     },
   },
 };
