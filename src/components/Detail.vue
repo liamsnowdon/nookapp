@@ -6,21 +6,21 @@
     <div class="detail__main">
       <div
         v-if="isStorageAvailable"
-        class="detail__caught-checkbox"
+        class="detail__donated-checkbox"
       >
         <input
-          id="critter-caught"
-          v-model="isCaught"
+          id="critter-donated"
+          v-model="isDonated"
           type="checkbox"
-          class="detail__caught-checkbox-input"
-          @change="onCaughtChange"
+          class="detail__donated-checkbox-input"
+          @change="onDonatedChange"
         />
         <label
-          for="critter-caught"
-          class="detail__caught-checkbox-label"
+          for="critter-donated"
+          class="detail__donated-checkbox-label"
         >
-          <span class="detail__caught-checkbox-checkbox"></span>
-          <span class="detail__caught-checkbox-text">Caught</span>
+          <span class="detail__donated-checkbox-checkbox"></span>
+          <span class="detail__donated-checkbox-text">Donated</span>
         </label>
       </div>
 
@@ -175,7 +175,7 @@ export default {
   data () {
     return {
       months: MONTHS,
-      isCaught: false,
+      isDonated: false,
     };
   },
 
@@ -218,16 +218,16 @@ export default {
       }
     },
 
-    caughtFish () {
-      return this.$store.state.caughtFish;
+    donatedFish () {
+      return this.$store.state.donatedFish;
     },
 
-    caughtBugs () {
-      return this.$store.state.caughtBugs;
+    donatedBugs () {
+      return this.$store.state.donatedBugs;
     },
 
-    caughtSeaCreatures () {
-      return this.$store.state.caughtSeaCreatures;
+    donatedSeaCreatures () {
+      return this.$store.state.donatedSeaCreatures;
     },
 
     /**
@@ -264,52 +264,52 @@ export default {
         critterType: this.critterType,
       };
 
-      this.isCaught = !!this.$store.getters.getCaughtCritter(properties);
+      this.isDonated = !!this.$store.getters.getDonatedCritter(properties);
     },
 
-    caughtFish () {
+    donatedFish () {
       if (this.isBug) {
         return;
       }
 
-      this.refreshCaughtStatus();
+      this.refreshDonatedStatus();
     },
 
-    caughtBugs () {
+    donatedBugs () {
       if (this.isFish) {
         return;
       }
 
-      this.refreshCaughtStatus();
+      this.refreshDonatedStatus();
     },
 
-    caughtSeaCreatures () {
+    donatedSeaCreatures () {
       if (this.isSeaCreature) {
         return;
       }
 
-      this.refreshCaughtStatus();
+      this.refreshDonatedStatus();
     },
   },
 
   methods: {
-    refreshCaughtStatus () {
+    refreshDonatedStatus () {
       const properties = {
         id: this.critter.id,
         critterType: this.critterType,
       };
 
-      this.isCaught = !!this.$store.getters.getCaughtCritter(properties);
+      this.isDonated = !!this.$store.getters.getDonatedCritter(properties);
     },
 
-    onCaughtChange () {
+    onDonatedChange () {
       const payload = {
         id: this.critter.id,
         critterType: this.critterType,
-        isCaught: this.isCaught,
+        isDonated: this.isDonated,
       };
 
-      this.$store.commit(VUEX_MUTATIONS.SET_CAUGHT_CRITTER_STATUS, payload);
+      this.$store.commit(VUEX_MUTATIONS.SET_DONATED_CRITTER_STATUS, payload);
     },
 
     formatNumberWithCommas (num) {
@@ -396,18 +396,18 @@ export default {
       align-items: center;
     }
 
-    &__caught-checkbox {
+    &__donated-checkbox {
       display: flex;
       justify-content: flex-end;
     }
 
-    &__caught-checkbox-input {
+    &__donated-checkbox-input {
       opacity: 0;
       position: absolute;
 
       &:checked {
-        + .detail__caught-checkbox-label {
-          .detail__caught-checkbox-checkbox {
+        + .detail__donated-checkbox-label {
+          .detail__donated-checkbox-checkbox {
             border-color: $brown-darkest;
             &:before,
             &:after {
@@ -418,7 +418,7 @@ export default {
       }
     }
 
-    &__caught-checkbox-label {
+    &__donated-checkbox-label {
       display: inline-flex;
       align-items: center;
       padding: 0;
@@ -427,13 +427,13 @@ export default {
       user-select: none;
 
       &:hover {
-        .detail__caught-checkbox-checkbox {
+        .detail__donated-checkbox-checkbox {
           border-color: $brown-darkest;
         }
       }
     }
 
-    &__caught-checkbox-checkbox {
+    &__donated-checkbox-checkbox {
       position: relative;
       display: inline-block;
       height: 40px;

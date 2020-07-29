@@ -12,9 +12,9 @@ export const MESSAGES = {
 
 export const STORAGE = {
   SETTINGS_HEMISPHERE: 'settingsHemisphere',
-  CAUGHT_BUGS: 'caughtBugs',
-  CAUGHT_FISH: 'caughtFish',
-  CAUGHT_SEA_CREATURES: 'caughtSeaCreatures',
+  DONATED_BUGS: 'donatedBugs',
+  DONATED_FISH: 'donatedFish',
+  DONATED_SEA_CREATURES: 'donatedSeaCreatures',
 };
 
 export const SORT_OPTIONS = {
@@ -56,20 +56,20 @@ export const VUEX_MUTATIONS = {
   SET_SELECTED_BUG: 'setSelectedBug',
   SET_SELECTED_SEA_CREATURE: 'setSelectedSeaCreature',
 
-  CLEAR_CAUGHT_FISH: 'clearCaughtFish',
-  CLEAR_CAUGHT_BUGS: 'clearCaughtBugs',
-  CLEAR_CAUGHT_SEA_CREATURES: 'clearCaughtSeaCreatures',
-  SET_CAUGHT_FISH: 'setCaughtFish',
-  SET_CAUGHT_BUGS: 'setCaughtBugs',
-  SET_CAUGHT_SEA_CREATURES: 'setCaughtSeaCreatures',
-  SET_CAUGHT_CRITTER_STATUS: 'setCaughtCritterStatus',
+  CLEAR_DONATED_FISH: 'clearDonatedFish',
+  CLEAR_DONATED_BUGS: 'clearDonatedBugs',
+  CLEAR_DONATED_SEA_CREATURES: 'clearDonatedSeaCreatures',
+  SET_DONATED_FISH: 'setDonatedFish',
+  SET_DONATED_BUGS: 'setDonatedBugs',
+  SET_DONATED_SEA_CREATURES: 'setDonatedSeaCreatures',
+  SET_DONATED_CRITTER_STATUS: 'setDonatedCritterStatus',
 
   SET_FILTERS_SORT: 'setFiltersSort',
   SET_FILTERS_SEARCH_TERM: 'setFiltersSearchTerm',
   SET_FILTERS_LOCATION: 'setFiltersLocation',
   SET_FILTERS_MIN_BASE_PRICE: 'setFiltersMinBasePrice',
   SET_FILTERS_MAX_BASE_PRICE: 'setFiltersMaxBasePrice',
-  SET_FILTERS_CAUGHT: 'setFiltersCaught',
+  SET_FILTERS_DONATED: 'setFiltersDonated',
   SET_FILTERS_NORTHERN_MONTHS_AVAILABLE: 'setFiltersNorthernMonthsAvailable',
   SET_FILTERS_SOUTHERN_MONTHS_AVAILABLE: 'setFiltersSouthernMonthsAvailable',
   SET_FILTERS_AVAILABLE_NOW: 'setFiltersAvailableNow',

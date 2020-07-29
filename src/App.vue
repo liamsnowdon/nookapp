@@ -27,7 +27,7 @@ export default {
 
   created () {
     this.setIsStorageAvailable();
-    this.setCaughtCrittersFromLocalStorage();
+    this.setDonatedCrittersFromLocalStorage();
     this.setDefaultSettingsFromLocalStorage();
   },
 
@@ -40,36 +40,36 @@ export default {
       }
     },
 
-    setCaughtCrittersFromLocalStorage () {
+    setDonatedCrittersFromLocalStorage () {
       if (!this.$store.state.isStorageAvailable) {
         return;
       }
 
-      let caughtFish = localStorage.getItem(STORAGE.CAUGHT_FISH);
-      let caughtBugs = localStorage.getItem(STORAGE.CAUGHT_BUGS);
-      let caughtSeaCreatures = localStorage.getItem(STORAGE.CAUGHT_SEA_CREATURES);
+      let donatedFish = localStorage.getItem(STORAGE.DONATED_FISH);
+      let donatedBugs = localStorage.getItem(STORAGE.DONATED_BUGS);
+      let donatedSeaCreatures = localStorage.getItem(STORAGE.DONATED_SEA_CREATURES);
 
-      if (caughtFish) {
-        caughtFish = caughtFish.split(',');
-        caughtFish = caughtFish.map(fish => Number(fish));
-        caughtFish.sort((a, b) => a - b);
+      if (donatedFish) {
+        donatedFish = donatedFish.split(',');
+        donatedFish = donatedFish.map(fish => Number(fish));
+        donatedFish.sort((a, b) => a - b);
       }
 
-      if (caughtBugs) {
-        caughtBugs = caughtBugs.split(',');
-        caughtBugs = caughtBugs.map(bugs => Number(bugs));
-        caughtBugs.sort((a, b) => a - b);
+      if (donatedBugs) {
+        donatedBugs = donatedBugs.split(',');
+        donatedBugs = donatedBugs.map(bugs => Number(bugs));
+        donatedBugs.sort((a, b) => a - b);
       }
 
-      if (caughtSeaCreatures) {
-        caughtSeaCreatures = caughtSeaCreatures.split(',');
-        caughtSeaCreatures = caughtSeaCreatures.map(seaCreatures => Number(seaCreatures));
-        caughtSeaCreatures.sort((a, b) => a - b);
+      if (donatedSeaCreatures) {
+        donatedSeaCreatures = donatedSeaCreatures.split(',');
+        donatedSeaCreatures = donatedSeaCreatures.map(seaCreatures => Number(seaCreatures));
+        donatedSeaCreatures.sort((a, b) => a - b);
       }
 
-      this.$store.commit(VUEX_MUTATIONS.SET_CAUGHT_FISH, caughtFish);
-      this.$store.commit(VUEX_MUTATIONS.SET_CAUGHT_BUGS, caughtBugs);
-      this.$store.commit(VUEX_MUTATIONS.SET_CAUGHT_SEA_CREATURES, caughtSeaCreatures);
+      this.$store.commit(VUEX_MUTATIONS.SET_DONATED_FISH, donatedFish);
+      this.$store.commit(VUEX_MUTATIONS.SET_DONATED_BUGS, donatedBugs);
+      this.$store.commit(VUEX_MUTATIONS.SET_DONATED_SEA_CREATURES, donatedSeaCreatures);
     },
 
     setDefaultSettingsFromLocalStorage () {

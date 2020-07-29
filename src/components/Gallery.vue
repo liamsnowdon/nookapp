@@ -148,8 +148,8 @@ export default {
       // Max base price
       critters = this.filterByMaxBasePrice(critters, this.$store.state.filters.maxBasePrice);
 
-      // Caught
-      critters = this.filterByCaughtStatus(critters, this.$store.state.filters.caught);
+      // Donated
+      critters = this.filterByDonatedStatus(critters, this.$store.state.filters.donated);
 
       // Northern months available in
       critters = this.filterByNorthernMonthsAvailableIn(critters, this.$store.state.filters.northernMonthsAvailable);
@@ -327,35 +327,35 @@ export default {
     },
 
     /**
-     * Filter by caught status
+     * Filter by donated status
      *
      * @param {Array} critters
-     * @param {string} caught
+     * @param {string} donated
      * @returns {Array}
      */
-    filterByCaughtStatus (critters, caught) {
-      if (!caught) {
+    filterByDonatedStatus (critters, donated) {
+      if (!donated) {
         return critters;
       }
 
-      if (caught === 'caught') {
+      if (donated === 'donated') {
         return critters.filter((critter) => {
           if (this.isBug) {
-            return this.$store.state.caughtBugs.includes(critter.id);
+            return this.$store.state.donatedBugs.includes(critter.id);
           } else if (this.isSeaCreature) {
-            return this.$store.state.caughtSeaCreatures.includes(critter.id);
+            return this.$store.state.donatedSeaCreatures.includes(critter.id);
           } else {
-            return this.$store.state.caughtFish.includes(critter.id);
+            return this.$store.state.donatedFish.includes(critter.id);
           }
         });
-      } else if (caught === 'uncaught') {
+      } else if (donated === 'not_donated') {
         return critters.filter((critter) => {
           if (this.isBug) {
-            return !this.$store.state.caughtBugs.includes(critter.id);
+            return !this.$store.state.donatedBugs.includes(critter.id);
           } else if (this.isSeaCreature) {
-            return !this.$store.state.caughtSeaCreatures.includes(critter.id);
+            return !this.$store.state.donatedSeaCreatures.includes(critter.id);
           } else {
-            return !this.$store.state.caughtFish.includes(critter.id);
+            return !this.$store.state.donatedFish.includes(critter.id);
           }
         });
       }

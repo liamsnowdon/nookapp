@@ -76,20 +76,20 @@
       </div>
 
       <div class="gallery__filters-column">
-        <!-- Caught -->
+        <!-- Donated -->
         <div class="gallery__filters-item">
-          <label for="caught">Caught</label>
+          <label for="donated">Donated</label>
           <multiselect
-            id="caught"
-            v-model="caught"
-            :options="caughtOptions"
+            id="donated"
+            v-model="donated"
+            :options="donatedOptions"
             :searchable="false"
             :close-on-select="true"
             :show-labels="false"
             :disabled="isDisabled"
             track-by="value"
             label="displayValue"
-            @input="onCaughtChange"
+            @input="onDonatedChange"
           />
         </div>
       </div>
@@ -235,21 +235,21 @@ export default {
       sort: '',
       searchTerm: '',
       location: '',
-      caught: '',
+      donated: '',
       northernMonthsAvailable: [],
       southernMonthsAvailable: [],
       monthsOptions: MONTHS,
       minBasePrice: null,
       maxBasePrice: null,
       availableNow: false,
-      caughtOptions: [
+      donatedOptions: [
         {
-          displayValue: 'Caught',
-          value: 'caught',
+          displayValue: 'Donated',
+          value: 'donated',
         },
         {
-          displayValue: 'Uncaught',
-          value: 'uncaught',
+          displayValue: 'Not Donated',
+          value: 'not_donated',
         },
       ],
       sortOptions: [
@@ -385,8 +385,8 @@ export default {
       this.$store.commit(VUEX_MUTATIONS.SET_FILTERS_SORT, this.sort.value);
     },
 
-    onCaughtChange () {
-      this.$store.commit(VUEX_MUTATIONS.SET_FILTERS_CAUGHT, this.caught ? this.caught.value : '');
+    onDonatedChange () {
+      this.$store.commit(VUEX_MUTATIONS.SET_FILTERS_DONATED, this.donated ? this.donated.value : '');
     },
 
     onNorthernMonthsAvailableChange () {
@@ -405,7 +405,7 @@ export default {
       this.sort = 'id';
       this.searchTerm = '';
       this.location = '';
-      this.caught = '';
+      this.donated = '';
       this.minBasePrice = '';
       this.maxBasePrice = '';
       this.northernMonthsAvailable = [];
@@ -527,12 +527,6 @@ export default {
       font-weight: 400;
       cursor: pointer;
       user-select: none;
-
-      &:hover {
-        .detail__caught-checkbox-checkbox {
-          border-color: $brown-darkest;
-        }
-      }
     }
 
     &__checkbox {

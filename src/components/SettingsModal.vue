@@ -35,32 +35,32 @@
         </div>
 
         <div class="modal__section">
-          <h4>Caught Critters</h4>
+          <h4>Donated Critters</h4>
           <p>
-            When you set a critter as "caught" using the checkbox, it will be saved on your device so when you come back
+            When you set a critter as "donated" using the checkbox, it will be saved on your device so when you come back
             later, it will remember. You can reset this here.
           </p>
 
           <div class="buttons">
             <Button
-              @click="resetCaughtBugs"
-              :disabled="!hasCaughtBugs"
+              @click="resetDonatedBugs"
+              :disabled="!hasDonatedBugs"
             >
-              Reset caught bugs
+              Reset donated bugs
             </Button>
 
             <Button
-              @click="resetCaughtFish"
-              :disabled="!hasCaughtFish"
+              @click="resetDonatedFish"
+              :disabled="!hasDonatedFish"
             >
-              Reset caught fish
+              Reset donated fish
             </Button>
 
             <Button
-              @click="resetCaughtSeaCreatures"
-              :disabled="!hasCaughtSeaCreatures"
+              @click="resetDonatedSeaCreatures"
+              :disabled="!hasDonatedSeaCreatures"
             >
-              Reset caught sea creatures
+              Reset donated sea creatures
             </Button>
           </div>
         </div>
@@ -113,16 +113,16 @@ export default {
       return this.$store.state.settingsModalOpen;
     },
 
-    hasCaughtFish () {
-      return this.$store.getters.hasCaughtFish;
+    hasDonatedFish () {
+      return this.$store.getters.hasDonatedFish;
     },
 
-    hasCaughtBugs () {
-      return this.$store.getters.hasCaughtBugs;
+    hasDonatedBugs () {
+      return this.$store.getters.hasDonatedBugs;
     },
 
-    hasCaughtSeaCreatures () {
-      return this.$store.getters.hasCaughtSeaCreatures;
+    hasDonatedSeaCreatures () {
+      return this.$store.getters.hasDonatedSeaCreatures;
     },
 
     isStorageAvailable () {
@@ -135,34 +135,34 @@ export default {
       this.$store.commit(VUEX_MUTATIONS.SET_SETTINGS_MODAL_OPEN, false);
     },
 
-    resetCaughtBugs () {
+    resetDonatedBugs () {
       const confirmation = confirm('Are you sure you want to reset your bugs progress? This cannot be undone.');
 
       if (!confirmation) {
         return;
       }
 
-      this.$store.commit(VUEX_MUTATIONS.CLEAR_CAUGHT_BUGS);
+      this.$store.commit(VUEX_MUTATIONS.CLEAR_DONATED_BUGS);
     },
 
-    resetCaughtFish () {
+    resetDonatedFish () {
       const confirmation = confirm('Are you sure you want to reset your fish progress? This cannot be undone.');
 
       if (!confirmation) {
         return;
       }
 
-      this.$store.commit(VUEX_MUTATIONS.CLEAR_CAUGHT_FISH);
+      this.$store.commit(VUEX_MUTATIONS.CLEAR_DONATED_FISH);
     },
 
-    resetCaughtSeaCreatures () {
+    resetDonatedSeaCreatures () {
       const confirmation = confirm('Are you sure you want to reset your sea creatures progress? This cannot be undone.');
 
       if (!confirmation) {
         return;
       }
 
-      this.$store.commit(VUEX_MUTATIONS.CLEAR_CAUGHT_SEA_CREATURES);
+      this.$store.commit(VUEX_MUTATIONS.CLEAR_DONATED_SEA_CREATURES);
     },
 
     onHemisphereChange () {
