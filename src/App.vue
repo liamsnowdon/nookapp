@@ -1,9 +1,10 @@
 <template>
   <div id="app">
-    <navigation />
-    <settings-modal />
+    <Navigation />
+    <SettingsModal />
+    <QuickAddModal />
     <div class="wrapper">
-      <router-view />
+      <RouterView />
     </div>
   </div>
 </template>
@@ -11,8 +12,9 @@
 <script>
 import { storageAvailable } from './helpers';
 import { STORAGE, VUEX_MUTATIONS } from './constants';
-import Navigation from './components/Navigation';
-import SettingsModal from './components/SettingsModal';
+import Navigation from './components/Navigation.vue';
+import SettingsModal from './components/SettingsModal.vue';
+import QuickAddModal from './components/QuickAddModal.vue';
 
 export default {
   name: 'App',
@@ -20,11 +22,13 @@ export default {
   components: {
     Navigation,
     SettingsModal,
+    QuickAddModal,
   },
 
   created () {
     this.setIsStorageAvailable();
     this.setCaughtCrittersFromLocalStorage();
+    this.setDefaultSettingsFromLocalStorage();
   },
 
   methods: {
@@ -67,6 +71,16 @@ export default {
       this.$store.commit(VUEX_MUTATIONS.SET_CAUGHT_BUGS, caughtBugs);
       this.$store.commit(VUEX_MUTATIONS.SET_CAUGHT_SEA_CREATURES, caughtSeaCreatures);
     },
+
+    setDefaultSettingsFromLocalStorage () {
+      if (!this.$store.state.isStorageAvailable) {
+        return;
+      }
+
+      const hemisphere = localStorage.getItem(STORAGE.SETTINGS_HEMISPHERE);
+
+      this.$store.commit(VUEX_MUTATIONS.SET_SETTINGS_HEMISPHERE, hemisphere);
+    },
   },
 };
 </script>
@@ -101,6 +115,10 @@ export default {
   h4,
   h5 {
     margin: 0 0 15px 0;
+  }
+
+  p {
+    margin: 0 0 16px 0;
   }
 
   .text-center {

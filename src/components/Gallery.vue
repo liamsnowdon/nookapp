@@ -2,6 +2,7 @@
   <div class="gallery">
     <div class="gallery__mobile-buttons">
       <button class="gallery__mobile-button" @click="openFiltersSlider">Sort/Filters</button>
+      <button class="gallery__mobile-button" @click="openQuickAddModal">Quick Add</button>
       <button class="gallery__mobile-button" @click="openSettingsModal">Settings</button>
     </div>
 
@@ -54,7 +55,7 @@
 </template>
 
 <script>
-import { CRITTER_TYPES, MONTHS, SORT_OPTIONS, VUEX_MUTATIONS, MESSAGES } from '../constants';
+import { CRITTER_TYPES, MONTHS, SORT_OPTIONS, VUEX_MUTATIONS, MESSAGES, SETTINGS } from '../constants';
 import GalleryFilters from './GalleryFilters';
 import Spinner from './Spinner.vue';
 
@@ -124,137 +125,46 @@ export default {
       return this.$store.getters.hasSelectedSouthernMonthsInFilter;
     },
 
+    hemispherePreference () {
+      return this.$store.state.settings.hemisphere;
+    },
+
     filteredCritters () {
       let critters = this.critters;
-
-      // --------------------------------------- //
-      //                  SORT                   //
-      // --------------------------------------- //
-
-      switch (this.$store.state.filters.sort) {
-        case SORT_OPTIONS.ALPHABETICAL_ASCENDING:
-        case SORT_OPTIONS.ALPHABETICAL_DESCENDING:
-          critters.sort((a, b) => {
-            const nameA = a.name['name-EUen'].toLowerCase();
-            const nameB = b.name['name-EUen'].toLowerCase();
-
-            if (this.$store.state.filters.sort === SORT_OPTIONS.ALPHABETICAL_ASCENDING) {
-              if (nameA < nameB) {
-                return -1;
-              }
-              if (nameA > nameB) {
-                return 1;
-              }
-            } else {
-              if (nameA > nameB) {
-                return -1;
-              }
-              if (nameA < nameB) {
-                return 1;
-              }
-            }
-
-            return 0;
-          });
-          break;
-        case SORT_OPTIONS.PRICE_ASCENDING:
-          critters.sort((a, b) => a.price - b.price);
-          break;
-        case SORT_OPTIONS.PRICE_DESCENDING:
-          critters.sort((a, b) => b.price - a.price);
-          break;
-        default:
-          critters.sort((a, b) => a.id - b.id);
-      }
 
       // -------------------------------------- //
       //                FILTERS                 //
       // -------------------------------------- //
 
-      /*
-       * Search by:
-       *
-       * 1. Name
-       * 2. ID
-       */
-      if (this.$store.state.filters.searchTerm) {
-        critters = critters.filter((critter) => {
-          return critter.name['name-EUen'].toLowerCase().includes(this.$store.state.filters.searchTerm.toLowerCase()) ||
-             critter.id === Number(this.$store.state.filters.searchTerm);
-        });
-      }
+      // Search term
+      critters = this.filterByTerm(critters, this.$store.state.filters.searchTerm);
 
       // Location
-      if (this.$store.state.filters.location) {
-        critters = critters.filter((critter) => {
-          return critter.availability.location === this.$store.state.filters.location;
-        });
-      }
+      critters = this.filterByLocation(critters, this.$store.state.filters.location);
 
       // Min base price
-      if (this.$store.state.filters.minBasePrice) {
-        critters = critters.filter((critter) => {
-          return critter.price >= this.$store.state.filters.minBasePrice;
-        });
-      }
+      critters = this.filterByMinBasePrice(critters, this.$store.state.filters.minBasePrice);
 
       // Max base price
-      if (this.$store.state.filters.maxBasePrice) {
-        critters = critters.filter((critter) => {
-          return critter.price <= this.$store.state.filters.maxBasePrice;
-        });
-      }
+      critters = this.filterByMaxBasePrice(critters, this.$store.state.filters.maxBasePrice);
 
       // Caught
-      if (this.$store.state.filters.caught) {
-        if (this.$store.state.filters.caught === 'caught') {
-          critters = critters.filter((critter) => {
-            if (this.isBug) {
-              return this.$store.state.caughtBugs.includes(critter.id);
-            } else if (this.isSeaCreature) {
-              return this.$store.state.caughtSeaCreatures.includes(critter.id);
-            } else {
-              return this.$store.state.caughtFish.includes(critter.id);
-            }
-          });
-        } else if (this.$store.state.filters.caught === 'uncaught') {
-          critters = critters.filter((critter) => {
-            if (this.isBug) {
-              return !this.$store.state.caughtBugs.includes(critter.id);
-            } else if (this.isSeaCreature) {
-              return !this.$store.state.caughtSeaCreatures.includes(critter.id);
-            } else {
-              return !this.$store.state.caughtFish.includes(critter.id);
-            }
-          });
-        }
-      }
+      critters = this.filterByCaughtStatus(critters, this.$store.state.filters.caught);
 
       // Northern months available in
-      if (this.hasSelectedNorthernMonthsInFilter && this.$store.state.filters.northernMonthsAvailable.length !== 12) {
-        critters = critters.filter((critter) => {
-          if (critter.availability.isAllYear) {
-            return true;
-          }
-
-          const months = this.monthsStringToArray(critter, 'northern');
-
-          return months.some(month => this.$store.state.filters.northernMonthsAvailable.indexOf(month) !== -1);
-        });
-      }
+      critters = this.filterByNorthernMonthsAvailableIn(critters, this.$store.state.filters.northernMonthsAvailable);
 
       // Southern months available in
-      if (this.hasSelectedSouthernMonthsInFilter && this.$store.state.filters.southernMonthsAvailable.length !== 12) {
-        critters = critters.filter((critter) => {
-          if (critter.availability.isAllYear) {
-            return true;
-          }
+      critters = this.filterBySouthernMonthsAvailableIn(critters, this.$store.state.filters.southernMonthsAvailable);
 
-          const months = this.monthsStringToArray(critter, 'southern');
+      // Available now
+      critters = this.filterByAvailableNow(critters, this.$store.state.filters.availableNow);
 
-          return months.some(month => this.$store.state.filters.southernMonthsAvailable.indexOf(month) !== -1);
-        });
-      }
+      // --------------------------------------- //
+      //                  SORT                   //
+      // --------------------------------------- //
+
+      critters = this.sortBy(critters, this.$store.state.filters.sort);
 
       return critters;
     },
@@ -301,6 +211,10 @@ export default {
       this.filtersSliderOpen = false;
     },
 
+    openQuickAddModal () {
+      this.$store.commit(VUEX_MUTATIONS.SET_QUICK_ADD_MODAL_OPEN, true);
+    },
+
     openSettingsModal () {
       this.$store.commit(VUEX_MUTATIONS.SET_SETTINGS_MODAL_OPEN, true);
     },
@@ -340,6 +254,231 @@ export default {
       });
 
       return months;
+    },
+
+    /**
+     * Filter by term
+     * Term can filter against name or ID
+     *
+     * @param {Array} critters
+     * @param {string} term
+     * @returns {Array}
+     */
+    filterByTerm (critters, term) {
+      if (!term) {
+        return critters;
+      }
+
+      return critters.filter((critter) => {
+        return critter.name['name-EUen'].toLowerCase().includes(term.toLowerCase()) ||
+          critter.id === Number(term);
+      });
+    },
+
+    /**
+     * Filter by location
+     *
+     * @param {Array} critters
+     * @param {string} location
+     * @returns {Array}
+     */
+    filterByLocation (critters, location) {
+      if (!location) {
+        return critters;
+      }
+
+      return critters.filter((critter) => {
+        return critter.availability.location === location;
+      });
+    },
+
+    /**
+     * Filter by min base price
+     *
+     * @param {Array} critters
+     * @param {number} minBasePrice
+     * @returns {Array}
+     */
+    filterByMinBasePrice (critters, minBasePrice) {
+      if (!minBasePrice) {
+        return critters;
+      }
+
+      return critters.filter((critter) => {
+        return critter.price >= minBasePrice;
+      });
+    },
+
+    /**
+     * Filter by max base price
+     *
+     * @param {Array }critters
+     * @param {string} maxBasePrice
+     * @returns {Array}
+     */
+    filterByMaxBasePrice (critters, maxBasePrice) {
+      if (!maxBasePrice) {
+        return critters;
+      }
+
+      return critters.filter((critter) => {
+        return critter.price <= maxBasePrice;
+      });
+    },
+
+    /**
+     * Filter by caught status
+     *
+     * @param {Array} critters
+     * @param {string} caught
+     * @returns {Array}
+     */
+    filterByCaughtStatus (critters, caught) {
+      if (!caught) {
+        return critters;
+      }
+
+      if (caught === 'caught') {
+        return critters.filter((critter) => {
+          if (this.isBug) {
+            return this.$store.state.caughtBugs.includes(critter.id);
+          } else if (this.isSeaCreature) {
+            return this.$store.state.caughtSeaCreatures.includes(critter.id);
+          } else {
+            return this.$store.state.caughtFish.includes(critter.id);
+          }
+        });
+      } else if (caught === 'uncaught') {
+        return critters.filter((critter) => {
+          if (this.isBug) {
+            return !this.$store.state.caughtBugs.includes(critter.id);
+          } else if (this.isSeaCreature) {
+            return !this.$store.state.caughtSeaCreatures.includes(critter.id);
+          } else {
+            return !this.$store.state.caughtFish.includes(critter.id);
+          }
+        });
+      }
+    },
+
+    /**
+     * Filter by northern months selected in multiselect
+     *
+     * @param {Array} critters
+     * @param {Array} northernMonths
+     * @returns {Array}
+     */
+    filterByNorthernMonthsAvailableIn (critters, northernMonths) {
+      if (!this.hasSelectedNorthernMonthsInFilter || this.$store.state.filters.northernMonthsAvailable.length === 12) {
+        return critters;
+      }
+
+      return critters.filter((critter) => {
+        if (critter.availability.isAllYear) {
+          return true;
+        }
+
+        const months = this.monthsStringToArray(critter, 'northern');
+
+        return months.some(month => northernMonths.indexOf(month) !== -1);
+      });
+    },
+
+    /**
+     * Filter by southern months selected in multiselect
+     *
+     * @param {Array} critters
+     * @param {Array} southernMonths
+     * @returns {Array}
+     */
+    filterBySouthernMonthsAvailableIn (critters, southernMonths) {
+      if (!this.hasSelectedSouthernMonthsInFilter || this.$store.state.filters.southernMonthsAvailable.length === 12) {
+        return critters;
+      }
+
+      return critters.filter((critter) => {
+        if (critter.availability.isAllYear) {
+          return true;
+        }
+
+        const months = this.monthsStringToArray(critter, 'southern');
+
+        return months.some(month => southernMonths.indexOf(month) !== -1);
+      });
+    },
+
+    /**
+     * Filter by available now
+     *
+     * @param {Array} critters
+     * @param {boolean} availableNow
+     * @returns {Array}
+     */
+    filterByAvailableNow (critters, availableNow) {
+      if (!availableNow) {
+        return critters;
+      }
+
+      const currentDate = new Date();
+      const currentMonth = currentDate.getMonth();
+      const currentHour = currentDate.getHours();
+
+      switch (this.hemispherePreference) {
+        case SETTINGS.HEMISPHERE_NORTHERN:
+        case SETTINGS.HEMISPHERE_SOUTHERN:
+          return critters.filter((critter) => {
+            return critter.availability[`month-array-${this.hemispherePreference}`].includes(currentMonth + 1) &&
+              critter.availability['time-array'].includes(currentHour);
+          });
+        default:
+          return critters.filter((critter) => {
+            return (critter.availability['month-array-northern'].includes(currentMonth + 1) ||
+              critter.availability['month-array-southern'].includes(currentMonth + 1)) &&
+              critter.availability['time-array'].includes(currentHour);
+          });
+      }
+    },
+
+    /**
+     * Sort
+     *
+     * @param {Array} critters
+     * @param {string} sort
+     * @returns {Array}
+     */
+    sortBy (critters, sort) {
+      switch (sort) {
+        case SORT_OPTIONS.ALPHABETICAL_ASCENDING:
+        case SORT_OPTIONS.ALPHABETICAL_DESCENDING:
+          return critters.slice().sort((a, b) => {
+            const nameA = a.name['name-EUen'].toLowerCase();
+            const nameB = b.name['name-EUen'].toLowerCase();
+
+            if (sort === SORT_OPTIONS.ALPHABETICAL_ASCENDING) {
+              if (nameA < nameB) {
+                return -1;
+              }
+              if (nameA > nameB) {
+                return 1;
+              }
+            } else {
+              if (nameA > nameB) {
+                return -1;
+              }
+              if (nameA < nameB) {
+                return 1;
+              }
+            }
+
+            return 0;
+          });
+        case SORT_OPTIONS.PRICE_ASCENDING:
+          return critters.slice().sort((a, b) => a.price - b.price);
+        case SORT_OPTIONS.PRICE_DESCENDING:
+          return critters.slice().sort((a, b) => b.price - a.price);
+        default:
+          return critters.slice().sort((a, b) => a.id - b.id);
+      }
     },
   },
 };

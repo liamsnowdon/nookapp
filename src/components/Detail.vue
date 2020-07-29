@@ -439,7 +439,7 @@ export default {
       height: 40px;
       width: 40px;
       margin-right: 10px;
-      border: 2px solid $brown-dark;
+      border: 2px solid #a6a6a6;
       border-radius: 5px;
       background: white;
 

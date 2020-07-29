@@ -21,6 +21,17 @@ export default {
     state.settingsModalOpen = open;
   },
 
+  setQuickAddModalOpen (state, open) {
+    state.quickAddModalOpen = open;
+  },
+
+  setSettingsHemisphere (state, hemisphere) {
+    hemisphere = hemisphere || '';
+
+    state.settings.hemisphere = hemisphere;
+    localStorage.setItem(STORAGE.SETTINGS_HEMISPHERE, hemisphere);
+  },
+
   setFish (state, fish) {
     state.fish = fish;
   },
@@ -160,6 +171,10 @@ export default {
     state.filters.southernMonthsAvailable = monthsAvailable;
   },
 
+  setFiltersAvailableNow (state, availableNow) {
+    state.filters.availableNow = availableNow;
+  },
+
   clearFilters (state) {
     state.filters.sort = SORT_OPTIONS.ID;
     state.filters.searchTerm = '';
@@ -169,5 +184,6 @@ export default {
     state.filters.caught = '';
     state.filters.northernMonthsAvailable = [];
     state.filters.southernMonthsAvailable = [];
+    state.filters.availableNow = false;
   },
 };

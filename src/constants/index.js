@@ -11,6 +11,7 @@ export const MESSAGES = {
 };
 
 export const STORAGE = {
+  SETTINGS_HEMISPHERE: 'settingsHemisphere',
   CAUGHT_BUGS: 'caughtBugs',
   CAUGHT_FISH: 'caughtFish',
   CAUGHT_SEA_CREATURES: 'caughtSeaCreatures',
@@ -22,6 +23,11 @@ export const SORT_OPTIONS = {
   ALPHABETICAL_DESCENDING: 'alphabeticalDescending',
   PRICE_ASCENDING: 'priceAscending',
   PRICE_DESCENDING: 'priceDescending',
+};
+
+export const SETTINGS = {
+  HEMISPHERE_NORTHERN: 'northern',
+  HEMISPHERE_SOUTHERN: 'southern',
 };
 
 export const API = {
@@ -39,6 +45,9 @@ export const VUEX_MUTATIONS = {
   SET_IS_STORAGE_AVAILABLE: 'setIsStorageAvailable',
 
   SET_SETTINGS_MODAL_OPEN: 'setSettingsModalOpen',
+  SET_SETTINGS_HEMISPHERE: 'setSettingsHemisphere',
+
+  SET_QUICK_ADD_MODAL_OPEN: 'setQuickAddModalOpen',
 
   SET_FISH: 'setFish',
   SET_BUGS: 'setBugs',
@@ -63,6 +72,7 @@ export const VUEX_MUTATIONS = {
   SET_FILTERS_CAUGHT: 'setFiltersCaught',
   SET_FILTERS_NORTHERN_MONTHS_AVAILABLE: 'setFiltersNorthernMonthsAvailable',
   SET_FILTERS_SOUTHERN_MONTHS_AVAILABLE: 'setFiltersSouthernMonthsAvailable',
+  SET_FILTERS_AVAILABLE_NOW: 'setFiltersAvailableNow',
   CLEAR_FILTERS: 'clearFilters',
 };
 
