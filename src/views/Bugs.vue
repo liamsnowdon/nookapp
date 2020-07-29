@@ -32,7 +32,7 @@ export default {
 
   methods: {
     getBugs () {
-      if (Object.keys(this.$store.state.bugs).length) {
+      if (this.$store.state.bugs.length) {
         return;
       }
 

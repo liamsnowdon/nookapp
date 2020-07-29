@@ -40,26 +40,29 @@
             When you set a critter as "caught" using the checkbox, it will be saved on your device so when you come back
             later, it will remember. You can reset this here.
           </p>
-          <Button
-            @click="resetCaughtBugs"
-            :disabled="!hasCaughtBugs"
-          >
-            Reset caught bugs
-          </Button>
 
-          <Button
-            @click="resetCaughtFish"
-            :disabled="!hasCaughtFish"
-          >
-            Reset caught fish
-          </Button>
+          <div class="buttons">
+            <Button
+              @click="resetCaughtBugs"
+              :disabled="!hasCaughtBugs"
+            >
+              Reset caught bugs
+            </Button>
 
-          <Button
-            @click="resetCaughtSeaCreatures"
-            :disabled="!hasCaughtSeaCreatures"
-          >
-            Reset caught sea creatures
-          </Button>
+            <Button
+              @click="resetCaughtFish"
+              :disabled="!hasCaughtFish"
+            >
+              Reset caught fish
+            </Button>
+
+            <Button
+              @click="resetCaughtSeaCreatures"
+              :disabled="!hasCaughtSeaCreatures"
+            >
+              Reset caught sea creatures
+            </Button>
+          </div>
         </div>
       </template>
 
@@ -175,80 +178,22 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
   @import '@/scss/_abstracts.scss';
 
-  .fade-enter-active,
-  .fade-leave-active {
-    transition: opacity .5s;
-  }
-
-  .fade-enter,
-  .fade-leave-to {
-    opacity: 0;
-  }
-
-  .modal-wrapper {
-    position: fixed;
-    left: 0;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    z-index: 1000;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .modal-overlay {
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    background: rgba(0, 0, 0, 0.7);
-  }
-
-  .modal {
-    width: 100%;
-    background-color: $brown-light;
-    border-radius: 20px;
-    overflow: hidden;
-    z-index: 1;
-
-    @include breakpoint(medium) {
-      width: 50%;
-    }
-
+  .buttons {
     @include breakpoint(medium, down) {
-      height: 100%;
-    }
-
-    &__header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 20px;
-      background-color: $brown-dark;
-
-      h3 {
-        margin: 0;
+      button {
+        width: 100%;
+        margin: 0 0 15px 0;
       }
     }
 
-    &__content {
-      padding: 20px;
-
+    @include breakpoint(medium) {
       button {
         &:not(:last-child) {
           margin-right: 10px;
         }
-      }
-    }
-
-    &__section {
-      &:not(:last-child) {
-        margin-bottom: 25px;
       }
     }
   }

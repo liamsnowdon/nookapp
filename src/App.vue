@@ -117,6 +117,10 @@ export default {
     margin: 0 0 15px 0;
   }
 
+  p {
+    margin: 0 0 16px 0;
+  }
+
   .text-center {
     text-align: center;
   }

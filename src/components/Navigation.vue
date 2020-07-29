@@ -71,6 +71,9 @@ export default {
     }
 
     &__buttons {
+      display: flex;
+      align-items: center;
+
       @include breakpoint(medium, down) {
         display: none;
       }

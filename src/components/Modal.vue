@@ -71,9 +71,9 @@ export default {
 
   .modal {
     width: 100%;
+    max-height: 100vh;
     background-color: $brown-light;
     border-radius: 20px;
-    overflow: hidden;
     z-index: 1;
 
     @include breakpoint(medium) {
@@ -88,7 +88,9 @@ export default {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 20px;
+      height: 70px;
+      padding: 0 20px;
+      border-radius: 20px 20px 0 0;
       background-color: $brown-dark;
 
       h3 {
@@ -98,12 +100,8 @@ export default {
 
     &__content {
       padding: 20px;
-
-      button {
-        &:not(:last-child) {
-          margin-right: 10px;
-        }
-      }
+      max-height: calc(100vh - 70px);
+      overflow-y: auto;
     }
 
     &__section {
