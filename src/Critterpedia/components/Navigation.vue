@@ -4,19 +4,19 @@
       <li class="navigation__list-item">
         <router-link
           class="navigation__link navigation__link--fish"
-          to="/fish"
+          :to="{ name: 'Fish' }"
         />
       </li>
       <li class="navigation__list-item">
         <router-link
           class="navigation__link navigation__link--bugs"
-          to="/bugs"
+          :to="{ name: 'Bugs' }"
         />
       </li>
       <li class="navigation__list-item">
         <router-link
           class="navigation__link navigation__link--sea-creatures"
-          to="/sea-creatures"
+          :to="{ name: 'Sea Creatures' }"
         />
       </li>
     </ul>

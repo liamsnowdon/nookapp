@@ -1,0 +1,70 @@
+<template>
+  <div class="content">
+    <div class="text-center">
+      <h1>NookApp</h1>
+      <p>Welcome to the NookApp!</p>
+    </div>
+
+    <hr>
+
+    <PageLink route="Fish">
+      <template #image>
+        <img :src="require(`Critterpedia/assets/blathers.png`)" alt="Critterpedia" />
+      </template>
+
+      <template #heading>
+        Critterpedia
+      </template>
+
+      <template #description>
+        Everything about the critters you can find on and around your island, including fish, bugs and sea creatures.
+      </template>
+    </PageLink>
+
+    <PageLink route="Fossils">
+      <template #image>
+        <img :src="require(`Index/assets/fossil.png`)" alt="Fossils" />
+      </template>
+
+      <template #heading>
+        Fossils
+      </template>
+
+      <template #description>
+        There are many fossils you can find on your island, Complete each set and fill up your museum.
+      </template>
+    </PageLink>
+  </div>
+</template>
+
+<script>
+import PageLink from 'Index/components/PageLink.vue';
+
+export default {
+  name: 'Index',
+
+  components: {
+    PageLink,
+  },
+
+  mounted () {
+    document.querySelector('body').style.backgroundColor = '#252525';
+  },
+
+  destroyed () {
+    document.querySelector('body').style.backgroundColor = '';
+  },
+};
+</script>
+
+<style lang="scss" scoped>
+  .content {
+    max-width: 650px;
+    margin: 0 auto;
+    color: white;
+  }
+
+  hr {
+    margin: 30px 0;
+  }
+</style>

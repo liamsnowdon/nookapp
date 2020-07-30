@@ -1,8 +1,5 @@
 <template>
   <div id="app">
-    <Navigation />
-    <SettingsModal />
-    <QuickAddModal />
     <div class="wrapper">
       <RouterView />
     </div>
@@ -12,44 +9,24 @@
 <script>
 import { mapState, mapMutations } from 'vuex';
 import { storageAvailable } from 'Core/helpers';
-import { STORAGE } from 'Critterpedia/constants/storage';
-import { MODULE as CORE_MODULE, MUTATIONS as CORE_MUTATIONS } from 'Core/constants/vuex';
-import { MODULE as CRITTERPEDIA_MODULE, MUTATIONS as CRITTERPEDIA_MUTATIONS } from 'Critterpedia/constants/vuex';
-import Navigation from 'Critterpedia/components/Navigation.vue';
-import SettingsModal from 'Critterpedia/components/SettingsModal.vue';
-import QuickAddModal from 'Critterpedia/components/QuickAddModal.vue';
+import { MODULE, MUTATIONS } from 'Core/constants/vuex';
 
 export default {
   name: 'App',
 
-  components: {
-    Navigation,
-    SettingsModal,
-    QuickAddModal,
-  },
-
   created () {
     this.checkDeviceForStorageApi();
-    this.setDonatedCrittersFromLocalStorage();
-    this.setDefaultSettingsFromLocalStorage();
   },
 
   computed: {
-    ...mapState(CORE_MODULE, {
+    ...mapState(MODULE, {
       isStorageAvailable: state => state.isStorageAvailable,
     }),
   },
 
   methods: {
-    ...mapMutations(CORE_MODULE, [
-      CORE_MUTATIONS.SET_IS_STORAGE_AVAILABLE,
-    ]),
-
-    ...mapMutations(CRITTERPEDIA_MODULE, [
-      CRITTERPEDIA_MUTATIONS.SET_DONATED_FISH,
-      CRITTERPEDIA_MUTATIONS.SET_DONATED_BUGS,
-      CRITTERPEDIA_MUTATIONS.SET_DONATED_SEA_CREATURES,
-      CRITTERPEDIA_MUTATIONS.SET_SETTINGS_HEMISPHERE,
+    ...mapMutations(MODULE, [
+      MUTATIONS.SET_IS_STORAGE_AVAILABLE,
     ]),
 
     checkDeviceForStorageApi () {
@@ -58,48 +35,6 @@ export default {
       } else {
         this.setIsStorageAvailable(false);
       }
-    },
-
-    setDonatedCrittersFromLocalStorage () {
-      if (!this.isStorageAvailable) {
-        return;
-      }
-
-      let donatedFish = localStorage.getItem(STORAGE.DONATED_FISH);
-      let donatedBugs = localStorage.getItem(STORAGE.DONATED_BUGS);
-      let donatedSeaCreatures = localStorage.getItem(STORAGE.DONATED_SEA_CREATURES);
-
-      if (donatedFish) {
-        donatedFish = donatedFish.split(',');
-        donatedFish = donatedFish.map(fish => Number(fish));
-        donatedFish.sort((a, b) => a - b);
-      }
-
-      if (donatedBugs) {
-        donatedBugs = donatedBugs.split(',');
-        donatedBugs = donatedBugs.map(bugs => Number(bugs));
-        donatedBugs.sort((a, b) => a - b);
-      }
-
-      if (donatedSeaCreatures) {
-        donatedSeaCreatures = donatedSeaCreatures.split(',');
-        donatedSeaCreatures = donatedSeaCreatures.map(seaCreatures => Number(seaCreatures));
-        donatedSeaCreatures.sort((a, b) => a - b);
-      }
-
-      this.setDonatedFish(donatedFish);
-      this.setDonatedBugs(donatedBugs);
-      this.setDonatedSeaCreatures(donatedSeaCreatures);
-    },
-
-    setDefaultSettingsFromLocalStorage () {
-      if (!this.isStorageAvailable) {
-        return;
-      }
-
-      const hemisphere = localStorage.getItem(STORAGE.SETTINGS_HEMISPHERE);
-
-      this.setSettingsHemisphere(hemisphere);
     },
   },
 };
@@ -143,10 +78,6 @@ export default {
 
   .text-center {
     text-align: center;
-  }
-
-  .wrapper {
-    background-color: $brown-medium;
   }
 
   .cross {
