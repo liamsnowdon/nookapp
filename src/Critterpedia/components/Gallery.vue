@@ -637,6 +637,12 @@ export default {
       justify-content: center;
       padding: 20px;
       margin: -20px;
+
+      @include breakpoint(medium, down) {
+        flex-direction: column;
+        height: 480px;
+        overflow-x: auto;
+      }
     }
 
     &__item {

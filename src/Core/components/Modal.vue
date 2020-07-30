@@ -119,6 +119,11 @@ export default {
       padding: 20px;
       max-height: calc(100vh - 70px);
       overflow-y: auto;
+
+      // Fixes the menu bar on iOS devices.
+      @include breakpoint(small, down) {
+        padding-bottom: 100px;
+      }
     }
 
     &__section {
