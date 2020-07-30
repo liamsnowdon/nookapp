@@ -93,68 +93,105 @@
             </div>
           </div>
 
-          <hr>
-
           <div class="detail__section">
-            <h4>Time of year</h4>
+            <h4 class="text-left">Time of year</h4>
+
+            <div class="detail__month-key-cont">
+              <div class="detail__month-key">
+                <span class="detail__month-key-box is-active" />
+                <span class="detail__month-key-label">Available</span>
+              </div>
+
+              <div class="detail__month-key">
+                <span class="detail__month-key-box" />
+                <span class="detail__month-key-label">Not Available</span>
+              </div>
+
+              <div class="detail__month-key">
+                <span class="detail__month-key-box is-current" />
+                <span class="detail__month-key-label">Current Month</span>
+              </div>
+            </div>
 
             <h5>Northern Hemisphere</h5>
 
             <div class="detail__months with-margin">
-          <span
-            v-for="(month, index) in northernMonths"
-            :key="`north${index}`"
-            class="detail__month"
-          >
-            {{ month }}
-          </span>
+              <span
+                v-for="(month, index) in MONTHS"
+                :key="`north${index}`"
+                :class="[
+                  {'is-inactive': !monthIncluded(month, northernMonths)},
+                  {'is-current': monthIsCurrent(month)}
+                ]"
+                class="detail__month"
+              >
+                {{ month }}
+              </span>
             </div>
 
             <h5>Southern Hemisphere</h5>
 
             <div class="detail__months">
-          <span
-            v-for="(month, index) in southernMonths"
-            :key="`north${index}`"
-            class="detail__month"
-          >
-            {{ month }}
-          </span>
+              <span
+                v-for="(month, index) in MONTHS"
+                :key="`north${index}`"
+                :class="[
+                  {'is-inactive': !monthIncluded(month, southernMonths)},
+                  {'is-current': monthIsCurrent(month)}
+                ]"
+                class="detail__month"
+              >
+                {{ month }}
+              </span>
             </div>
           </div>
 
-          <hr>
-
           <div class="detail__section">
-            <h4>Prices</h4>
+            <h4>Time of day</h4>
 
-            <div class="detail__two-column">
-              <div class="detail__two-column-col">
-                <div class="detail__price">
-                  <div class="detail__price-image">
-                    <img src="../assets/timmy-and-tommy.png" alt="Timmy and Tommy" />
-                  </div>
-                  <span class="detail__price-value">{{ formatNumberWithCommas(critter.price) }}</span>
+            <div class="detail__table">
+              <div class="detail__table-header">
+                <div class="detail__table-data">
+                  Image
+                </div>
+                <div class="detail__table-data">
+                  Name
+                </div>
+                <div class="detail__table-data">
+                  Price
+                </div>
+              </div>
+
+              <div class="detail__table-row">
+                <div class="detail__table-data">
+                  <img src="../assets/timmy-and-tommy.png" alt="Nook's Cranny" />
+                </div>
+
+                <div class="detail__table-data">
+                  Nook's Cranny
+                </div>
+
+                <div class="detail__table-data">
+                  {{ formatNumberWithCommas(critter.price) }}
                 </div>
               </div>
 
               <div
                 v-if="higherPriceValue"
-                class="detail__two-column-col"
+                class="detail__table-row"
               >
-                <div class="detail__price">
-                  <template v-if="isFish">
-                    <div class="detail__price-image">
-                      <img src="../assets/cj.png" alt="C.J." />
-                    </div>
-                    <span class="detail__price-value">{{ formatNumberWithCommas(higherPriceValue) }}</span>
-                  </template>
-                  <template v-if="isBug">
-                    <div class="detail__price-image">
-                      <img src="../assets/flick.png" alt="Flick" />
-                    </div>
-                    <span class="detail__price-value">{{ formatNumberWithCommas(higherPriceValue) }}</span>
-                  </template>
+                <div class="detail__table-data">
+                  <img v-if="isFish" src="../assets/cj.png" alt="C.J." />
+                  <img v-if="isBug" src="../assets/flick.png" alt="Flick" />
+                </div>
+
+                <div class="detail__table-data">
+                  <template v-if="isFish">C.J.</template>
+                  <template v-if="isBug">Flick</template>
+                </div>
+
+                <div class="detail__table-data">
+                  {{ formatNumberWithCommas(higherPriceValue) }}
                 </div>
               </div>
             </div>
@@ -195,10 +232,13 @@ export default {
 
   data () {
     return {
-      months: MONTHS,
       isDonated: false,
       quoteCollapsed: true,
     };
+  },
+
+  created () {
+    this.MONTHS = MONTHS;
   },
 
   computed: {
@@ -260,11 +300,7 @@ export default {
      * @returns {array}
      */
     northernMonths () {
-      if (this.critter.availability.isAllYear) {
-        return ['All Year'];
-      }
-
-      return this.monthsStringToArray('northern');
+      return this.critter.availability['month-array-northern'].map(month => MONTHS[month - 1]);
     },
 
     /**
@@ -273,11 +309,7 @@ export default {
      * @returns {array}
      */
     southernMonths () {
-      if (this.critter.availability.isAllYear) {
-        return ['All Year'];
-      }
-
-      return this.monthsStringToArray('southern');
+      return this.critter.availability['month-array-southern'].map(month => MONTHS[month - 1]);
     },
   },
 
@@ -361,60 +393,16 @@ export default {
       return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
     },
 
-    /**
-     * Converts the string from the api into readable month names
-     *
-     * @param {string} hemisphere
-     * @returns {Array}
-     */
-    monthsStringToArray (hemisphere) {
-      let monthsString;
+    monthIncluded (month, months) {
+      return months.includes(month);
+    },
 
-      switch (this.critterType) {
-        case CRITTER_TYPES.BUGS:
-          monthsString = this.selectedBug.availability[`month-${hemisphere}`];
-          break;
-        case CRITTER_TYPES.FISH:
-          monthsString = this.selectedFish.availability[`month-${hemisphere}`];
-          break;
-        case CRITTER_TYPES.SEA_CREATURES:
-          monthsString = this.selectedSeaCreature.availability[`month-${hemisphere}`];
-          break;
-      }
+    monthIsCurrent (month) {
+      const currentDate = new Date();
+      const currentMonth = currentDate.getMonth();
+      const index = MONTHS.findIndex(m => m === month);
 
-      const intervals = monthsString.split(' & ');
-
-      let months = [];
-
-      intervals.forEach((interval) => {
-        const intervalMonthsString = interval.split('-');
-        const intervalStartingMonth = Number(intervalMonthsString[0]);
-        const intervalEndingMonth = Number(intervalMonthsString[1]);
-
-        const intervalMonths = [];
-
-        if (intervalStartingMonth > intervalEndingMonth) {
-          for (let i = intervalStartingMonth; i <= 12; i++) {
-            intervalMonths.push(i);
-          }
-
-          for (let i = 1; i <= intervalEndingMonth; i++) {
-            intervalMonths.push(i);
-          }
-        } else {
-          for (let i = intervalStartingMonth; i <= intervalEndingMonth; i++) {
-            intervalMonths.push(i);
-          }
-        }
-
-        months = [...months, ...intervalMonths];
-      });
-
-      months = months.map(month => {
-        return this.months[month - 1];
-      });
-
-      return months;
+      return index === currentMonth;
     },
   },
 };
@@ -447,6 +435,56 @@ export default {
       @include breakpoint(medium) {
         flex: 0 0 50%;
         padding: 0 16px;
+      }
+    }
+
+    &__month-key-cont {
+      display: flex;
+      flex-flow: row wrap;
+      justify-content: center;
+    }
+
+    &__month-key {
+      display: flex;
+      align-items: center;
+      margin: 0 20px 20px;
+    }
+
+    &__month-key-box {
+      height: 30px;
+      width: 30px;
+      border: 2px dashed;
+      border-radius: 10px;
+      margin-right: 10px;
+
+      &.is-active {
+        background-color: $brown-dark;
+      }
+
+      &.is-current {
+        border-color: #ce0606;
+      }
+    }
+
+    &__table-header {
+      display: flex;
+      background-color: $brown-dark;
+    }
+
+    &__table-row {
+      display: flex;
+    }
+
+    &__table-data {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex: 2 1 50%;
+      padding: 10px;
+      text-align: center;
+
+      img {
+        max-height: 100px;
       }
     }
 
@@ -580,13 +618,16 @@ export default {
     }
 
     &__month {
-      background-color: $brown-dark;
-      padding: 15px 20px;
+      padding: 10px;
       border-radius: 10px;
       border: 2px dashed;
 
-      &.is-active {
-        background-color: $brown-light;
+      &:not(.is-inactive) {
+        background-color: $brown-dark;
+      }
+
+      &.is-current {
+        border-color: #ce0606;
       }
     }
 
