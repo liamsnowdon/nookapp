@@ -27,6 +27,10 @@ export default {
     state.quickAddModalOpen = open;
   },
 
+  setDetailModalOpen (state, open) {
+    state.detailModalOpen = open;
+  },
+
   setSettingsHemisphere (state, hemisphere) {
     hemisphere = hemisphere || '';
 

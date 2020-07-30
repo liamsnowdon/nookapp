@@ -1,92 +1,106 @@
 <template>
-  <div
-    v-if="critter.id"
-    class="detail"
+  <Modal
+    ref="modal"
+    :is-open="isOpen"
+    size="large"
+    @close="onClose"
   >
-    <div class="detail__main">
-      <div
-        v-if="isStorageAvailable"
-        class="detail__donated-checkbox"
-      >
-        <input
-          id="critter-donated"
-          v-model="isDonated"
-          type="checkbox"
-          class="detail__donated-checkbox-input"
-          @change="onDonatedChange"
-        />
-        <label
-          for="critter-donated"
-          class="detail__donated-checkbox-label"
-        >
-          <span class="detail__donated-checkbox-checkbox"></span>
-          <span class="detail__donated-checkbox-text">Donated</span>
-        </label>
-      </div>
+    <template #title>
+      {{ critter.name['name-EUen'] | capitalize }}
+    </template>
 
-      <h3 class="detail__name">{{ critter.name['name-EUen'] | capitalize }}</h3>
-
-      <img
-        :src="`https://acnhapi.com/v1/images/${critterType}/${critter.id}`"
-        :alt="critter.name['name-EUen']"
-        class="detail__critter-image"
-      />
-
-      <div
-        v-if="critter['museum-phrase']"
-        class="detail__museum-phrase"
-      >
-        <blockquote class="detail__museum-quote">{{ critter['museum-phrase'] }}</blockquote>
-        <div class="detail__museum-blathers">
-          <img src="../assets/blathers.png" alt="Blathers" />
-        </div>
-      </div>
-    </div>
-
-    <div class="detail__information">
-      <hr>
-
-      <div class="detail__section">
-        <div class="detail__two-column">
+    <template #content>
+      <div class="detail">
+        <div class="detail__main">
           <div
-            v-if="critter.availability && critter.availability.location"
-            class="detail__two-column-col"
+            v-if="isStorageAvailable"
+            class="detail__donated-checkbox"
           >
-            <h4>Location</h4>
-            <span>{{ critter.availability.location }}</span>
+            <input
+              id="critter-donated"
+              v-model="isDonated"
+              type="checkbox"
+              class="detail__donated-checkbox-input"
+              @change="onDonatedChange"
+            />
+            <label
+              for="critter-donated"
+              class="detail__donated-checkbox-label"
+            >
+              <span class="detail__donated-checkbox-checkbox"></span>
+              <span class="detail__donated-checkbox-text">Donated</span>
+            </label>
           </div>
 
-          <div
-            v-if="critter.speed"
-            class="detail__two-column-col"
-          >
-            <h4>Speed</h4>
-            <span>{{ critter.speed }}</span>
-          </div>
+          <img
+            :src="`https://acnhapi.com/v1/images/${critterType}/${critter.id}`"
+            :alt="critter.name['name-EUen']"
+            class="detail__critter-image"
+          />
 
-          <div
-            v-if="critter.shadow"
-            class="detail__two-column-col"
-          >
-            <h4>Shadow</h4>
-            <span>{{ critter.shadow }}</span>
-          </div>
+          <h3 class="detail__name">{{ critter.name['name-EUen'] | capitalize }}</h3>
 
-          <div class="detail__two-column-col">
-            <h4>Time of day</h4>
-            <span>{{ critter.availability.isAllDay ? 'All day' : critter.availability.time }}</span>
+          <div class="text-center">
+            <blockquote
+              v-if="critter['museum-phrase']"
+              class="detail__museum-quote"
+              :class="{'is-collapsed': quoteCollapsed}"
+            >
+              {{ critter['museum-phrase'] }}
+            </blockquote>
+
+            <Button
+              class="detail__museum-quote-btn"
+              v-show="quoteCollapsed"
+              @click="quoteCollapsed = false"
+            >
+              Show more
+            </Button>
           </div>
         </div>
-      </div>
 
-      <hr>
+        <div class="detail__information">
+          <div class="detail__section">
+            <div class="detail__two-column">
+              <div
+                v-if="critter.availability && critter.availability.location"
+                class="detail__two-column-col"
+              >
+                <h4>Location</h4>
+                <span>{{ critter.availability.location }}</span>
+              </div>
 
-      <div class="detail__section">
-        <h4>Time of year</h4>
+              <div
+                v-if="critter.speed"
+                class="detail__two-column-col"
+              >
+                <h4>Speed</h4>
+                <span>{{ critter.speed }}</span>
+              </div>
 
-        <h5>Northern Hemisphere</h5>
+              <div
+                v-if="critter.shadow"
+                class="detail__two-column-col"
+              >
+                <h4>Shadow</h4>
+                <span>{{ critter.shadow }}</span>
+              </div>
 
-        <div class="detail__months with-margin">
+              <div class="detail__two-column-col">
+                <h4>Time of day</h4>
+                <span>{{ critter.availability.isAllDay ? 'All day' : critter.availability.time }}</span>
+              </div>
+            </div>
+          </div>
+
+          <hr>
+
+          <div class="detail__section">
+            <h4>Time of year</h4>
+
+            <h5>Northern Hemisphere</h5>
+
+            <div class="detail__months with-margin">
           <span
             v-for="(month, index) in northernMonths"
             :key="`north${index}`"
@@ -94,11 +108,11 @@
           >
             {{ month }}
           </span>
-        </div>
+            </div>
 
-        <h5>Southern Hemisphere</h5>
+            <h5>Southern Hemisphere</h5>
 
-        <div class="detail__months">
+            <div class="detail__months">
           <span
             v-for="(month, index) in southernMonths"
             :key="`north${index}`"
@@ -106,57 +120,49 @@
           >
             {{ month }}
           </span>
-        </div>
-      </div>
+            </div>
+          </div>
 
-      <hr>
+          <hr>
 
-      <div class="detail__section">
-        <h4>Prices</h4>
+          <div class="detail__section">
+            <h4>Prices</h4>
 
-        <div class="detail__two-column">
-          <div class="detail__two-column-col">
-            <div class="detail__price">
-              <div class="detail__price-image">
-                <img src="../assets/timmy-and-tommy.png" alt="Timmy and Tommy" />
+            <div class="detail__two-column">
+              <div class="detail__two-column-col">
+                <div class="detail__price">
+                  <div class="detail__price-image">
+                    <img src="../assets/timmy-and-tommy.png" alt="Timmy and Tommy" />
+                  </div>
+                  <span class="detail__price-value">{{ formatNumberWithCommas(critter.price) }}</span>
+                </div>
               </div>
-              <span class="detail__price-value">{{ formatNumberWithCommas(critter.price) }}</span>
-            </div>
-          </div>
 
-          <div
-            v-if="higherPriceValue"
-            class="detail__two-column-col"
-          >
-            <div class="detail__price">
-              <template v-if="isFish">
-                <div class="detail__price-image">
-                  <img src="../assets/cj.png" alt="C.J." />
+              <div
+                v-if="higherPriceValue"
+                class="detail__two-column-col"
+              >
+                <div class="detail__price">
+                  <template v-if="isFish">
+                    <div class="detail__price-image">
+                      <img src="../assets/cj.png" alt="C.J." />
+                    </div>
+                    <span class="detail__price-value">{{ formatNumberWithCommas(higherPriceValue) }}</span>
+                  </template>
+                  <template v-if="isBug">
+                    <div class="detail__price-image">
+                      <img src="../assets/flick.png" alt="Flick" />
+                    </div>
+                    <span class="detail__price-value">{{ formatNumberWithCommas(higherPriceValue) }}</span>
+                  </template>
                 </div>
-                <span class="detail__price-value">{{ formatNumberWithCommas(higherPriceValue) }}</span>
-              </template>
-              <template v-if="isBug">
-                <div class="detail__price-image">
-                  <img src="../assets/flick.png" alt="Flick" />
-                </div>
-                <span class="detail__price-value">{{ formatNumberWithCommas(higherPriceValue) }}</span>
-              </template>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-  </div>
-
-  <div class="detail detail--empty" v-else>
-    <div class="detail__blathers">
-      <img src="../assets/blathers.png" alt="Blathers" />
-    </div>
-
-    <div class="detail__empty-message">
-      <img src="../assets/blathers-dialogue.png" alt="Select a critter to learn more about it. I can also tell you when and where you can catch it." />
-    </div>
-  </div>
+    </template>
+  </Modal>
 </template>
 
 <script>
@@ -169,9 +175,11 @@ import {
   MUTATIONS as CRITTERPEDIA_MUTATIONS,
   GETTERS as CRITTERPEDIA_GETTERS,
 } from 'Critterpedia/constants/vuex';
+import Modal from 'Core/components/Modal.vue';
+import Button from 'Core/components/Button.vue';
 
 export default {
-  name: 'Detail',
+  name: 'DetailModal',
 
   props: {
     critterType: {
@@ -180,10 +188,16 @@ export default {
     },
   },
 
+  components: {
+    Modal,
+    Button,
+  },
+
   data () {
     return {
       months: MONTHS,
       isDonated: false,
+      quoteCollapsed: true,
     };
   },
 
@@ -193,6 +207,7 @@ export default {
     }),
 
     ...mapState(CRITTERPEDIA_MODULE, {
+      isOpen: state => state.detailModalOpen,
       selectedBug: state => state.selectedBug,
       selectedFish: state => state.selectedFish,
       selectedSeaCreature: state => state.selectedSeaCreature,
@@ -304,7 +319,24 @@ export default {
   methods: {
     ...mapMutations(CRITTERPEDIA_MODULE, [
       CRITTERPEDIA_MUTATIONS.SET_DONATED_CRITTER_STATUS,
+      CRITTERPEDIA_MUTATIONS.SET_DETAIL_MODAL_OPEN,
+      CRITTERPEDIA_MUTATIONS.SET_SELECTED_BUG,
+      CRITTERPEDIA_MUTATIONS.SET_SELECTED_FISH,
+      CRITTERPEDIA_MUTATIONS.SET_SELECTED_SEA_CREATURE,
     ]),
+
+    onClose () {
+      this.quoteCollapsed = true;
+      this.setDetailModalOpen(false);
+
+      if (this.isBug) {
+        this.setSelectedBug({});
+      } else if (this.isSeaCreature) {
+        this.setSelectedSeaCreature({});
+      } else {
+        this.setSelectedFish({});
+      }
+    },
 
     refreshDonatedStatus () {
       const properties = {
@@ -393,20 +425,29 @@ export default {
 
   .detail {
     display: flex;
-    flex-direction: column;
     text-align: center;
 
     @include breakpoint(medium) {
       overflow-y: auto;
+      margin: 0 -16px;
     }
 
     @include breakpoint(medium, down) {
       height: calc(100% - 40px);
+      flex-direction: column;
     }
 
     &--empty {
       justify-content: center;
       align-items: center;
+    }
+
+    &__main,
+    &__information {
+      @include breakpoint(medium) {
+        flex: 0 0 50%;
+        padding: 0 16px;
+      }
     }
 
     &__donated-checkbox {
@@ -458,11 +499,11 @@ export default {
 
       &::before,
       &::after {
-       opacity: 0;
-       position: absolute;
-       width: 5px;
-       content: '';
-       background-color: $brown-darkest;
+        opacity: 0;
+        position: absolute;
+        width: 5px;
+        content: '';
+        background-color: $brown-darkest;
       }
 
       &::before {
@@ -478,10 +519,6 @@ export default {
         height: 25px;
         transform: rotate(45deg) translate(-50%, -50%);
       }
-    }
-
-    &__information {
-      margin-top: 20px;
     }
 
     &__blathers,
@@ -500,37 +537,29 @@ export default {
       width: 100%;
       background-color: $brown-dark;
       border-radius: 50%;
+      margin: 20px 0;
 
       @include breakpoint(medium) {
-        width: 50%;
-      }
-    }
-
-    &__museum-phrase {
-      display: flex;
-      align-items: center;
-    }
-
-    &__museum-blathers {
-      flex: 0 0 100px;
-
-      @include breakpoint(medium, down) {
-        display: none;
+        width: 80%;
       }
     }
 
     &__museum-quote {
       position: relative;
-      margin: 16px 0 0;
-      padding: 10px 20px;
-      border: 1px dashed;
-      border-radius: 20px;
-      background: white;
-      line-height: 1.5;
+      margin: 16px 0 15px;
       text-align: left;
+      line-height: 1.5em;
+
+      &.is-collapsed {
+        overflow: hidden;
+        height: 4.5em;
+        -webkit-line-clamp: 3;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+      }
 
       @include breakpoint(medium) {
-        margin: 16px 40px 0;
+        margin: 16px 40px 15px;
       }
 
       &::before,

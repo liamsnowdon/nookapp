@@ -29,9 +29,15 @@ export default {
   },
 
   created () {
+    document.querySelector('body').style.backgroundColor = '#f0e6b8';
+
     this.checkDeviceForStorageApi();
     this.setDonatedCrittersFromLocalStorage();
     this.setDefaultSettingsFromLocalStorage();
+  },
+
+  destroyed () {
+    document.querySelector('body').style.backgroundColor = '';
   },
 
   computed: {
@@ -132,6 +138,7 @@ export default {
     margin: 0;
   }
 
+  h3,
   h4,
   h5 {
     margin: 0 0 15px 0;
@@ -143,10 +150,6 @@ export default {
 
   .text-center {
     text-align: center;
-  }
-
-  .wrapper {
-    background-color: $brown-medium;
   }
 
   .cross {

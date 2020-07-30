@@ -5,7 +5,10 @@
       class="modal-wrapper"
     >
       <div class="modal-overlay"></div>
-      <div class="modal">
+      <div
+        :class="`modal--${size}`"
+        class="modal"
+      >
         <div class="modal__header">
           <h3><slot name="title"></slot></h3>
           <button class="cross" @click="close"></button>
@@ -26,6 +29,12 @@ export default {
     isOpen: {
       type: Boolean,
       required: true,
+    },
+
+    size: {
+      type: String,
+      required: false,
+      default: 'medium',
     },
   },
 
@@ -84,6 +93,12 @@ export default {
 
     @include breakpoint(medium, down) {
       height: 100%;
+    }
+
+    &--large {
+      @include breakpoint(medium) {
+        width: 80%;
+      }
     }
 
     &__header {

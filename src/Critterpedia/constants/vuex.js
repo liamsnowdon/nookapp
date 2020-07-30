@@ -19,6 +19,7 @@ export const MUTATIONS = {
   SET_SETTINGS_HEMISPHERE: 'setSettingsHemisphere',
 
   SET_QUICK_ADD_MODAL_OPEN: 'setQuickAddModalOpen',
+  SET_DETAIL_MODAL_OPEN: 'setDetailModalOpen',
 
   SET_FISH: 'setFish',
   SET_BUGS: 'setBugs',
