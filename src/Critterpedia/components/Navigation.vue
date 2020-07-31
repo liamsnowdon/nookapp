@@ -1,32 +1,34 @@
 <template>
   <nav class="navigation">
-    <ul class="navigation__list">
-      <li class="navigation__list-item">
-        <router-link
-          class="navigation__link navigation__link--fish"
-          :to="{ name: 'Fish' }"
-        />
-      </li>
-      <li class="navigation__list-item">
-        <router-link
-          class="navigation__link navigation__link--bugs"
-          :to="{ name: 'Bugs' }"
-        />
-      </li>
-      <li class="navigation__list-item">
-        <router-link
-          class="navigation__link navigation__link--sea-creatures"
-          :to="{ name: 'Sea Creatures' }"
-        />
-      </li>
-    </ul>
-    <div class="navigation__buttons">
-      <button class="navigation__button" @click="openQuickAddModal">
-        Quick Add
-      </button>
-      <button class="navigation__button" @click="openSettingsModal">
-        <img src="../assets/cog.svg" alt="Settings" />
-      </button>
+    <div class="navigation__content">
+      <ul class="navigation__list">
+        <li class="navigation__list-item">
+          <router-link
+            class="navigation__link navigation__link--fish"
+            :to="{ name: 'Fish' }"
+          />
+        </li>
+        <li class="navigation__list-item">
+          <router-link
+            class="navigation__link navigation__link--bugs"
+            :to="{ name: 'Bugs' }"
+          />
+        </li>
+        <li class="navigation__list-item">
+          <router-link
+            class="navigation__link navigation__link--sea-creatures"
+            :to="{ name: 'Sea Creatures' }"
+          />
+        </li>
+      </ul>
+      <div class="navigation__buttons">
+        <button class="navigation__button" @click="openQuickAddModal">
+          Quick Add
+        </button>
+        <button class="navigation__button" @click="openSettingsModal">
+          <img src="../assets/cog.svg" alt="Settings" />
+        </button>
+      </div>
     </div>
   </nav>
 </template>
@@ -61,11 +63,15 @@ export default {
   @import 'Core/scss/_abstracts.scss';
 
   .navigation {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    max-width: $global-width;
-    margin: 0 auto;
+    background-color: white;
+
+    &__content {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      max-width: $global-width;
+      margin: 0 auto;
+    }
 
     &__list {
       display: flex;
@@ -90,6 +96,7 @@ export default {
     &__button {
       @extend %button-reset;
       margin: 0 10px;
+      font-weight: 600;
 
       &:not(:hover) {
         opacity: 0.7;

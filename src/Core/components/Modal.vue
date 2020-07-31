@@ -5,7 +5,10 @@
       class="modal-wrapper"
     >
       <div class="modal-overlay"></div>
-      <div class="modal">
+      <div
+        :class="`modal--${size}`"
+        class="modal"
+      >
         <div class="modal__header">
           <h3><slot name="title"></slot></h3>
           <button class="cross" @click="close"></button>
@@ -26,6 +29,12 @@ export default {
     isOpen: {
       type: Boolean,
       required: true,
+    },
+
+    size: {
+      type: String,
+      required: false,
+      default: 'medium',
     },
   },
 
@@ -86,6 +95,12 @@ export default {
       height: 100%;
     }
 
+    &--large {
+      @include breakpoint(medium) {
+        width: 80%;
+      }
+    }
+
     &__header {
       display: flex;
       justify-content: space-between;
@@ -104,6 +119,11 @@ export default {
       padding: 20px;
       max-height: calc(100vh - 70px);
       overflow-y: auto;
+
+      // Fixes the menu bar on iOS devices.
+      @include breakpoint(small, down) {
+        padding-bottom: 100px;
+      }
     }
 
     &__section {
