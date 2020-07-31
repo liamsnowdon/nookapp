@@ -112,7 +112,7 @@ export default {
       selectedBug: state => state.selectedBug,
       selectedFish: state => state.selectedFish,
       selectedSeaCreature: state => state.selectedSeaCreature,
-      hemispherePreference: state => state.hemispherePreference,
+      hemispherePreference: state => state.settings.hemisphere,
     }),
 
     ...mapGetters({
