@@ -32,30 +32,23 @@
             </label>
           </div>
 
-          <img
-            :src="`https://acnhapi.com/v1/images/${critterType}/${critter.id}`"
-            :alt="critter.name['name-EUen']"
-            class="detail__critter-image"
-          />
+          <div class="detail__image-desc">
+            <img
+              :src="`https://acnhapi.com/v1/images/${critterType}/${critter.id}`"
+              :alt="critter.name['name-EUen']"
+              class="detail__critter-image"
+            />
 
-          <h3 class="detail__name">{{ critter.name['name-EUen'] | capitalize }}</h3>
+            <h3 class="detail__name">{{ critter.name['name-EUen'] | capitalize }}</h3>
 
-          <div class="text-center">
-            <blockquote
-              v-if="critter['museum-phrase']"
-              class="detail__museum-quote"
-              :class="{'is-collapsed': quoteCollapsed}"
-            >
-              {{ critter['museum-phrase'] }}
-            </blockquote>
-
-            <Button
-              class="detail__museum-quote-btn"
-              v-show="quoteCollapsed"
-              @click="quoteCollapsed = false"
-            >
-              Show more
-            </Button>
+            <div class="text-center">
+              <blockquote
+                v-if="critter['museum-phrase']"
+                class="detail__museum-quote"
+              >
+                {{ critter['museum-phrase'] }}
+              </blockquote>
+            </div>
           </div>
         </div>
 
@@ -147,7 +140,7 @@
           </div>
 
           <div class="detail__section">
-            <h4>Time of day</h4>
+            <h4>Prices</h4>
 
             <div class="detail__table">
               <div class="detail__table-header">
@@ -213,7 +206,6 @@ import {
   GETTERS as CRITTERPEDIA_GETTERS,
 } from 'Critterpedia/constants/vuex';
 import Modal from 'Core/components/Modal.vue';
-import Button from 'Core/components/Button.vue';
 
 export default {
   name: 'DetailModal',
@@ -227,13 +219,11 @@ export default {
 
   components: {
     Modal,
-    Button,
   },
 
   data () {
     return {
       isDonated: false,
-      quoteCollapsed: true,
     };
   },
 
@@ -358,7 +348,6 @@ export default {
     ]),
 
     onClose () {
-      this.quoteCollapsed = true;
       this.setDetailModalOpen(false);
 
       if (this.isBug) {
@@ -438,6 +427,18 @@ export default {
       }
     }
 
+    &__image-desc {
+      flex: 1 0 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+
+      @include breakpoint(medium) {
+        height: calc(100% - 40px);
+      }
+    }
+
     &__month-key-cont {
       display: flex;
       flex-flow: row wrap;
@@ -514,7 +515,7 @@ export default {
       display: inline-flex;
       align-items: center;
       padding: 0;
-      font-weight: 400;
+      font-weight: 600;
       cursor: pointer;
       user-select: none;
 
@@ -573,7 +574,6 @@ export default {
 
     &__critter-image {
       width: 100%;
-      background-color: $brown-dark;
       border-radius: 50%;
       margin: 20px 0;
 
@@ -586,15 +586,7 @@ export default {
       position: relative;
       margin: 16px 0 15px;
       text-align: left;
-      line-height: 1.5em;
-
-      &.is-collapsed {
-        overflow: hidden;
-        height: 4.5em;
-        -webkit-line-clamp: 3;
-        display: -webkit-box;
-        -webkit-box-orient: vertical;
-      }
+      line-height: 1.5;
 
       @include breakpoint(medium) {
         margin: 16px 40px 15px;

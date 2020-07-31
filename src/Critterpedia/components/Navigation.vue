@@ -96,6 +96,7 @@ export default {
     &__button {
       @extend %button-reset;
       margin: 0 10px;
+      font-weight: 600;
 
       &:not(:hover) {
         opacity: 0.7;

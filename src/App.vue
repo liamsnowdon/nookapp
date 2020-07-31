@@ -123,7 +123,8 @@ export default {
   body {
     margin: 0;
     padding: 0;
-    font-family: 'Arial Rounded MT Bold', Arial, sans-serif;
+    font-family: 'Montserrat', Arial, sans-serif;
+    line-height: 1.5;
     -webkit-font-smoothing: subpixel-antialiased;
   }
 
@@ -138,10 +139,45 @@ export default {
     margin: 0;
   }
 
-  h3,
-  h4,
+  h1 {
+    @include breakpoint(medium) {
+      font-size: 32px;
+    }
+
+    margin: 0 0 20px 0;
+    font-size: 2.5rem;
+  }
+
+  h2 {
+    @include breakpoint(medium) {
+      font-size: 28px
+    }
+
+    margin: 0 0 20px 0;
+  }
+
+  h3 {
+    @include breakpoint(medium) {
+      font-size: 24px;
+    }
+
+    margin: 0 0 18px 0;
+  }
+
+  h4 {
+    @include breakpoint(medium) {
+      font-size: 18px;
+    }
+
+    margin: 0 0 16px 0;
+  }
+
   h5 {
-    margin: 0 0 15px 0;
+    @include breakpoint(medium) {
+      font-size: 16px;
+    }
+
+    margin: 0 0 16px 0;
   }
 
   p {

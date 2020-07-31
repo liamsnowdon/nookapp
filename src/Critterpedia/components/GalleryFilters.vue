@@ -110,14 +110,14 @@
         />
       </div>
 
-      <!-- Northern months available in -->
+      <!-- Northern months -->
       <div
         v-if="hemispherePreference === HEMISPHERE_NORTHERN || hemispherePreference === ''"
         class="gallery__filters-item"
       >
         <label for="northern-months-available">
-          <template v-if="hemispherePreference === HEMISPHERE_NORTHERN">Months available in</template>
-          <template v-if="hemispherePreference === ''">Northern hemisphere months available in</template>
+          <template v-if="hemispherePreference === HEMISPHERE_NORTHERN">Months</template>
+          <template v-if="hemispherePreference === ''">Northern hemisphere months</template>
         </label>
         <multiselect
           id="northern-months-available"
@@ -138,8 +138,8 @@
         class="gallery__filters-item"
       >
         <label for="southern-months-available">
-          <template v-if="hemispherePreference === HEMISPHERE_SOUTHERN">Months available in</template>
-          <template v-if="hemispherePreference === ''">Southern hemisphere months available in</template>
+          <template v-if="hemispherePreference === HEMISPHERE_SOUTHERN">Months</template>
+          <template v-if="hemispherePreference === ''">Southern hemisphere months</template>
         </label>
         <multiselect
           id="southern-months-available"
@@ -445,17 +445,18 @@ export default {
 
     &__filters-item {
       margin-bottom: 20px;
-      height: 68px;
       flex: 0 0 100%;
       padding: 0 8px;
 
       @include breakpoint(medium) {
+        height: 68px;
         flex: 0 0 300px;
       }
 
       > label {
         display: block;
         margin-bottom: 10px;
+        font-weight: 600;
       }
 
       select,
@@ -523,9 +524,15 @@ export default {
       display: inline-flex;
       align-items: center;
       padding: 0;
-      font-weight: 400;
+      font-weight: 600;
       cursor: pointer;
       user-select: none;
+
+      &:hover {
+        .c-checkbox__checkbox {
+          border-color: $brown-darkest;
+        }
+      }
     }
 
     &__checkbox {
