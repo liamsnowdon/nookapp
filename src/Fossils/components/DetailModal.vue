@@ -10,6 +10,23 @@
     </template>
 
     <template #content>
+      <div class="c-checkbox">
+        <input
+          id="available-now"
+          v-model="isDonated"
+          type="checkbox"
+          class="c-checkbox__input"
+          @change="onDonatedChange"
+        />
+        <label
+          for="available-now"
+          class="c-checkbox__label"
+        >
+          <span class="c-checkbox__checkbox"></span>
+          <span class="c-checkbox__checkbox-text">Donated</span>
+        </label>
+      </div>
+
       <div class="fossil">
         <div class="fossil__image">
           <div class="fossil__image-cont">
@@ -53,12 +70,18 @@
 </template>
 
 <script>
-import { mapState, mapMutations } from 'vuex';
-import { MODULE, MUTATIONS } from 'Fossils/constants/vuex';
+import { mapState, mapGetters, mapMutations } from 'vuex';
+import { MODULE, GETTERS, MUTATIONS } from 'Fossils/constants/vuex';
 import Modal from 'Core/components/Modal.vue';
 
 export default {
   name: 'DetailModal',
+
+  data () {
+    return {
+      isDonated: false,
+    };
+  },
 
   components: {
     Modal,
@@ -70,6 +93,10 @@ export default {
       fossils: state => state.fossils,
       isOpen: state => state.detailModalOpen,
     }),
+
+    ...mapGetters(MODULE, [
+      GETTERS.GET_DONATED_FOSSIL,
+    ]),
 
     isPartOf () {
       return !!this.fossil['part-of'];
@@ -85,10 +112,17 @@ export default {
     },
   },
 
+  watch: {
+    fossil (newFossil) {
+      this.isDonated = !!this.getDonatedFossil(newFossil['file-name']);
+    },
+  },
+
   methods: {
     ...mapMutations(MODULE, [
       MUTATIONS.SET_DETAIL_MODAL_OPEN,
       MUTATIONS.SET_SELECTED_FOSSIL,
+      MUTATIONS.SET_DONATED_FOSSIL_STATUS,
     ]),
 
     onClose () {
@@ -99,6 +133,15 @@ export default {
     goToRelatedPart (fossil) {
       this.setSelectedFossil(fossil);
     },
+
+    onDonatedChange () {
+      const payload = {
+        id: this.fossil['file-name'],
+        isDonated: this.isDonated,
+      };
+
+      this.setDonatedFossilStatus(payload);
+    },
   },
 };
 </script>
@@ -108,6 +151,10 @@ export default {
 
   hr {
     margin: 25px 0;
+  }
+
+  .c-checkbox {
+    margin-bottom: 20px;
   }
 
   .fossil {

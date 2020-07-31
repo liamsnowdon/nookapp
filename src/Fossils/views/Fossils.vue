@@ -16,10 +16,12 @@
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex';
-import { MODULE, ACTIONS } from 'Fossils/constants/vuex';
+import { mapState, mapMutations, mapActions } from 'vuex';
+import { MODULE as CORE_MODULE } from 'Core/constants/vuex';
+import { MODULE, MUTATIONS, ACTIONS } from 'Fossils/constants/vuex';
 import List from 'Fossils/components/List.vue';
 import DetailModal from 'Fossils/components/DetailModal.vue';
+import { STORAGE } from 'Fossils/constants/storage';
 
 export default {
   name: 'Fossils',
@@ -31,6 +33,8 @@ export default {
 
   created () {
     this.getFossils();
+
+    this.setDonatedFossilsFromLocalStorage();
   },
 
   mounted () {
@@ -42,12 +46,20 @@ export default {
   },
 
   computed: {
+    ...mapState(CORE_MODULE, {
+      isStorageAvailable: state => state.isStorageAvailable,
+    }),
+
     ...mapState(MODULE, {
       fossils: state => state.fossils,
     }),
   },
 
   methods: {
+    ...mapMutations(MODULE, [
+      MUTATIONS.SET_DONATED_FOSSILS,
+    ]),
+
     ...mapActions(MODULE, [
       ACTIONS.DIG_FOSSILS,
     ]),
@@ -59,6 +71,20 @@ export default {
 
       this.digFossils();
     },
+
+    setDonatedFossilsFromLocalStorage () {
+      if (!this.isStorageAvailable) {
+        return;
+      }
+
+      let donatedFossils = localStorage.getItem(STORAGE.DONATED_FOSSILS);
+
+      if (donatedFossils) {
+        donatedFossils = donatedFossils.split(',');
+      }
+
+      this.setDonatedFossils(donatedFossils);
+    },
   },
 };
 </script>
@@ -66,6 +92,7 @@ export default {
 <style lang="scss" scoped>
   @import '@/Core/scss/_abstracts.scss';
 
+  // todo v-deep styles for per page changes should be moved to CSS Custom Properties
   ::v-deep {
     .modal {
       background-color: #4c4c65;
@@ -79,6 +106,25 @@ export default {
         &::before,
         &::after {
           background-color: white;
+        }
+      }
+    }
+
+    .c-checkbox {
+      &__input {
+        &:checked {
+          + .c-checkbox__label {
+            .c-checkbox__checkbox {
+              border-color: #1b1b2f;
+            }
+          }
+        }
+      }
+
+      &__checkbox {
+        &::before,
+        &::after {
+          background-color: #1b1b2f;
         }
       }
     }
