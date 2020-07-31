@@ -1,6 +1,7 @@
 <template>
   <div id="app">
     <div class="wrapper">
+      <Navigation />
       <RouterView />
     </div>
   </div>
@@ -10,18 +11,17 @@
 import { mapState, mapMutations } from 'vuex';
 import { storageAvailable } from 'Core/helpers';
 import { MODULE, MUTATIONS } from 'Core/constants/vuex';
+import Navigation from 'Core/components/Navigation.vue';
 
 export default {
   name: 'App',
 
-  created () {
-    document.querySelector('body').style.backgroundColor = '#f0e6b8';
-
-    this.checkDeviceForStorageApi();
+  components: {
+    Navigation,
   },
 
-  destroyed () {
-    document.querySelector('body').style.backgroundColor = '';
+  created () {
+    this.checkDeviceForStorageApi();
   },
 
   computed: {
@@ -47,6 +47,8 @@ export default {
 </script>
 
 <style lang="scss">
+  // todo move these styles into a .scss file?
+
   @import 'Core/scss/_abstracts.scss';
 
   *,
@@ -121,6 +123,14 @@ export default {
 
   .text-center {
     text-align: center;
+  }
+
+  .list-reset {
+    @extend %list-reset;
+  }
+
+  .mb-0 {
+    margin-bottom: 0 !important;
   }
 
   .cross {

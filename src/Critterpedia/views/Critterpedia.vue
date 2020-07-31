@@ -32,6 +32,14 @@ export default {
     this.setDefaultSettingsFromLocalStorage();
   },
 
+  mounted () {
+    document.querySelector('body').style.backgroundColor = '#f0e6b8';
+  },
+
+  destroyed () {
+    document.querySelector('body').style.backgroundColor = '';
+  },
+
   computed: {
     ...mapState(CORE_MODULE, {
       isStorageAvailable: state => state.isStorageAvailable,

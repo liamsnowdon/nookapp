@@ -1,10 +1,10 @@
 <template>
-  <Modal
-    ref="modal"
-    :is-open="isOpen"
-    size="large"
-    @close="onClose"
-  >
+    <Modal
+      ref="modal"
+      :is-open="isOpen"
+      size="large"
+      @close="onClose"
+    >
     <template #title>
       {{ critter.name['name-EUen'] | capitalize }}
     </template>

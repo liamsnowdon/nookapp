@@ -84,11 +84,11 @@ export default {
     width: 100%;
     max-height: 100vh;
     background-color: $brown-light;
-    border-radius: 20px;
     z-index: 1;
 
     @include breakpoint(medium) {
       width: 50%;
+      border-radius: 20px;
     }
 
     @include breakpoint(medium, down) {
@@ -107,8 +107,11 @@ export default {
       align-items: center;
       height: 70px;
       padding: 0 20px;
-      border-radius: 20px 20px 0 0;
       background-color: $brown-dark;
+
+      @include breakpoint(medium) {
+        border-radius: 20px 20px 0 0;
+      }
 
       h3 {
         margin: 0;
