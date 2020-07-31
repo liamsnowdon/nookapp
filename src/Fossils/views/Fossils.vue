@@ -4,7 +4,6 @@
       <div class="fossils__content">
         <div class="fossils__intro">
           <h1>Fossils</h1>
-          <p>This is the fossils pages.</p>
         </div>
 
         <List />

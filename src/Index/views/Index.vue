@@ -9,7 +9,7 @@
 
     <PageLink route="Fish">
       <template #image>
-        <img :src="require(`Critterpedia/assets/blathers.png`)" alt="Critterpedia" />
+        <img :src="require(`Index/assets/critterpedia.png`)" alt="Critterpedia" />
       </template>
 
       <template #heading>
@@ -31,7 +31,7 @@
       </template>
 
       <template #description>
-        There are many fossils you can find on your island, Complete each set and fill up your museum.
+        There are many fossils you can find on your island. Complete each set and fill up your museum.
       </template>
     </PageLink>
   </div>

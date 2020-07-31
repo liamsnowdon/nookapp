@@ -1,7 +1,6 @@
 <template>
   <div>
     <Navigation />
-    <SettingsModal />
     <QuickAddModal />
     <div class="wrapper">
       <RouterView />
@@ -12,10 +11,9 @@
 <script>
 import { mapMutations, mapState } from 'vuex';
 import { STORAGE } from 'Critterpedia/constants/storage';
-import { MODULE as CORE_MODULE } from 'Core/constants/vuex';
+import { MODULE as CORE_MODULE, MUTATIONS as CORE_MUTATIONS } from 'Core/constants/vuex';
 import { MODULE as CRITTERPEDIA_MODULE, MUTATIONS as CRITTERPEDIA_MUTATIONS } from 'Critterpedia/constants/vuex';
 import Navigation from 'Critterpedia/components/Navigation';
-import SettingsModal from 'Critterpedia/components/SettingsModal';
 import QuickAddModal from 'Critterpedia/components/QuickAddModal';
 
 export default {
@@ -23,13 +21,11 @@ export default {
 
   components: {
     Navigation,
-    SettingsModal,
     QuickAddModal,
   },
 
   created () {
     this.setDonatedCrittersFromLocalStorage();
-    this.setDefaultSettingsFromLocalStorage();
   },
 
   mounted () {
@@ -47,11 +43,14 @@ export default {
   },
 
   methods: {
+    ...mapMutations(CORE_MODULE, [
+      CORE_MUTATIONS.SET_SETTINGS_HEMISPHERE,
+    ]),
+
     ...mapMutations(CRITTERPEDIA_MODULE, [
       CRITTERPEDIA_MUTATIONS.SET_DONATED_FISH,
       CRITTERPEDIA_MUTATIONS.SET_DONATED_BUGS,
       CRITTERPEDIA_MUTATIONS.SET_DONATED_SEA_CREATURES,
-      CRITTERPEDIA_MUTATIONS.SET_SETTINGS_HEMISPHERE,
     ]),
 
     setDonatedCrittersFromLocalStorage () {
@@ -84,16 +83,6 @@ export default {
       this.setDonatedFish(donatedFish);
       this.setDonatedBugs(donatedBugs);
       this.setDonatedSeaCreatures(donatedSeaCreatures);
-    },
-
-    setDefaultSettingsFromLocalStorage () {
-      if (!this.isStorageAvailable) {
-        return;
-      }
-
-      const hemisphere = localStorage.getItem(STORAGE.SETTINGS_HEMISPHERE);
-
-      this.setSettingsHemisphere(hemisphere);
     },
   },
 };

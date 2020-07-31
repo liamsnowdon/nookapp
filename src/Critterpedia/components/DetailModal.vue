@@ -429,14 +429,6 @@ export default {
 
     &__image-desc {
       flex: 1 0 0;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-
-      @include breakpoint(medium) {
-        height: calc(100% - 40px);
-      }
     }
 
     &__month-key-cont {

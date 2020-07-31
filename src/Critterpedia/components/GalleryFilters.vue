@@ -188,16 +188,15 @@
 </template>
 
 <script>
-import { createNamespacedHelpers } from 'vuex';
+import { mapState, mapMutations } from 'vuex';
 import Multiselect from 'vue-multiselect';
 import 'vue-multiselect/dist/vue-multiselect.min.css';
 import { CRITTER_TYPES } from 'Critterpedia/constants/critter-types';
 import { MONTHS } from 'Core/constants/date';
-import { SETTINGS } from 'Critterpedia/constants/settings';
+import { SETTINGS } from 'Core/constants/settings';
 import { SORT_OPTIONS } from 'Critterpedia/constants/sort-options';
-import { MODULE, MUTATIONS } from 'Critterpedia/constants/vuex';
-
-const { mapState, mapMutations } = createNamespacedHelpers(MODULE);
+import { MODULE as CORE_MODULE } from 'Core/constants/vuex';
+import { MODULE as CRITTERPEDIA_MODULE, MUTATIONS as CRITTERPEDIA_MUTATIONS } from 'Critterpedia/constants/vuex';
 
 export default {
   name: 'GalleryFilters',
@@ -298,11 +297,14 @@ export default {
   },
 
   computed: {
-    ...mapState({
+    ...mapState(CORE_MODULE, {
+      hemispherePreference: state => state.settings.hemisphere,
+    }),
+
+    ...mapState(CRITTERPEDIA_MODULE, {
       errorLoadingFish: state => state.errorLoadingFish,
       errorLoadingBugs: state => state.errorLoadingBugs,
       errorLoadingSeaCreatures: state => state.errorLoadingSeaCreatures,
-      hemispherePreference: state => state.settings.hemisphere,
     }),
 
     isBug () {
@@ -351,17 +353,17 @@ export default {
   },
 
   methods: {
-    ...mapMutations([
-      MUTATIONS.SET_FILTERS_SEARCH_TERM,
-      MUTATIONS.SET_FILTERS_LOCATION,
-      MUTATIONS.SET_FILTERS_MIN_BASE_PRICE,
-      MUTATIONS.SET_FILTERS_MAX_BASE_PRICE,
-      MUTATIONS.SET_FILTERS_SORT,
-      MUTATIONS.SET_FILTERS_DONATED,
-      MUTATIONS.SET_FILTERS_NORTHERN_MONTHS_AVAILABLE,
-      MUTATIONS.SET_FILTERS_SOUTHERN_MONTHS_AVAILABLE,
-      MUTATIONS.SET_FILTERS_AVAILABLE_NOW,
-      MUTATIONS.CLEAR_FILTERS,
+    ...mapMutations(CRITTERPEDIA_MODULE, [
+      CRITTERPEDIA_MUTATIONS.SET_FILTERS_SEARCH_TERM,
+      CRITTERPEDIA_MUTATIONS.SET_FILTERS_LOCATION,
+      CRITTERPEDIA_MUTATIONS.SET_FILTERS_MIN_BASE_PRICE,
+      CRITTERPEDIA_MUTATIONS.SET_FILTERS_MAX_BASE_PRICE,
+      CRITTERPEDIA_MUTATIONS.SET_FILTERS_SORT,
+      CRITTERPEDIA_MUTATIONS.SET_FILTERS_DONATED,
+      CRITTERPEDIA_MUTATIONS.SET_FILTERS_NORTHERN_MONTHS_AVAILABLE,
+      CRITTERPEDIA_MUTATIONS.SET_FILTERS_SOUTHERN_MONTHS_AVAILABLE,
+      CRITTERPEDIA_MUTATIONS.SET_FILTERS_AVAILABLE_NOW,
+      CRITTERPEDIA_MUTATIONS.CLEAR_FILTERS,
     ]),
 
     onSearchTermInput () {

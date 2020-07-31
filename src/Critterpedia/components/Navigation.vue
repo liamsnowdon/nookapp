@@ -25,9 +25,6 @@
         <button class="navigation__button" @click="openQuickAddModal">
           Quick Add
         </button>
-        <button class="navigation__button" @click="openSettingsModal">
-          <img src="../assets/cog.svg" alt="Settings" />
-        </button>
       </div>
     </div>
   </nav>
@@ -48,10 +45,6 @@ export default {
       MUTATIONS.SET_QUICK_ADD_MODAL_OPEN,
     ]),
 
-    openSettingsModal () {
-      this.setSettingsModalOpen(true);
-    },
-
     openQuickAddModal () {
       this.setQuickAddModalOpen(true);
     },
@@ -59,7 +52,7 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
   @import 'Core/scss/_abstracts.scss';
 
   .navigation {

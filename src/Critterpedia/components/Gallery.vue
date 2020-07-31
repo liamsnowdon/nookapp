@@ -32,7 +32,7 @@
     </template>
 
     <template v-else>
-      <h2 class="gallery__title">{{ title }}</h2>
+      <h1 class="gallery__title">{{ title }}</h1>
 
       <div v-show="filteredCritters.length" class="gallery__grid">
         <button
@@ -63,7 +63,7 @@ import { MONTHS } from 'Core/constants/date';
 import { SORT_OPTIONS } from 'Critterpedia/constants/sort-options';
 import { MODULE, MUTATIONS, GETTERS } from 'Critterpedia/constants/vuex';
 import { MESSAGES } from 'Critterpedia/constants/messages';
-import { SETTINGS } from 'Critterpedia/constants/settings';
+import { SETTINGS } from 'Core/constants/settings';
 import GalleryFilters from 'Critterpedia/components/GalleryFilters.vue';
 import Spinner from 'Core/components/Spinner.vue';
 

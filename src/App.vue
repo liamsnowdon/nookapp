@@ -16,6 +16,7 @@ import { storageAvailable } from 'Core/helpers';
 import { MODULE, MUTATIONS } from 'Core/constants/vuex';
 import Navigation from 'Core/components/Navigation.vue';
 import Footer from 'Core/components/Footer.vue';
+import { STORAGE } from 'Core/constants/storage';
 
 export default {
   name: 'App',
@@ -27,6 +28,8 @@ export default {
 
   created () {
     this.checkDeviceForStorageApi();
+
+    this.setDefaultSettingsFromLocalStorage();
   },
 
   computed: {
@@ -38,6 +41,7 @@ export default {
   methods: {
     ...mapMutations(MODULE, [
       MUTATIONS.SET_IS_STORAGE_AVAILABLE,
+      MUTATIONS.SET_SETTINGS_HEMISPHERE,
     ]),
 
     checkDeviceForStorageApi () {
@@ -46,6 +50,16 @@ export default {
       } else {
         this.setIsStorageAvailable(false);
       }
+    },
+
+    setDefaultSettingsFromLocalStorage () {
+      if (!this.isStorageAvailable) {
+        return;
+      }
+
+      const hemisphere = localStorage.getItem(STORAGE.SETTINGS_HEMISPHERE);
+
+      this.setSettingsHemisphere(hemisphere);
     },
   },
 };

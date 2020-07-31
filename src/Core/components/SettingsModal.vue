@@ -76,15 +76,19 @@
 <script>
 import { mapState, mapGetters, mapMutations } from 'vuex';
 import Multiselect from 'vue-multiselect';
-import { MODULE as CORE_MODULE } from 'Core/constants/vuex';
+import { SETTINGS } from 'Core/constants/settings';
+import Button from 'Core/components/Button.vue';
+import Modal from 'Core/components/Modal.vue';
+
+import {
+  MODULE as CORE_MODULE,
+  MUTATIONS as CORE_MUTATIONS,
+} from 'Core/constants/vuex';
 import {
   MODULE as CRITTERPEDIA_MODULE,
   MUTATIONS as CRITTERPEDIA_MUTATIONS,
   GETTERS as CRITTERPEDIA_GETTERS,
 } from 'Critterpedia/constants/vuex';
-import { SETTINGS } from 'Critterpedia/constants/settings';
-import Button from 'Core/components/Button.vue';
-import Modal from 'Core/components/Modal.vue';
 
 export default {
   name: 'SettingsModal',
@@ -118,9 +122,6 @@ export default {
   computed: {
     ...mapState(CORE_MODULE, {
       isStorageAvailable: state => state.isStorageAvailable,
-    }),
-
-    ...mapState(CRITTERPEDIA_MODULE, {
       isOpen: state => state.settingsModalOpen,
       settings: state => state.settings,
     }),
@@ -133,13 +134,16 @@ export default {
   },
 
   methods: {
+    ...mapMutations(CORE_MODULE, [
+      CORE_MUTATIONS.SET_SETTINGS_MODAL_OPEN,
+      CORE_MUTATIONS.SET_SETTINGS_HEMISPHERE,
+    ]),
+
     ...mapMutations(CRITTERPEDIA_MODULE, [
       CRITTERPEDIA_MUTATIONS.SET_QUICK_ADD_MODAL_OPEN,
       CRITTERPEDIA_MUTATIONS.CLEAR_DONATED_BUGS,
       CRITTERPEDIA_MUTATIONS.CLEAR_DONATED_FISH,
       CRITTERPEDIA_MUTATIONS.CLEAR_DONATED_SEA_CREATURES,
-      CRITTERPEDIA_MUTATIONS.SET_SETTINGS_MODAL_OPEN,
-      CRITTERPEDIA_MUTATIONS.SET_SETTINGS_HEMISPHERE,
       CRITTERPEDIA_MUTATIONS.SET_FILTERS_SOUTHERN_MONTHS_AVAILABLE,
       CRITTERPEDIA_MUTATIONS.SET_FILTERS_NORTHERN_MONTHS_AVAILABLE,
     ]),
