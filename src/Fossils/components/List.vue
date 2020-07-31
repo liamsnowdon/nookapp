@@ -3,35 +3,63 @@
     <div class="list__column">
       <div class="list__section">
         <div class="list__section-header">
-          <h3 class="mb-0">Multipart Fossils</h3>
+          <h2 class="mb-0">Multipart Fossils</h2>
         </div>
 
-        <div class="list__section-items">
-          <ListDropdown
-            v-for="group in groupedFossils"
-            :key="group.groupName"
-            :group="group"
-          />
-        </div>
+        <template v-if="loading">
+          <div class="list__empty">
+            <Spinner />
+          </div>
+        </template>
+
+        <template v-else-if="!loading && errorLoadingFossils">
+          <div class="list__empty">
+            {{ errorMessage }}
+          </div>
+        </template>
+
+        <template v-else>
+          <div class="list__section-items">
+            <ListDropdown
+              v-for="group in groupedFossils"
+              :key="group.groupName"
+              :group="group"
+            />
+          </div>
+        </template>
       </div>
     </div>
 
     <div class="list__column">
       <div class="list__section">
         <div class="list__section-header">
-          <h3 class="mb-0">Standalone Fossils</h3>
+          <h2 class="mb-0">Standalone Fossils</h2>
         </div>
 
-        <div class="list__section-items">
-          <ListItem
-            v-for="fossil in standaloneFossils"
-            :key="fossil['file-name']"
-            :fossil="fossil"
-            @click="selectFossil"
-          >
-            {{ fossil.name['name-EUen'] }}
-          </ListItem>
-        </div>
+        <template v-if="loading">
+          <div class="list__empty">
+            <Spinner />
+          </div>
+        </template>
+
+        <template v-else-if="!loading && errorLoadingFossils">
+          <div class="list__empty">
+            {{ errorMessage }}
+          </div>
+        </template>
+
+        <template v-else>
+          <div class="list__section-items">
+            <ListItem
+              v-for="fossil in standaloneFossils"
+              :key="fossil['file-name']"
+              :fossil="fossil"
+              @click="selectFossil"
+            >
+              {{ fossil.name['name-EUen'] }}
+            </ListItem>
+          </div>
+        </template>
       </div>
     </div>
   </div>
@@ -41,8 +69,10 @@
 import groupBy from 'lodash/groupBy';
 import { mapState } from 'vuex';
 import { MODULE } from 'Fossils/constants/vuex';
+import { MESSAGES } from 'Fossils/constants/messages';
 import ListDropdown from 'Fossils/components/ListDropdown.vue';
-import ListItem from 'Fossils/components/ListItem';
+import ListItem from 'Fossils/components/ListItem.vue';
+import Spinner from 'Core/components/Spinner.vue';
 
 export default {
   name: 'List',
@@ -50,12 +80,19 @@ export default {
   components: {
     ListDropdown,
     ListItem,
+    Spinner,
   },
 
   computed: {
     ...mapState(MODULE, {
+      loading: state => state.loading,
+      errorLoadingFossils: state => state.errorLoadingFossils,
       fossils: state => state.fossils,
     }),
+
+    errorMessage () {
+      return MESSAGES.API_ERROR;
+    },
 
     fossilGroups () {
       const groups = groupBy(this.fossils, 'part-of');
@@ -96,23 +133,22 @@ export default {
   @import '@/Core/scss/_abstracts.scss';
 
   .list {
-    display: flex;
-    flex-flow: row wrap;
-
     @include breakpoint(medium) {
-      margin: 0 -30px;
+      display: grid;
+      grid-gap: 30px;
+      grid-template-columns: 1fr 1fr;
+    }
+
+    &__empty {
+      height: 100px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
     }
 
     &__column {
-      flex: 0 0 50%;
-
-      @include breakpoint(medium) {
-        padding: 0 30px;
-      }
-
       @include breakpoint(medium, down) {
-        flex: 0 0 100%;
-
         &:not(:last-child) {
           margin-bottom: 30px;
         }

@@ -128,16 +128,27 @@ export default {
         }
       }
     }
+
+    .spinner {
+      &::after {
+        border: 6px solid white;
+        border-color: white transparent white transparent;
+      }
+    }
   }
 
   .fossils {
+    padding: 0 20px;
+
     &__content {
       max-width: $global-width;
       margin: 0 auto;
     }
 
     &__intro {
+      margin-bottom: 40px;
       text-align: center;
+      color: white;
     }
   }
 </style>

@@ -77,44 +77,28 @@ export default {
   }
 
   h1 {
-    @include breakpoint(medium) {
-      font-size: 32px;
-    }
-
     margin: 0 0 20px 0;
-    font-size: 2.5rem;
+    font-size: 32px;
   }
 
   h2 {
-    @include breakpoint(medium) {
-      font-size: 28px
-    }
-
     margin: 0 0 20px 0;
+    font-size: 28px
   }
 
   h3 {
-    @include breakpoint(medium) {
-      font-size: 24px;
-    }
-
+    font-size: 24px;
     margin: 0 0 18px 0;
   }
 
   h4 {
-    @include breakpoint(medium) {
-      font-size: 18px;
-    }
-
     margin: 0 0 16px 0;
+    font-size: 18px;
   }
 
   h5 {
-    @include breakpoint(medium) {
-      font-size: 16px;
-    }
-
     margin: 0 0 16px 0;
+    font-size: 16px;
   }
 
   p {
