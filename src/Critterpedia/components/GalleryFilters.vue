@@ -1,200 +1,176 @@
 <template>
   <div class="gallery__filters">
-    <div class="gallery__filters-row">
-      <div class="gallery__filters-column">
-        <!-- Sort -->
-        <div class="gallery__filters-item">
-          <label for="sort">Sort</label>
-          <multiselect
-            id="sort"
-            v-model="sort"
-            :options="sortOptions"
-            :searchable="false"
-            :close-on-select="true"
-            :show-labels="false"
-            track-by="value"
-            label="displayValue"
-            :preselect-first="true"
-            :allow-empty="false"
-            :disabled="isDisabled"
-            @input="onSortChange"
-          />
-        </div>
+    <div class="gallery__filters-items">
+      <!-- Sort -->
+      <div class="gallery__filters-item">
+        <label for="sort">Sort</label>
+        <multiselect
+          id="sort"
+          v-model="sort"
+          :options="sortOptions"
+          :searchable="false"
+          :close-on-select="true"
+          :show-labels="false"
+          track-by="value"
+          label="displayValue"
+          :preselect-first="true"
+          :allow-empty="false"
+          :disabled="isDisabled"
+          @input="onSortChange"
+        />
       </div>
 
-      <div class="gallery__filters-column">
-        <!-- Search term -->
-        <div class="gallery__filters-item">
-          <label for="searchTerm">Search by name or ID</label>
-          <input
-            id="searchTerm"
-            v-model="searchTerm"
-            @input="onSearchTermInput"
-            :placeholder="searchPlaceholder"
-            :disabled="isDisabled"
-            type="search"
-          />
-        </div>
+      <!-- Search term -->
+      <div class="gallery__filters-item">
+        <label for="searchTerm">Search by name or ID</label>
+        <input
+          id="searchTerm"
+          v-model="searchTerm"
+          @input="onSearchTermInput"
+          :placeholder="searchPlaceholder"
+          :disabled="isDisabled"
+          type="search"
+        />
       </div>
-    </div>
 
-    <div class="gallery__filters-row">
+      <!-- Location -->
       <div
         v-if="isFish || isBug"
-        class="gallery__filters-column"
+        class="gallery__filters-item"
       >
-        <!-- Location -->
-        <div class="gallery__filters-item">
-          <template v-if="isFish">
-            <label for="fish-locations">Location</label>
-            <multiselect
-              id="fish-locations"
-              v-model="location"
-              :options="fishLocations"
-              :searchable="false"
-              :close-on-select="true"
-              :show-labels="false"
-              :disabled="isDisabled"
-              @input="onLocationChange"
-            />
-          </template>
-
-          <template v-if="isBug">
-            <label for="bug-locations">Location</label>
-            <multiselect
-              id="bug-locations"
-              v-model="location"
-              :options="bugLocations"
-              :searchable="false"
-              :close-on-select="true"
-              :show-labels="false"
-              :disabled="isDisabled"
-              @input="onLocationChange"
-            />
-          </template>
-        </div>
-      </div>
-
-      <div class="gallery__filters-column">
-        <!-- Donated -->
-        <div class="gallery__filters-item">
-          <label for="donated">Donated</label>
+        <template v-if="isFish">
+          <label for="fish-locations">Location</label>
           <multiselect
-            id="donated"
-            v-model="donated"
-            :options="donatedOptions"
+            id="fish-locations"
+            v-model="location"
+            :options="fishLocations"
             :searchable="false"
             :close-on-select="true"
             :show-labels="false"
             :disabled="isDisabled"
-            track-by="value"
-            label="displayValue"
-            @input="onDonatedChange"
+            @input="onLocationChange"
           />
-        </div>
-      </div>
-    </div>
+        </template>
 
-    <div class="gallery__filters-row">
-      <div class="gallery__filters-column">
-        <!-- Min Base Price -->
-        <div class="gallery__filters-item">
-          <label for="min-base-price">Min Base Price</label>
-          <input
-            id="min-base-price"
-            v-model.number="minBasePrice"
+        <template v-if="isBug">
+          <label for="bug-locations">Location</label>
+          <multiselect
+            id="bug-locations"
+            v-model="location"
+            :options="bugLocations"
+            :searchable="false"
+            :close-on-select="true"
+            :show-labels="false"
             :disabled="isDisabled"
-            @input="onMinBasePriceInput"
-            type="number"
-            placeholder="200"
+            @input="onLocationChange"
           />
-        </div>
+        </template>
       </div>
 
-      <div class="gallery__filters-column">
-        <!-- Max Base Price -->
-        <div class="gallery__filters-item">
-          <label for="max-base-price">Max Base Price</label>
-          <input
-            id="max-base-price"
-            v-model.number="maxBasePrice"
-            :disabled="isDisabled"
-            @input="onMaxBasePriceInput"
-            type="number"
-            placeholder="4000"
-          />
-        </div>
+      <!-- Donated -->
+      <div class="gallery__filters-item">
+        <label for="donated">Donated</label>
+        <multiselect
+          id="donated"
+          v-model="donated"
+          :options="donatedOptions"
+          :searchable="false"
+          :close-on-select="true"
+          :show-labels="false"
+          :disabled="isDisabled"
+          track-by="value"
+          label="displayValue"
+          @input="onDonatedChange"
+        />
       </div>
 
-      <div class="gallery__filters-column">
-        <!-- Available Now -->
-        <div class="gallery__filters-item gallery__filters-item--checkbox">
-          <div class="c-checkbox">
-            <input
-              id="available-now"
-              v-model="availableNow"
-              type="checkbox"
-              class="c-checkbox__input"
-              @change="onAvailableNowChange"
-            />
-            <label
-              for="available-now"
-              class="c-checkbox__label"
-            >
-              <span class="c-checkbox__checkbox"></span>
-              <span class="c-checkbox__checkbox-text">Available now</span>
-            </label>
-          </div>
-        </div>
+      <!-- Min Base Price -->
+      <div class="gallery__filters-item">
+        <label for="min-base-price">Min Base Price</label>
+        <input
+          id="min-base-price"
+          v-model.number="minBasePrice"
+          :disabled="isDisabled"
+          @input="onMinBasePriceInput"
+          type="number"
+          placeholder="200"
+        />
       </div>
-    </div>
 
-    <div class="gallery__filters-row">
+      <!-- Max Base Price -->
+      <div class="gallery__filters-item">
+        <label for="max-base-price">Max Base Price</label>
+        <input
+          id="max-base-price"
+          v-model.number="maxBasePrice"
+          :disabled="isDisabled"
+          @input="onMaxBasePriceInput"
+          type="number"
+          placeholder="4000"
+        />
+      </div>
+
+      <!-- Northern months -->
       <div
         v-if="hemispherePreference === HEMISPHERE_NORTHERN || hemispherePreference === ''"
-        class="gallery__filters-column"
+        class="gallery__filters-item"
       >
-        <!-- Northern months available in -->
-        <div class="gallery__filters-item">
-          <label for="northern-months-available">
-            <template v-if="hemispherePreference === HEMISPHERE_NORTHERN">Months available in</template>
-            <template v-if="hemispherePreference === ''">Northern hemisphere months available in</template>
-          </label>
-          <multiselect
-            id="northern-months-available"
-            v-model="northernMonthsAvailable"
-            :options="monthsOptions"
-            :multiple="true"
-            :show-labels="false"
-            :searchable="false"
-            :close-on-select="false"
-            :disabled="isDisabled"
-            @input="onNorthernMonthsAvailableChange"
-          />
-        </div>
+        <label for="northern-months-available">
+          <template v-if="hemispherePreference === HEMISPHERE_NORTHERN">Months</template>
+          <template v-if="hemispherePreference === ''">Northern hemisphere months</template>
+        </label>
+        <multiselect
+          id="northern-months-available"
+          v-model="northernMonthsAvailable"
+          :options="monthsOptions"
+          :multiple="true"
+          :show-labels="false"
+          :searchable="false"
+          :close-on-select="false"
+          :disabled="isDisabled"
+          @input="onNorthernMonthsAvailableChange"
+        />
       </div>
 
+      <!-- Southern months available in -->
       <div
         v-if="hemispherePreference === HEMISPHERE_SOUTHERN || hemispherePreference === ''"
-        class="gallery__filters-column"
+        class="gallery__filters-item"
       >
-        <!-- Southern months available in -->
-        <div class="gallery__filters-item">
-          <label for="southern-months-available">
-            <template v-if="hemispherePreference === HEMISPHERE_SOUTHERN">Months available in</template>
-            <template v-if="hemispherePreference === ''">Southern hemisphere months available in</template>
-          </label>
-          <multiselect
-            id="southern-months-available"
-            v-model="southernMonthsAvailable"
-            :options="monthsOptions"
-            :multiple="true"
-            :show-labels="false"
-            :searchable="false"
-            :close-on-select="false"
-            :disabled="isDisabled"
-            @input="onSouthernMonthsAvailableChange"
+        <label for="southern-months-available">
+          <template v-if="hemispherePreference === HEMISPHERE_SOUTHERN">Months</template>
+          <template v-if="hemispherePreference === ''">Southern hemisphere months</template>
+        </label>
+        <multiselect
+          id="southern-months-available"
+          v-model="southernMonthsAvailable"
+          :options="monthsOptions"
+          :multiple="true"
+          :show-labels="false"
+          :searchable="false"
+          :close-on-select="false"
+          :disabled="isDisabled"
+          @input="onSouthernMonthsAvailableChange"
+        />
+      </div>
+
+      <!-- Available Now -->
+      <div class="gallery__filters-item gallery__filters-item--checkbox">
+        <div class="c-checkbox">
+          <input
+            id="available-now"
+            v-model="availableNow"
+            type="checkbox"
+            class="c-checkbox__input"
+            @change="onAvailableNowChange"
           />
+          <label
+            for="available-now"
+            class="c-checkbox__label"
+          >
+            <span class="c-checkbox__checkbox"></span>
+            <span class="c-checkbox__checkbox-text">Available now</span>
+          </label>
         </div>
       </div>
     </div>
@@ -455,30 +431,32 @@ export default {
         margin-bottom: 20px;
         overflow-y: auto;
       }
+
+      @include breakpoint(medium) {
+        margin-bottom: 50px;
+      }
     }
 
-    &__filters-row {
+    &__filters-items {
       display: flex;
       flex-wrap: wrap;
       margin: 0 -8px;
     }
 
-    &__filters-column {
+    &__filters-item {
+      margin-bottom: 20px;
       flex: 0 0 100%;
       padding: 0 8px;
 
       @include breakpoint(medium) {
-        flex: 1 0 0;
+        height: 68px;
+        flex: 0 0 300px;
       }
-    }
-
-    &__filters-item {
-      margin-bottom: 20px;
-      height: calc(100% - 20px);
 
       > label {
         display: block;
         margin-bottom: 10px;
+        font-weight: 600;
       }
 
       select,
@@ -502,10 +480,9 @@ export default {
 
       &--checkbox {
         display: flex;
-        align-items: flex-end;
 
         @include breakpoint(medium) {
-          justify-content: center;
+          align-items: flex-end;
         }
       }
     }
@@ -547,9 +524,15 @@ export default {
       display: inline-flex;
       align-items: center;
       padding: 0;
-      font-weight: 400;
+      font-weight: 600;
       cursor: pointer;
       user-select: none;
+
+      &:hover {
+        .c-checkbox__checkbox {
+          border-color: $brown-darkest;
+        }
+      }
     }
 
     &__checkbox {
