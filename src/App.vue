@@ -2,7 +2,10 @@
   <div id="app">
     <div class="wrapper">
       <Navigation />
+
       <RouterView />
+
+      <Footer />
     </div>
   </div>
 </template>
@@ -12,12 +15,14 @@ import { mapState, mapMutations } from 'vuex';
 import { storageAvailable } from 'Core/helpers';
 import { MODULE, MUTATIONS } from 'Core/constants/vuex';
 import Navigation from 'Core/components/Navigation.vue';
+import Footer from 'Core/components/Footer.vue';
 
 export default {
   name: 'App',
 
   components: {
     Navigation,
+    Footer,
   },
 
   created () {
@@ -48,7 +53,6 @@ export default {
 
 <style lang="scss">
   // todo move these styles into a .scss file?
-
   @import 'Core/scss/_abstracts.scss';
 
   *,
@@ -87,16 +91,21 @@ export default {
   }
 
   h3 {
-    font-size: 24px;
     margin: 0 0 18px 0;
+    font-size: 24px;
   }
 
   h4 {
     margin: 0 0 16px 0;
-    font-size: 18px;
+    font-size: 20px;
   }
 
   h5 {
+    margin: 0 0 16px 0;
+    font-size: 18px;
+  }
+
+  h6 {
     margin: 0 0 16px 0;
     font-size: 16px;
   }
