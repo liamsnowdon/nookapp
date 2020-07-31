@@ -32,6 +32,8 @@
     </template>
 
     <template v-else>
+      <h2 class="gallery__title">{{ title }}</h2>
+
       <div v-show="filteredCritters.length" class="gallery__grid">
         <button
           v-for="critter in filteredCritters"
@@ -118,6 +120,26 @@ export default {
       hasSelectedSouthernMonthsInFilter: GETTERS.HAS_SELECTED_SOUTHERN_MONTHS_IN_FILTER,
     }),
 
+    title () {
+      let title;
+
+      switch (this.critterType) {
+        case CRITTER_TYPES.FISH:
+          title = 'Fish';
+          break;
+        case CRITTER_TYPES.BUGS:
+          title = 'Bugs';
+          break;
+        case CRITTER_TYPES.SEA_CREATURES:
+          title = 'Sea Creatures';
+          break;
+        default:
+          break;
+      }
+
+      return title;
+    },
+
     error () {
       switch (this.critterType) {
         case CRITTER_TYPES.FISH:
@@ -193,6 +215,7 @@ export default {
       MUTATIONS.SET_SELECTED_FISH,
       MUTATIONS.SET_SETTINGS_MODAL_OPEN,
       MUTATIONS.SET_QUICK_ADD_MODAL_OPEN,
+      MUTATIONS.SET_DETAIL_MODAL_OPEN,
     ]),
 
     setSelectedCritter (critter) {
@@ -215,6 +238,8 @@ export default {
 
         this.setSelectedFish(critter);
       }
+
+      this.setDetailModalOpen(true);
     },
 
     isActiveCritter (id) {
@@ -514,9 +539,19 @@ export default {
   .gallery {
     $block: &;
 
+    max-width: $global-width;
+    margin: 0 auto;
+    padding: 20px;
+
     @include breakpoint(medium) {
       display: flex;
       flex-direction: column;
+      padding: 40px;
+    }
+
+    &__title {
+      margin: 0 0 30px 0;
+      text-align: center;
     }
 
     &__mobile-buttons {
@@ -526,7 +561,7 @@ export default {
 
       display: flex;
       justify-content: space-evenly;
-      margin-bottom: 20px;
+      margin-bottom: 50px;
     }
 
     &__mobile-button {
@@ -589,12 +624,6 @@ export default {
       }
     }
 
-    &__filters {
-      @include breakpoint(medium) {
-        margin-bottom: 40px;
-      }
-    }
-
     &__loading {
       display: flex;
       align-items: center;
@@ -604,39 +633,33 @@ export default {
 
     &__grid {
       display: flex;
-      flex-flow: column wrap;
-      overflow-x: auto;
-      max-height: 100%;
+      flex-flow: row wrap;
+      justify-content: center;
       padding: 20px;
       margin: -20px;
 
-      @include breakpoint(medium) {
-        display: grid;
-        grid-template-columns: 1fr 1fr 1fr 1fr;
-        grid-gap: 20px;
-        overflow-y: auto;
-      }
-
       @include breakpoint(medium, down) {
-        height: 260px;
-        border-bottom: 1px solid $brown-border;
+        flex-direction: column;
+        height: 480px;
+        overflow-x: auto;
       }
     }
 
     &__item {
       position: relative;
-      height: 150px;
+      height: 90px;
+      width: 90px;
       padding: 0;
+      margin: 10px;
       border: 1px solid black;
       border-radius: 50%;
       background: center / contain no-repeat $brown-light;
       appearance: none;
       overflow: hidden;
 
-      @include breakpoint(medium, down) {
-        width: 90px;
-        height: 90px;
-        margin: 5px;
+      @include breakpoint(medium) {
+        height: 120px;
+        width: 120px;
       }
 
       img {

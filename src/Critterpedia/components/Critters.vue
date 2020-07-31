@@ -1,12 +1,11 @@
 <template>
-  <div class="critters">
+  <div>
     <gallery
       :critters="critters"
       :critter-type="critterType"
     />
-    <detail
-      :critter-type="critterType"
-    />
+
+    <DetailModal :critter-type="critterType" />
   </div>
 </template>
 
@@ -15,7 +14,7 @@ import { createNamespacedHelpers } from 'vuex';
 import { CRITTER_TYPES } from 'Critterpedia/constants/critter-types';
 import { MODULE } from 'Critterpedia/constants/vuex';
 import Gallery from 'Critterpedia/components/Gallery.vue';
-import Detail from 'Critterpedia/components/Detail.vue';
+import DetailModal from 'Critterpedia/components/DetailModal.vue';
 
 const { mapState } = createNamespacedHelpers(MODULE);
 
@@ -24,7 +23,7 @@ export default {
 
   components: {
     Gallery,
-    Detail,
+    DetailModal,
   },
 
   props: {
@@ -54,24 +53,3 @@ export default {
   },
 };
 </script>
-
-<style lang="scss">
-  @import 'Core/scss/_abstracts.scss';
-
-  .critters {
-    @include breakpoint(medium) {
-      grid-template-columns: 1fr 1fr;
-      grid-template-rows: 100%;
-      height: calc(100vh - 50px);
-      padding: 40px;
-    }
-
-    display: grid;
-    grid-template-columns: 100%;
-    grid-template-rows: 260px calc(100% - 260px);
-    grid-gap: 40px;
-    padding: 20px;
-    max-width: $global-width;
-    margin: 0 auto;
-  }
-</style>
