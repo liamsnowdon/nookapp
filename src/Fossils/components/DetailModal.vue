@@ -6,19 +6,47 @@
     @close="onClose"
   >
     <template #title>
-      {{ fossil.name['name-EUen'] }}
+      {{ fossil.name['name-EUen'] | capitalize }}
     </template>
 
     <template #content>
-      <div class="fossils__detail">
-        <template v-if="fossil['file-name']">
-          Name: {{ fossil.name['name-EUen'] }}
+      <div class="fossil">
+        <div class="fossil__image">
+          <div class="fossil__image-cont">
+            <img
+              :src="fossil.image_uri"
+              :alt="fossil.name['name-EUen']"
+            />
+          </div>
+        </div>
 
-          <img
-            :src="fossil.image_uri"
-            :alt="fossil.name['name-EUen']"
-          />
-        </template>
+        <div class="fossil__information">
+          <h2 class="text-capitalize">{{ fossil.name['name-EUen'] }}</h2>
+
+          <blockquote class="fossil__quote">{{ fossil['museum-phrase'] }}</blockquote>
+
+          <p>Price: <strong>{{ fossil.price }}</strong></p>
+          <p v-if="isPartOf">Part of: <strong>{{ fossil['part-of'] | capitalize }}</strong></p>
+
+          <template v-if="isPartOf">
+            <hr>
+
+            <h3>Related Parts</h3>
+
+            <button
+              v-for="part in relatedParts"
+              :key="part['file-name']"
+              class="fossil__related-button"
+              @click="goToRelatedPart(part)"
+            >
+              <img
+                :src="part.image_uri"
+                :alt="part.name['name-EUen']"
+              />
+              {{ part.name['name-EUen'] }}
+            </button>
+          </template>
+        </div>
       </div>
     </template>
   </Modal>
@@ -39,8 +67,22 @@ export default {
   computed: {
     ...mapState(MODULE, {
       fossil: state => state.selectedFossil,
+      fossils: state => state.fossils,
       isOpen: state => state.detailModalOpen,
     }),
+
+    isPartOf () {
+      return !!this.fossil['part-of'];
+    },
+
+    relatedParts () {
+      if (!this.isPartOf) {
+        return [];
+      }
+
+      return this.fossils.filter(fossil => fossil['part-of'] === this.fossil['part-of'] &&
+        fossil['file-name'] !== this.fossil['file-name']);
+    },
   },
 
   methods: {
@@ -53,10 +95,82 @@ export default {
       this.setDetailModalOpen(false);
       this.setSelectedFossil({});
     },
+
+    goToRelatedPart (fossil) {
+      this.setSelectedFossil(fossil);
+    },
   },
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
+  @import 'Core/scss/_abstracts.scss';
 
+  hr {
+    margin: 25px 0;
+  }
+
+  .fossil {
+    display: flex;
+
+    @include breakpoint(medium) {
+      margin: 0 -16px;
+    }
+
+    @include breakpoint(medium, down) {
+      height: calc(100% - 40px);
+      flex-direction: column;
+    }
+
+    &__image,
+    &__information {
+      @include breakpoint(medium) {
+        flex: 0 0 50%;
+        padding: 0 16px;
+      }
+    }
+
+    &__image {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      @include breakpoint(medium) {
+        flex: 0 0 300px;
+      }
+    }
+
+    &__information {
+      @include breakpoint(medium) {
+        flex: 1 0 0;
+      }
+    }
+
+    &__quote {
+      margin: 0 0 30px 0;
+      padding-left: 40px;
+      border-left: 5px solid white;
+
+      &::before,
+      &::after {
+        content: '"';
+        position: relative;
+      }
+    }
+
+    &__related-button {
+      @extend %button-reset;
+      padding: 15px;
+      margin-right: 20px;
+      border: 1px solid black;
+      background-color: #27273e;
+      color: white;
+      text-transform: capitalize;
+
+      img {
+        display: block;
+        margin-bottom: 10px;
+      }
+    }
+  }
 </style>

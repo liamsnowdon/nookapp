@@ -125,6 +125,10 @@ export default {
     text-align: center;
   }
 
+  .text-capitalize {
+    text-transform: capitalize;
+  }
+
   .list-reset {
     @extend %list-reset;
   }
