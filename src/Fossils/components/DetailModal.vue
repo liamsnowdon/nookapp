@@ -50,18 +50,12 @@
 
             <h3>Related Parts</h3>
 
-            <button
+            <PartButton
               v-for="part in relatedParts"
               :key="part['file-name']"
-              class="fossil__related-button"
+              :part="part"
               @click="goToRelatedPart(part)"
-            >
-              <img
-                :src="part.image_uri"
-                :alt="part.name['name-EUen']"
-              />
-              {{ part.name['name-EUen'] }}
-            </button>
+            />
           </template>
         </div>
       </div>
@@ -73,6 +67,7 @@
 import { mapState, mapGetters, mapMutations } from 'vuex';
 import { MODULE, GETTERS, MUTATIONS } from 'Fossils/constants/vuex';
 import Modal from 'Core/components/Modal.vue';
+import PartButton from 'Fossils/components/PartButton.vue';
 
 export default {
   name: 'DetailModal',
@@ -85,6 +80,7 @@ export default {
 
   components: {
     Modal,
+    PartButton,
   },
 
   computed: {
@@ -200,21 +196,6 @@ export default {
       &::after {
         content: '"';
         position: relative;
-      }
-    }
-
-    &__related-button {
-      @extend %button-reset;
-      padding: 15px;
-      margin-right: 20px;
-      border: 1px solid black;
-      background-color: #27273e;
-      color: white;
-      text-transform: capitalize;
-
-      img {
-        display: block;
-        margin-bottom: 10px;
       }
     }
   }
