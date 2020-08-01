@@ -56,6 +56,10 @@ export default {
   .navigation {
     background-color: white;
 
+    @include breakpoint(medium) {
+      padding-top: 30px;
+    }
+
     &__content {
       display: flex;
       align-items: center;
@@ -110,6 +114,7 @@ export default {
 
       @include breakpoint(medium, down) {
         border-bottom: 1px solid var(--brown-border);
+        border-top: 1px solid var(--brown-border);
       }
     }
 

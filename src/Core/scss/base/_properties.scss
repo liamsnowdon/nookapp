@@ -12,7 +12,7 @@ html {
   --body-background-color: white;
 
   // Components
-  --navigation-background-color: transparent;
+  --navigation-background-color: var(--body-background-color);
   --navigation-text-color: white;
 
   --modal-background-color: var(--brown-light);
@@ -38,12 +38,13 @@ html {
 .page {
   &-index {
     --body-background-color: #252525;
+    --navigation-background-color: var(--body-background-color);
   }
 
   &-critterpedia {
     --body-background-color: #f0e6b8;
 
-    --navigation-background-color: white;
+    --navigation-background-color: var(--body-background-color);
     --navigation-text-color: var(--global-text-color);
     --footer-text-color: var(--global-text-color);
     --spinner-color: var(--brown-darkest);
@@ -51,6 +52,7 @@ html {
 
   &-fossils {
     --body-background-color: #27273e;
+    --navigation-background-color: var(--body-background-color);
 
     --modal-background-color: #4c4c65;
     --modal-text-color: white;

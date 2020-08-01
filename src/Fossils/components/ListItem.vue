@@ -84,7 +84,7 @@ export default {
     ...mapMutations(MODULE, [
       MUTATIONS.SET_SELECTED_FOSSIL,
       MUTATIONS.SET_DETAIL_MODAL_OPEN,
-      MUTATIONS.SET_DONATED_FOSSIL_STATUS
+      MUTATIONS.SET_DONATED_FOSSIL_STATUS,
     ]),
 
     onClick () {

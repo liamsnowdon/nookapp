@@ -35,9 +35,19 @@
           <i class="fa fa-cog" />
         </button>
       </li>
+
+      <li class="navigation__item navigation__item--mobile">
+        <button class="navigation__button" @click="toggleMobileNav">
+          <i class="fa fa-bars" />
+        </button>
+      </li>
     </ul>
 
     <SettingsModal />
+    <MobileNavigation
+      :is-open="mobileNavOpen"
+      @close="mobileNavOpen = false"
+    />
   </nav>
 </template>
 
@@ -45,12 +55,26 @@
 import { mapMutations } from 'vuex';
 import { MODULE, MUTATIONS } from 'Core/constants/vuex';
 import SettingsModal from 'Core/components/SettingsModal.vue';
+import MobileNavigation from 'Core/components/MobileNavigation.vue';
 
 export default {
   name: 'Navigation',
 
+  data () {
+    return {
+      mobileNavOpen: false,
+    };
+  },
+
   components: {
     SettingsModal,
+    MobileNavigation,
+  },
+
+  watch: {
+    $route () {
+      this.mobileNavOpen = false;
+    },
   },
 
   methods: {
@@ -61,12 +85,18 @@ export default {
     openSettingsModal () {
       this.setSettingsModalOpen(true);
     },
+
+    toggleMobileNav () {
+      this.mobileNavOpen = !this.mobileNavOpen;
+    },
   },
 };
 </script>
 
 <style lang="scss" scoped>
   .navigation {
+    $block: &;
+
     display: flex;
     align-items: center;
     padding: 20px;
@@ -74,7 +104,7 @@ export default {
 
     &__home {
       padding-right: 20px;
-      border-right: 2px solid white;
+      border-right: 2px solid var(--navigation-text-color);
       margin-right: 20px;
     }
 
@@ -94,17 +124,29 @@ export default {
       @extend %list-reset;
 
       &--left {
-
+        @include breakpoint(medium, down) {
+          display: none;
+        }
       }
 
       &--right {
         margin-left: auto;
+
+        #{$block}__item {
+          margin-left: 20px;
+        }
       }
     }
 
     &__item {
       display: flex;
       align-items: center;
+
+      &--mobile {
+        @include breakpoint(medium) {
+          display: none;
+        }
+      }
     }
 
     &__link {

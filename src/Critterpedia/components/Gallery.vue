@@ -3,7 +3,6 @@
     <div class="gallery__mobile-buttons">
       <button class="gallery__mobile-button" @click="openFiltersSlider">Sort/Filters</button>
       <button class="gallery__mobile-button" @click="openQuickAddModal">Quick Add</button>
-      <button class="gallery__mobile-button" @click="openSettingsModal">Settings</button>
     </div>
 
     <div
@@ -213,7 +212,6 @@ export default {
       MUTATIONS.SET_SELECTED_BUG,
       MUTATIONS.SET_SELECTED_SEA_CREATURE,
       MUTATIONS.SET_SELECTED_FISH,
-      MUTATIONS.SET_SETTINGS_MODAL_OPEN,
       MUTATIONS.SET_QUICK_ADD_MODAL_OPEN,
       MUTATIONS.SET_DETAIL_MODAL_OPEN,
     ]),
@@ -262,10 +260,6 @@ export default {
 
     openQuickAddModal () {
       this.setQuickAddModalOpen(true);
-    },
-
-    openSettingsModal () {
-      this.setSettingsModalOpen(true);
     },
 
     monthsStringToArray (critter, hemisphere) {
