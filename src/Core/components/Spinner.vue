@@ -15,8 +15,8 @@
       height: 64px;
       margin: 8px;
       border-radius: 50%;
-      border: 6px solid black;
-      border-color: black transparent black transparent;
+      border: 6px solid var(--spinner-color);
+      border-color: var(--spinner-color) transparent var(--spinner-color) transparent;
       animation: spin 1.2s linear infinite;
     }
   }

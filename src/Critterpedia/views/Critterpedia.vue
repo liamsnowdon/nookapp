@@ -2,9 +2,8 @@
   <div>
     <Navigation />
     <QuickAddModal />
-    <div class="wrapper">
-      <RouterView />
-    </div>
+
+    <RouterView />
   </div>
 </template>
 
@@ -29,11 +28,11 @@ export default {
   },
 
   mounted () {
-    document.querySelector('body').style.backgroundColor = '#f0e6b8';
+    document.querySelector('body').classList.add('page-critterpedia');
   },
 
   destroyed () {
-    document.querySelector('body').style.backgroundColor = '';
+    document.querySelector('body').classList.remove('page-critterpedia');
   },
 
   computed: {
@@ -87,19 +86,3 @@ export default {
   },
 };
 </script>
-
-<style lang="scss" scoped>
-  // todo v-deep styles for per page changes should be moved to CSS Custom Properties
-  ::v-deep {
-    .wrapper {
-      background-color: $brown-medium;
-    }
-
-    .spinner {
-      &::after {
-        border: 6px solid $brown-darkest;
-        border-color: $brown-darkest transparent $brown-darkest transparent;
-      }
-    }
-  }
-</style>

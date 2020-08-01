@@ -60,7 +60,7 @@ export default {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      max-width: $global-width;
+      max-width: var(--global-width);
       margin: 0 auto;
     }
 
@@ -109,7 +109,7 @@ export default {
       }
 
       @include breakpoint(medium, down) {
-        border-bottom: 1px solid $brown-border;
+        border-bottom: 1px solid var(--brown-border);
       }
     }
 
@@ -118,14 +118,14 @@ export default {
       height: 100%;
       width: 100%;
       font-weight: bold;
-      background: center no-repeat $brown-dark;
+      background: center no-repeat var(--brown-dark);
 
       @include breakpoint(medium) {
         border-radius: 20px 20px 0 0;
       }
 
       &.is-active {
-        background-color: $brown-medium;
+        background-color: var(--brown-medium);
       }
 
       &--fish {

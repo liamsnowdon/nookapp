@@ -37,11 +37,11 @@ export default {
   },
 
   mounted () {
-    document.querySelector('body').style.backgroundColor = '#27273e';
+    document.querySelector('body').classList.add('page-fossils');
   },
 
   destroyed () {
-    document.querySelector('body').style.backgroundColor = '';
+    document.querySelector('body').classList.remove('page-fossils');
   },
 
   computed: {
@@ -89,56 +89,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  // todo v-deep styles for per page changes should be moved to CSS Custom Properties
-  ::v-deep {
-    .modal {
-      background-color: #4c4c65;
-      color: white;
-
-      &__header {
-        background-color: #1b1b2f;
-      }
-
-      .cross {
-        &::before,
-        &::after {
-          background-color: white;
-        }
-      }
-    }
-
-    .c-checkbox {
-      &__input {
-        &:checked {
-          + .c-checkbox__label {
-            .c-checkbox__checkbox {
-              border-color: #1b1b2f;
-            }
-          }
-        }
-      }
-
-      &__checkbox {
-        &::before,
-        &::after {
-          background-color: #1b1b2f;
-        }
-      }
-    }
-
-    .spinner {
-      &::after {
-        border: 6px solid white;
-        border-color: white transparent white transparent;
-      }
-    }
-  }
-
   .fossils {
     padding: 0 20px;
 
     &__content {
-      max-width: $global-width;
+      max-width: var(--global-width);
       margin: 0 auto;
     }
 

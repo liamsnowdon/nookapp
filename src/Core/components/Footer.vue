@@ -63,11 +63,12 @@ export default {
   .footer {
     margin: 50px auto 0;
     max-width: 800px;
-    color: white;
+    padding: 0 20px;
+    color: var(--footer-text-color);
     font-size: 14px;
 
     a {
-      color: white;
+      color: var(--footer-text-color);
     }
 
     &__main {
@@ -77,7 +78,7 @@ export default {
 
     &__links {
       flex: 0 1 auto;
-      border-right: 2px solid white;
+      border-right: 2px solid var(--footer-text-color);
       padding-right: 20px;
       margin-right: 20px;
     }
@@ -94,7 +95,7 @@ export default {
     &__social-links {
       margin-top: 10px;
       padding-top: 10px;
-      border-top: 2px solid white;
+      border-top: 2px solid var(--footer-text-color);
     }
 
     &__social-link {

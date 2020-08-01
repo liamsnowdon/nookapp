@@ -25,6 +25,11 @@ export default {
     state.donatedFossils = donatedFossils || [];
   },
 
+  clearDonatedFossils (state) {
+    state.donatedFossils = [];
+    localStorage.removeItem(STORAGE.DONATED_FOSSILS);
+  },
+
   setDonatedFossilStatus (state, payload) {
     const isDonated = payload.isDonated;
     const id = payload.id;

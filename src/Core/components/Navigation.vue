@@ -32,7 +32,7 @@
     <ul class="navigation__items navigation__items--right">
       <li class="navigation__item">
         <button class="navigation__button" @click="openSettingsModal">
-          <img :src="require('Core/assets/cog.svg')" alt="Settings" />
+          <i class="fa fa-cog" />
         </button>
       </li>
     </ul>
@@ -70,6 +70,7 @@ export default {
     display: flex;
     align-items: center;
     padding: 20px;
+    background-color: var(--navigation-background-color);
 
     &__home {
       padding-right: 20px;
@@ -80,7 +81,7 @@ export default {
     &__home-link {
       display: block;
       font-size: 22px;
-      color: white;
+      color: var(--navigation-text-color);
       text-decoration: none;
 
       &:hover {
@@ -109,7 +110,7 @@ export default {
     &__link {
       display: block;
       padding: 10px;
-      color: white;
+      color: var(--navigation-text-color);
       height: 100%;
       line-height: 33px;
       text-decoration: none;
@@ -126,8 +127,9 @@ export default {
         opacity: 0.7;
       }
 
-      img {
-        height: 40px;
+      .fa {
+        font-size: 40px;
+        color: var(--navigation-text-color);
       }
     }
   }

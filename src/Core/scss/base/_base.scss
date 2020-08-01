@@ -9,6 +9,8 @@ body {
   padding: 0;
   font-family: 'Montserrat', Arial, sans-serif;
   line-height: 1.5;
+  background-color: var(--body-background-color);
+  color: var(--global-text-color);
   -webkit-font-smoothing: subpixel-antialiased;
 }
 
@@ -45,7 +47,7 @@ hr {
     content: ' ';
     height: 33px;
     width: 4px;
-    background-color: #333;
+    background-color: var(--cross-color);
   }
 
   &::before {

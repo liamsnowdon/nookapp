@@ -190,7 +190,6 @@
 <script>
 import { mapState, mapMutations } from 'vuex';
 import Multiselect from 'vue-multiselect';
-import 'vue-multiselect/dist/vue-multiselect.min.css';
 import { CRITTER_TYPES } from 'Critterpedia/constants/critter-types';
 import { MONTHS } from 'Core/constants/date';
 import { SETTINGS } from 'Core/constants/settings';
@@ -495,130 +494,6 @@ export default {
     &__filters-clear-button {
       @extend %button-reset;
       text-decoration: underline;
-    }
-  }
-
-  .c-checkbox {
-    display: flex;
-    justify-content: flex-end;
-
-    &__input {
-      opacity: 0;
-      position: absolute;
-
-      &:checked {
-        + .c-checkbox__label {
-          .c-checkbox__checkbox {
-            border-color: $brown-darkest;
-
-            &:before,
-            &:after {
-              opacity: 1;
-            }
-          }
-        }
-      }
-    }
-
-    &__label {
-      display: inline-flex;
-      align-items: center;
-      padding: 0;
-      font-weight: 600;
-      cursor: pointer;
-      user-select: none;
-
-      &:hover {
-        .c-checkbox__checkbox {
-          border-color: $brown-darkest;
-        }
-      }
-    }
-
-    &__checkbox {
-      position: relative;
-      display: inline-block;
-      height: 40px;
-      width: 40px;
-      margin-right: 10px;
-      border: 2px solid #a6a6a6;
-      border-radius: 5px;
-      background: white;
-
-      &::before,
-      &::after {
-        opacity: 0;
-        position: absolute;
-        width: 5px;
-        content: '';
-        background-color: $brown-darkest;
-      }
-
-      &::before {
-        top: 17px;
-        left: 15px;
-        height: 15px;
-        transform: rotate(-45deg) translate(-50%, -50%);
-      }
-
-      &::after {
-        top: 15px;
-        left: 12px;
-        height: 25px;
-        transform: rotate(45deg) translate(-50%, -50%);
-      }
-    }
-  }
-
-  // Multiselect
-
-  .multiselect__tags {
-    cursor: pointer;
-    border: 1px solid #a6a6a6;
-
-    @include breakpoint(medium) {
-      height: 40px;
-      overflow-y: auto;
-    }
-  }
-
-  .multiselect__placeholder {
-    display: none;
-  }
-
-  .multiselect__tag {
-    background: $brown-darkest;
-  }
-
-  .multiselect__content-wrapper {
-    z-index: 100000;
-  }
-
-  .multiselect__option {
-    color: black;
-
-    &--highlight {
-      background: $brown-darkest;
-      color: white;
-    }
-
-    &--selected {
-      background: $brown-darkest;
-      color: white;
-      &.multiselect__option--highlight {
-        background: $brown-darkest;
-        color: white;
-      }
-    }
-  }
-
-  .multiselect__tag-icon {
-    &:hover {
-      background: $brown-darkest;
-    }
-
-    &::after {
-      color: white;
     }
   }
 </style>

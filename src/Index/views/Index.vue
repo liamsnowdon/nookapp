@@ -48,11 +48,11 @@ export default {
   },
 
   mounted () {
-    document.querySelector('body').style.backgroundColor = '#252525';
+    document.querySelector('body').classList.add('page-index');
   },
 
   destroyed () {
-    document.querySelector('body').style.backgroundColor = '';
+    document.querySelector('body').classList.remove('page-index');
   },
 };
 </script>

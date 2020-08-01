@@ -81,7 +81,8 @@ export default {
   .modal {
     width: 100%;
     max-height: 100vh;
-    background-color: $brown-light;
+    background-color: var(--modal-background-color);
+    color: var(--modal-text-color);
     z-index: 1;
 
     @include breakpoint(medium) {
@@ -105,7 +106,7 @@ export default {
       align-items: center;
       height: 70px;
       padding: 0 20px;
-      background-color: $brown-dark;
+      background-color: var(--modal-header-background-color);
 
       @include breakpoint(medium) {
         border-radius: 20px 20px 0 0;

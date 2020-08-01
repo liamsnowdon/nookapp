@@ -537,7 +537,7 @@ export default {
   .gallery {
     $block: &;
 
-    max-width: $global-width;
+    max-width: var(--global-width);
     margin: 0 auto;
     padding: 20px;
 
@@ -575,7 +575,7 @@ export default {
         bottom: 0;
         width: calc(100% - 60px);
         @include z-index(slider);
-        background-color: $brown-light;
+        background-color: var(--brown-light);
         transition: left 0.5s ease-in-out;
 
         &.is-active {
@@ -615,7 +615,7 @@ export default {
       align-items: center;
       justify-content: space-between;
       padding: 20px;
-      background-color: $brown-dark;
+      background-color: var(--brown-dark);
 
       h2 {
         margin: 0;
@@ -651,7 +651,7 @@ export default {
       margin: 10px;
       border: 1px solid black;
       border-radius: 50%;
-      background: center / contain no-repeat $brown-light;
+      background: center / contain no-repeat var(--brown-light);
       appearance: none;
       overflow: hidden;
 

@@ -1,12 +1,10 @@
 <template>
   <div id="app">
-    <div class="wrapper">
-      <Navigation />
+    <Navigation />
 
-      <RouterView />
+    <RouterView />
 
-      <Footer />
-    </div>
+    <Footer />
   </div>
 </template>
 
@@ -19,6 +17,7 @@ import Footer from 'Core/components/Footer.vue';
 import { STORAGE } from 'Core/constants/storage';
 
 // App styles
+import 'vue-multiselect/dist/vue-multiselect.min.css';
 import 'Core/scss/app.scss';
 
 export default {

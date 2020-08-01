@@ -26,8 +26,8 @@ export default {
     padding: 11px 20px;
     border-radius: 5px;
     border: 0;
-    background-color: $brown-medium;
-    color: black;
+    background-color: var(--button-background-color);
+    color: var(--button-text-color);
     -webkit-appearance: none;
     font-weight: 600;
     font-size: inherit;
@@ -38,16 +38,16 @@ export default {
 
     &:hover {
       text-decoration: none;
-      background-color: $brown-dark;
+      background-color: var(--button-hover-background-color);
 
       // Mobile hover state reset
       @media(hover: none) {
-        background-color: $brown-medium;
+        background-color: var(--button-background-color);
       }
     }
 
     &:focus {
-      color: black;
+      color: var(--button-text-color);
       text-decoration: none;
       outline: none;
     }

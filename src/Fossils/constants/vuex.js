@@ -2,6 +2,7 @@ export const MODULE = 'fossils';
 
 export const GETTERS = {
   GET_DONATED_FOSSIL: 'getDonatedFossil',
+  HAS_DONATED_FOSSILS: 'hasDonatedFossils',
 };
 
 export const MUTATIONS = {
@@ -15,6 +16,8 @@ export const MUTATIONS = {
 
   SET_DONATED_FOSSILS: 'setDonatedFossils',
   SET_DONATED_FOSSIL_STATUS: 'setDonatedFossilStatus',
+
+  CLEAR_DONATED_FOSSILS: 'clearDonatedFossils',
 };
 
 export const ACTIONS = {

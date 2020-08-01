@@ -449,7 +449,7 @@ export default {
       margin-right: 10px;
 
       &.is-active {
-        background-color: $brown-dark;
+        background-color: var(--brown-dark);
       }
 
       &.is-current {
@@ -459,7 +459,7 @@ export default {
 
     &__table-header {
       display: flex;
-      background-color: $brown-dark;
+      background-color: var(--brown-dark);
     }
 
     &__table-row {
@@ -491,7 +491,7 @@ export default {
       &:checked {
         + .detail__donated-checkbox-label {
           .detail__donated-checkbox-checkbox {
-            border-color: $brown-darkest;
+            border-color: var(--brown-darkest);
             &:before,
             &:after {
               opacity: 1;
@@ -511,7 +511,7 @@ export default {
 
       &:hover {
         .detail__donated-checkbox-checkbox {
-          border-color: $brown-darkest;
+          border-color: var(--brown-darkest);
         }
       }
     }
@@ -532,7 +532,7 @@ export default {
         position: absolute;
         width: 5px;
         content: '';
-        background-color: $brown-darkest;
+        background-color: var(--brown-darkest);
       }
 
       &::before {
@@ -605,7 +605,7 @@ export default {
       border: 2px dashed;
 
       &:not(.is-inactive) {
-        background-color: $brown-dark;
+        background-color: var(--brown-dark);
       }
 
       &.is-current {
