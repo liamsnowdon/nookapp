@@ -14,7 +14,7 @@
   }
 
   &__tag {
-    background: var(--multtiselect-highlight-color);
+    background: var(--multiselect-highlight-color);
   }
 
   &__content-wrapper {
@@ -25,15 +25,15 @@
     color: black;
 
     &--highlight {
-      background: var(--multtiselect-highlight-color);
+      background: var(--multiselect-highlight-color);
       color: white;
     }
 
     &--selected {
-      background: var(--multtiselect-highlight-color);
+      background: var(--multiselect-highlight-color);
       color: white;
       &.multiselect__option--highlight {
-        background: var(--multtiselect-highlight-color);
+        background: var(--multiselect-highlight-color);
         color: white;
       }
     }
@@ -41,7 +41,7 @@
 
   &__tag-icon {
     &:hover {
-      background: var(--multtiselect-highlight-color);
+      background: var(--multiselect-highlight-color);
     }
 
     &::after {

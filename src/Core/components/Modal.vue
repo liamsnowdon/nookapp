@@ -118,6 +118,8 @@ export default {
     }
 
     &__content {
+      position: relative;
+      z-index: 1;
       padding: 20px;
       max-height: calc(100vh - 70px);
       overflow-y: auto;

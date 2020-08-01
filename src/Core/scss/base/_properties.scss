@@ -31,14 +31,26 @@ html {
 
   --footer-text-color: white;
 
-  --multtiselect-highlight-color: var(--brown-darkest);
+  --multiselect-highlight-color: var(--brown-darkest);
 }
 
 // Page property cascades
 .page {
   &-index {
     --body-background-color: #252525;
+
     --navigation-background-color: var(--body-background-color);
+    --modal-background-color: var(--body-background-color);
+    --modal-header-background-color: #131212;
+    --modal-text-color: white;
+
+    --button-background-color: #191919;
+    --button-hover-background-color: #131212;
+    --button-text-color: white;
+
+    --cross-color: white;
+
+    --multiselect-highlight-color: #131212;
   }
 
   &-critterpedia {
@@ -68,6 +80,6 @@ html {
 
     --spinner-color: white;
 
-    --multtiselect-highlight-color: #1b1b2f;
+    --multiselect-highlight-color: #1b1b2f;
   }
 }

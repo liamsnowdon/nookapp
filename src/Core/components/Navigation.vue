@@ -74,6 +74,7 @@ export default {
   watch: {
     $route () {
       this.mobileNavOpen = false;
+      window.scrollTo(0, 0);
     },
   },
 
