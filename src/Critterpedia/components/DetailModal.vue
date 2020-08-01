@@ -1,10 +1,10 @@
 <template>
-  <Modal
-    ref="modal"
-    :is-open="isOpen"
-    size="large"
-    @close="onClose"
-  >
+    <Modal
+      ref="modal"
+      :is-open="isOpen"
+      size="large"
+      @close="onClose"
+    >
     <template #title>
       {{ critter.name['name-EUen'] | capitalize }}
     </template>
@@ -398,8 +398,6 @@ export default {
 </script>
 
 <style lang="scss">
-  @import 'Core/scss/_abstracts.scss';
-
   .detail {
     display: flex;
     text-align: center;
@@ -429,14 +427,6 @@ export default {
 
     &__image-desc {
       flex: 1 0 0;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-
-      @include breakpoint(medium) {
-        height: calc(100% - 40px);
-      }
     }
 
     &__month-key-cont {
@@ -459,7 +449,7 @@ export default {
       margin-right: 10px;
 
       &.is-active {
-        background-color: $brown-dark;
+        background-color: var(--brown-dark);
       }
 
       &.is-current {
@@ -469,7 +459,7 @@ export default {
 
     &__table-header {
       display: flex;
-      background-color: $brown-dark;
+      background-color: var(--brown-dark);
     }
 
     &__table-row {
@@ -501,7 +491,7 @@ export default {
       &:checked {
         + .detail__donated-checkbox-label {
           .detail__donated-checkbox-checkbox {
-            border-color: $brown-darkest;
+            border-color: var(--brown-darkest);
             &:before,
             &:after {
               opacity: 1;
@@ -521,7 +511,7 @@ export default {
 
       &:hover {
         .detail__donated-checkbox-checkbox {
-          border-color: $brown-darkest;
+          border-color: var(--brown-darkest);
         }
       }
     }
@@ -542,7 +532,7 @@ export default {
         position: absolute;
         width: 5px;
         content: '';
-        background-color: $brown-darkest;
+        background-color: var(--brown-darkest);
       }
 
       &::before {
@@ -615,7 +605,7 @@ export default {
       border: 2px dashed;
 
       &:not(.is-inactive) {
-        background-color: $brown-dark;
+        background-color: var(--brown-dark);
       }
 
       &.is-current {

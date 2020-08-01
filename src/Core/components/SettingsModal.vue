@@ -13,12 +13,19 @@
         <div class="modal__section">
           <h4>Preferred Hemisphere</h4>
           <p>
-            With a preferred hemisphere selected, there will be only one filter called "Months" instead of having one
-            for northern hemisphere and one for southern hemisphere.
+            With a preferred hemisphere selected, your experience across the NookApp will be improved, focusing more
+            on your preference:
           </p>
+
+          <h6>Critterpedia</h6>
+          <ol>
+            <li>The hemisphere months filter will be reduced down to one.</li>
+            <li>
+              The "Available now" filter will show all critters available in your preferred hemisphere only.
+              If no preference is selected, it will show critters available now in either of them.
+            </li>
+          </ol>
           <p>
-            The "Available now" filter will show all critters available in your selected hemisphere only. If none is
-            selected, it will show critters available now in either of them.
           </p>
 
           <multiselect
@@ -35,10 +42,10 @@
         </div>
 
         <div class="modal__section">
-          <h4>Donated Critters</h4>
+          <h4>Museum Donations</h4>
           <p>
-            When you set a critter as "donated" using the checkbox, it will be saved on your device so when you come back
-            later, it will remember. You can reset this here.
+            When you set something as "donated" to the museum using the checkbox, it will be saved on your device so
+            when you come back later, it will remember. You can reset this here.
           </p>
 
           <div class="buttons">
@@ -62,6 +69,13 @@
             >
               Reset donated sea creatures
             </Button>
+
+            <Button
+              @click="resetDonatedFossils"
+              :disabled="!hasDonatedFossils"
+            >
+              Reset fossils
+            </Button>
           </div>
         </div>
       </template>
@@ -76,15 +90,24 @@
 <script>
 import { mapState, mapGetters, mapMutations } from 'vuex';
 import Multiselect from 'vue-multiselect';
-import { MODULE as CORE_MODULE } from 'Core/constants/vuex';
+import { SETTINGS } from 'Core/constants/settings';
+import Button from 'Core/components/Button.vue';
+import Modal from 'Core/components/Modal.vue';
+
+import {
+  MODULE as CORE_MODULE,
+  MUTATIONS as CORE_MUTATIONS,
+} from 'Core/constants/vuex';
 import {
   MODULE as CRITTERPEDIA_MODULE,
   MUTATIONS as CRITTERPEDIA_MUTATIONS,
   GETTERS as CRITTERPEDIA_GETTERS,
 } from 'Critterpedia/constants/vuex';
-import { SETTINGS } from 'Critterpedia/constants/settings';
-import Button from 'Core/components/Button.vue';
-import Modal from 'Core/components/Modal.vue';
+import {
+  MODULE as FOSSILS_MODULE,
+  MUTATIONS as FOSSILS_MUTATIONS,
+  GETTERS as FOSSILS_GETTERS,
+} from 'Fossils/constants/vuex';
 
 export default {
   name: 'SettingsModal',
@@ -118,9 +141,6 @@ export default {
   computed: {
     ...mapState(CORE_MODULE, {
       isStorageAvailable: state => state.isStorageAvailable,
-    }),
-
-    ...mapState(CRITTERPEDIA_MODULE, {
       isOpen: state => state.settingsModalOpen,
       settings: state => state.settings,
     }),
@@ -130,18 +150,29 @@ export default {
       CRITTERPEDIA_GETTERS.HAS_DONATED_BUGS,
       CRITTERPEDIA_GETTERS.HAS_DONATED_SEA_CREATURES,
     ]),
+
+    ...mapGetters(FOSSILS_MODULE, [
+      FOSSILS_GETTERS.HAS_DONATED_FOSSILS,
+    ]),
   },
 
   methods: {
+    ...mapMutations(CORE_MODULE, [
+      CORE_MUTATIONS.SET_SETTINGS_MODAL_OPEN,
+      CORE_MUTATIONS.SET_SETTINGS_HEMISPHERE,
+    ]),
+
     ...mapMutations(CRITTERPEDIA_MODULE, [
       CRITTERPEDIA_MUTATIONS.SET_QUICK_ADD_MODAL_OPEN,
       CRITTERPEDIA_MUTATIONS.CLEAR_DONATED_BUGS,
       CRITTERPEDIA_MUTATIONS.CLEAR_DONATED_FISH,
       CRITTERPEDIA_MUTATIONS.CLEAR_DONATED_SEA_CREATURES,
-      CRITTERPEDIA_MUTATIONS.SET_SETTINGS_MODAL_OPEN,
-      CRITTERPEDIA_MUTATIONS.SET_SETTINGS_HEMISPHERE,
       CRITTERPEDIA_MUTATIONS.SET_FILTERS_SOUTHERN_MONTHS_AVAILABLE,
       CRITTERPEDIA_MUTATIONS.SET_FILTERS_NORTHERN_MONTHS_AVAILABLE,
+    ]),
+
+    ...mapMutations(FOSSILS_MODULE, [
+      FOSSILS_MUTATIONS.CLEAR_DONATED_FOSSILS,
     ]),
 
     onClose () {
@@ -178,6 +209,16 @@ export default {
       this.clearDonatedSeaCreatures();
     },
 
+    resetDonatedFossils () {
+      const confirmation = confirm('Are you sure you want to reset your fossil progress? This cannot be undone.');
+
+      if (!confirmation) {
+        return;
+      }
+
+      this.clearDonatedFossils();
+    },
+
     onHemisphereChange () {
       this.setSettingsHemisphere(this.hemisphere ? this.hemisphere.value : '');
 
@@ -192,8 +233,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  @import 'Core/scss/_abstracts.scss';
-
   .buttons {
     @include breakpoint(medium, down) {
       button {
@@ -204,9 +243,7 @@ export default {
 
     @include breakpoint(medium) {
       button {
-        &:not(:last-child) {
-          margin-right: 10px;
-        }
+        margin: 0 15px 15px 0;
       }
     }
   }

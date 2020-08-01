@@ -1,0 +1,85 @@
+html {
+  --brown-light: #fffcdd;
+  --brown-medium: #f0e6b8;
+  --brown-dark: #d8cfa6;
+  --brown-darkest: #583e27;
+  --brown-border: #c1b995;
+
+  // Globals
+  --global-width: 1440px;
+  --global-text-color: #444;
+
+  --body-background-color: white;
+
+  // Components
+  --navigation-background-color: var(--body-background-color);
+  --navigation-text-color: white;
+
+  --modal-background-color: var(--brown-light);
+  --modal-text-color: var(--global-text-color);
+  --modal-header-background-color: var(--brown-dark);
+
+  --button-background-color: var(--brown-medium);
+  --button-hover-background-color: var(--brown-dark);
+  --button-text-color: black;
+
+  --checkbox-active-color: var(--brown-darkest);
+
+  --cross-color: #333;
+
+  --spinner-color: black;
+
+  --footer-text-color: white;
+
+  --multiselect-highlight-color: var(--brown-darkest);
+}
+
+// Page property cascades
+.page {
+  &-index {
+    --body-background-color: #252525;
+
+    --navigation-background-color: var(--body-background-color);
+    --modal-background-color: var(--body-background-color);
+    --modal-header-background-color: #131212;
+    --modal-text-color: white;
+
+    --button-background-color: #191919;
+    --button-hover-background-color: #131212;
+    --button-text-color: white;
+
+    --cross-color: white;
+
+    --multiselect-highlight-color: #131212;
+  }
+
+  &-critterpedia {
+    --body-background-color: #f0e6b8;
+
+    --navigation-background-color: var(--body-background-color);
+    --navigation-text-color: var(--global-text-color);
+    --footer-text-color: var(--global-text-color);
+    --spinner-color: var(--brown-darkest);
+  }
+
+  &-fossils {
+    --body-background-color: #27273e;
+    --navigation-background-color: var(--body-background-color);
+
+    --modal-background-color: #4c4c65;
+    --modal-text-color: white;
+    --modal-header-background-color: #1b1b2f;
+
+    --button-background-color: #27273e;
+    --button-hover-background-color: #1b1b2f;
+    --button-text-color: white;
+
+    --checkbox-active-color: #1b1b2f;
+
+    --cross-color: white;
+
+    --spinner-color: white;
+
+    --multiselect-highlight-color: #1b1b2f;
+  }
+}

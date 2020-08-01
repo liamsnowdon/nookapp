@@ -1,0 +1,20 @@
+// Table of Contents
+//
+// 1. Margin
+// 2. Text
+
+.mb-0 {
+  margin-bottom: 0 !important;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-capitalize {
+  text-transform: capitalize;
+}
+
+.list-reset {
+  @extend %list-reset;
+}

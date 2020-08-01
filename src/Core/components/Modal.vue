@@ -47,8 +47,6 @@ export default {
 </script>
 
 <style lang="scss">
-  @import 'Core/scss/_abstracts.scss';
-
   .fade-enter-active,
   .fade-leave-active {
     transition: opacity .5s;
@@ -83,12 +81,13 @@ export default {
   .modal {
     width: 100%;
     max-height: 100vh;
-    background-color: $brown-light;
-    border-radius: 20px;
+    background-color: var(--modal-background-color);
+    color: var(--modal-text-color);
     z-index: 1;
 
     @include breakpoint(medium) {
       width: 50%;
+      border-radius: 20px;
     }
 
     @include breakpoint(medium, down) {
@@ -107,8 +106,11 @@ export default {
       align-items: center;
       height: 70px;
       padding: 0 20px;
-      border-radius: 20px 20px 0 0;
-      background-color: $brown-dark;
+      background-color: var(--modal-header-background-color);
+
+      @include breakpoint(medium) {
+        border-radius: 20px 20px 0 0;
+      }
 
       h3 {
         margin: 0;
@@ -116,6 +118,8 @@ export default {
     }
 
     &__content {
+      position: relative;
+      z-index: 1;
       padding: 20px;
       max-height: calc(100vh - 70px);
       overflow-y: auto;

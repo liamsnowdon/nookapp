@@ -3,8 +3,6 @@
 </template>
 
 <style lang="scss">
-  @import 'Core/scss/_abstracts.scss';
-
   .spinner {
     display: inline-block;
     width: 80px;
@@ -17,8 +15,8 @@
       height: 64px;
       margin: 8px;
       border-radius: 50%;
-      border: 6px solid $brown-darkest;
-      border-color: $brown-darkest transparent $brown-darkest transparent;
+      border: 6px solid var(--spinner-color);
+      border-color: var(--spinner-color) transparent var(--spinner-color) transparent;
       animation: spin 1.2s linear infinite;
     }
   }

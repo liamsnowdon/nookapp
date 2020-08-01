@@ -15,9 +15,6 @@ export const MUTATIONS = {
   SET_ERROR_LOADING_BUGS: 'setErrorLoadingBugs',
   SET_ERROR_LOADING_SEA_CREATURES: 'setErrorLoadingSeaCreatures',
 
-  SET_SETTINGS_MODAL_OPEN: 'setSettingsModalOpen',
-  SET_SETTINGS_HEMISPHERE: 'setSettingsHemisphere',
-
   SET_QUICK_ADD_MODAL_OPEN: 'setQuickAddModalOpen',
   SET_DETAIL_MODAL_OPEN: 'setDetailModalOpen',
 
