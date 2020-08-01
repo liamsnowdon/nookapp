@@ -1,6 +1,27 @@
 .c-checkbox {
+  $block: &;
+
   display: flex;
   justify-content: flex-end;
+
+  &--small {
+    #{$block}__checkbox {
+      height: 30px;
+      width: 30px;
+
+      &::before {
+        top: 14px;
+        left: 10px;
+        height: 10px;
+      }
+
+      &::after {
+        top: 12px;
+        left: 8px;
+        height: 18px;
+      }
+    }
+  }
 
   &__input {
     opacity: 0;
@@ -30,7 +51,7 @@
 
     &:hover {
       .c-checkbox__checkbox {
-        border-color: var(--brown-darkest);
+        border-color: var(--checkbox-active-color);
       }
     }
   }
