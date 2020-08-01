@@ -3,4 +3,6 @@ export const ACNHAPI = {
   FISH: '/fish',
   BUGS: '/bugs',
   SEA_CREATURES: '/sea',
+
+  FOSSILS: '/fossils',
 };

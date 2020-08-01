@@ -19,23 +19,12 @@ export default {
     state.setErrorLoadingSeaCreatures = error;
   },
 
-  setSettingsModalOpen (state, open) {
-    state.settingsModalOpen = open;
-  },
-
   setQuickAddModalOpen (state, open) {
     state.quickAddModalOpen = open;
   },
 
   setDetailModalOpen (state, open) {
     state.detailModalOpen = open;
-  },
-
-  setSettingsHemisphere (state, hemisphere) {
-    hemisphere = hemisphere || '';
-
-    state.settings.hemisphere = hemisphere;
-    localStorage.setItem(STORAGE.SETTINGS_HEMISPHERE, hemisphere);
   },
 
   setFish (state, fish) {

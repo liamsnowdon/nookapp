@@ -1,8 +1,11 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-import Fish from 'Critterpedia/views/Fish.vue';
-import Bugs from 'Critterpedia/views/Bugs.vue';
-import SeaCreatures from 'Critterpedia/views/SeaCreatures.vue';
+
+import critterpedia from 'Core/router/critterpedia';
+import fossils from 'Core/router/fossils';
+
+import Index from 'Index/views/Index.vue';
+import NotFound from 'Core/views/NotFound.vue';
 
 Vue.use(VueRouter);
 
@@ -10,24 +13,14 @@ const routes = [
   {
     path: '/',
     name: 'Home',
-    redirect: {
-      name: 'Fish',
-    },
+    component: Index,
   },
+  { ...critterpedia },
+  { ...fossils },
   {
-    path: '/fish',
-    name: 'Fish',
-    component: Fish,
-  },
-  {
-    path: '/bugs',
-    name: 'Bugs',
-    component: Bugs,
-  },
-  {
-    path: '/sea-creatures',
-    name: 'Sea Creatures',
-    component: SeaCreatures,
+    path: '*',
+    name: 'Not Found',
+    component: NotFound,
   },
 ];
 

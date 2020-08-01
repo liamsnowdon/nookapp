@@ -5,12 +5,8 @@ export default {
   errorLoadingFish: false,
   errorLoadingBugs: false,
   errorLoadingSeaCreatures: false,
-  settingsModalOpen: false,
   quickAddModalOpen: false,
   detailModalOpen: false,
-  settings: {
-    hemisphere: '',
-  },
   fish: [],
   bugs: [],
   seaCreatures: [],

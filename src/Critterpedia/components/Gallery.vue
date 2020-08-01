@@ -3,7 +3,6 @@
     <div class="gallery__mobile-buttons">
       <button class="gallery__mobile-button" @click="openFiltersSlider">Sort/Filters</button>
       <button class="gallery__mobile-button" @click="openQuickAddModal">Quick Add</button>
-      <button class="gallery__mobile-button" @click="openSettingsModal">Settings</button>
     </div>
 
     <div
@@ -32,7 +31,7 @@
     </template>
 
     <template v-else>
-      <h2 class="gallery__title">{{ title }}</h2>
+      <h1 class="gallery__title">{{ title }}</h1>
 
       <div v-show="filteredCritters.length" class="gallery__grid">
         <button
@@ -63,7 +62,7 @@ import { MONTHS } from 'Core/constants/date';
 import { SORT_OPTIONS } from 'Critterpedia/constants/sort-options';
 import { MODULE, MUTATIONS, GETTERS } from 'Critterpedia/constants/vuex';
 import { MESSAGES } from 'Critterpedia/constants/messages';
-import { SETTINGS } from 'Critterpedia/constants/settings';
+import { SETTINGS } from 'Core/constants/settings';
 import GalleryFilters from 'Critterpedia/components/GalleryFilters.vue';
 import Spinner from 'Core/components/Spinner.vue';
 
@@ -213,7 +212,6 @@ export default {
       MUTATIONS.SET_SELECTED_BUG,
       MUTATIONS.SET_SELECTED_SEA_CREATURE,
       MUTATIONS.SET_SELECTED_FISH,
-      MUTATIONS.SET_SETTINGS_MODAL_OPEN,
       MUTATIONS.SET_QUICK_ADD_MODAL_OPEN,
       MUTATIONS.SET_DETAIL_MODAL_OPEN,
     ]),
@@ -262,10 +260,6 @@ export default {
 
     openQuickAddModal () {
       this.setQuickAddModalOpen(true);
-    },
-
-    openSettingsModal () {
-      this.setSettingsModalOpen(true);
     },
 
     monthsStringToArray (critter, hemisphere) {
@@ -534,12 +528,10 @@ export default {
 </script>
 
 <style lang="scss">
-  @import 'Core/scss/_abstracts.scss';
-
   .gallery {
     $block: &;
 
-    max-width: $global-width;
+    max-width: var(--global-width);
     margin: 0 auto;
     padding: 20px;
 
@@ -577,7 +569,7 @@ export default {
         bottom: 0;
         width: calc(100% - 60px);
         @include z-index(slider);
-        background-color: $brown-light;
+        background-color: var(--brown-light);
         transition: left 0.5s ease-in-out;
 
         &.is-active {
@@ -617,7 +609,7 @@ export default {
       align-items: center;
       justify-content: space-between;
       padding: 20px;
-      background-color: $brown-dark;
+      background-color: var(--brown-dark);
 
       h2 {
         margin: 0;
@@ -653,7 +645,7 @@ export default {
       margin: 10px;
       border: 1px solid black;
       border-radius: 50%;
-      background: center / contain no-repeat $brown-light;
+      background: center / contain no-repeat var(--brown-light);
       appearance: none;
       overflow: hidden;
 

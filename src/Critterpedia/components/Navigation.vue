@@ -5,28 +5,25 @@
         <li class="navigation__list-item">
           <router-link
             class="navigation__link navigation__link--fish"
-            to="/fish"
+            :to="{ name: 'Fish' }"
           />
         </li>
         <li class="navigation__list-item">
           <router-link
             class="navigation__link navigation__link--bugs"
-            to="/bugs"
+            :to="{ name: 'Bugs' }"
           />
         </li>
         <li class="navigation__list-item">
           <router-link
             class="navigation__link navigation__link--sea-creatures"
-            to="/sea-creatures"
+            :to="{ name: 'Sea Creatures' }"
           />
         </li>
       </ul>
       <div class="navigation__buttons">
         <button class="navigation__button" @click="openQuickAddModal">
           Quick Add
-        </button>
-        <button class="navigation__button" @click="openSettingsModal">
-          <img src="../assets/cog.svg" alt="Settings" />
         </button>
       </div>
     </div>
@@ -48,10 +45,6 @@ export default {
       MUTATIONS.SET_QUICK_ADD_MODAL_OPEN,
     ]),
 
-    openSettingsModal () {
-      this.setSettingsModalOpen(true);
-    },
-
     openQuickAddModal () {
       this.setQuickAddModalOpen(true);
     },
@@ -59,17 +52,19 @@ export default {
 };
 </script>
 
-<style lang="scss">
-  @import 'Core/scss/_abstracts.scss';
-
+<style lang="scss" scoped>
   .navigation {
     background-color: white;
+
+    @include breakpoint(medium) {
+      padding-top: 30px;
+    }
 
     &__content {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      max-width: $global-width;
+      max-width: var(--global-width);
       margin: 0 auto;
     }
 
@@ -118,7 +113,8 @@ export default {
       }
 
       @include breakpoint(medium, down) {
-        border-bottom: 1px solid $brown-border;
+        border-bottom: 1px solid var(--brown-border);
+        border-top: 1px solid var(--brown-border);
       }
     }
 
@@ -127,14 +123,14 @@ export default {
       height: 100%;
       width: 100%;
       font-weight: bold;
-      background: center no-repeat $brown-dark;
+      background: center no-repeat var(--brown-dark);
 
       @include breakpoint(medium) {
         border-radius: 20px 20px 0 0;
       }
 
       &.is-active {
-        background-color: $brown-medium;
+        background-color: var(--brown-medium);
       }
 
       &--fish {
