@@ -147,8 +147,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  @import 'Core/scss/_abstracts.scss';
-
   hr {
     margin: 25px 0;
   }

@@ -59,8 +59,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  @import '@/Core/scss/_abstracts.scss';
-
   .list-item {
     @extend %button-reset;
     width: 100%;

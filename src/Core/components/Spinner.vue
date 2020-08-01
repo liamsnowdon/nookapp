@@ -3,8 +3,6 @@
 </template>
 
 <style lang="scss">
-  @import 'Core/scss/_abstracts.scss';
-
   .spinner {
     display: inline-block;
     width: 80px;

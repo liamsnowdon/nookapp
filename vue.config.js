@@ -13,4 +13,16 @@ module.exports = {
       },
     },
   },
+
+  css: {
+    loaderOptions: {
+      sass: {
+        prependData: `
+          @import "Core/scss/abstracts/_variables.scss";
+          @import "Core/scss/abstracts/_mixins.scss";
+          @import "Core/scss/abstracts/_placeholders.scss";
+        `,
+      },
+    },
+  },
 };

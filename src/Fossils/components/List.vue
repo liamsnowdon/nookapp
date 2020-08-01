@@ -130,8 +130,6 @@ export default {
 </script>
 
 <style lang="scss">
-  @import '@/Core/scss/_abstracts.scss';
-
   .list {
     @include breakpoint(medium) {
       display: grid;

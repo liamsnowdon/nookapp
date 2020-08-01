@@ -89,8 +89,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  @import '@/Core/scss/_abstracts.scss';
-
   // todo v-deep styles for per page changes should be moved to CSS Custom Properties
   ::v-deep {
     .modal {

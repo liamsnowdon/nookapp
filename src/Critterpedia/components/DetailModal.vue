@@ -398,8 +398,6 @@ export default {
 </script>
 
 <style lang="scss">
-  @import 'Core/scss/_abstracts.scss';
-
   .detail {
     display: flex;
     text-align: center;

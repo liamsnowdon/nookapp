@@ -196,8 +196,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  @import 'Core/scss/_abstracts.scss';
-
   .buttons {
     @include breakpoint(medium, down) {
       button {

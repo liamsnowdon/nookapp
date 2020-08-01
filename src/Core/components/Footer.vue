@@ -60,8 +60,6 @@ export default {
 </script>
 
 <style lang="scss">
-  @import 'Core/scss/_abstracts.scss';
-
   .footer {
     margin: 50px auto 0;
     max-width: 800px;

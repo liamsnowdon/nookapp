@@ -20,8 +20,6 @@ export default {
 </script>
 
 <style lang="scss">
-  @import 'Core/scss/_abstracts.scss';
-
   .c-button {
     position: relative;
     display: inline-block;

@@ -47,8 +47,6 @@ export default {
 </script>
 
 <style lang="scss">
-  @import 'Core/scss/_abstracts.scss';
-
   .fade-enter-active,
   .fade-leave-active {
     transition: opacity .5s;

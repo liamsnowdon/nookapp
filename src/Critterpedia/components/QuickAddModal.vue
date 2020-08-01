@@ -259,8 +259,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  @import 'Core/scss/_abstracts.scss';
-
   .autocomplete {
     @include breakpoint(medium) {
       width: 60%;

@@ -420,8 +420,6 @@ export default {
 </script>
 
 <style lang="scss">
-  @import 'Core/scss/_abstracts.scss';
-
   .gallery {
     &__filters {
       position: relative;
