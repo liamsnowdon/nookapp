@@ -5,7 +5,6 @@ import SeaCreatures from 'Critterpedia/views/SeaCreatures';
 
 export default {
   path: '/critterpedia',
-  name: 'Critterpedia',
   component: Critterpedia,
   children: [
     {
