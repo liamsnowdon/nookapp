@@ -127,6 +127,7 @@ export default {
 
     &__checkbox {
       margin-left: auto;
+      margin-right: 9px;
     }
 
     .fa {

@@ -1,9 +1,26 @@
 <template>
   <div class="list">
     <div class="list__column">
-      <div class="list__section">
+      <div
+        class="list__section"
+        :class="{ 'is-mobile-collapsed': !multipartMobileIsOpen }"
+      >
         <div class="list__section-header">
-          <h2 class="mb-0">Multipart Fossils</h2>
+          <h2 class="list__section-header-desktop">Multipart Fossils</h2>
+
+          <button
+            class="list__section-toggle"
+            @click="multipartMobileIsOpen = !multipartMobileIsOpen"
+          >
+            <div class="list__section-toggle-inner">
+              Multipart Fossils
+
+              <i
+                class="fa"
+                :class="multipartMobileIsOpen ? 'fa-chevron-up' : 'fa-chevron-down'"
+              />
+            </div>
+          </button>
         </div>
 
         <template v-if="loading">
@@ -31,9 +48,26 @@
     </div>
 
     <div class="list__column">
-      <div class="list__section">
+      <div
+        class="list__section"
+        :class="{ 'is-mobile-collapsed': !standaloneMobileIsOpen }"
+      >
         <div class="list__section-header">
-          <h2 class="mb-0">Standalone Fossils</h2>
+          <h2 class="list__section-header-desktop">Standalone Fossils</h2>
+
+          <button
+            class="list__section-toggle"
+            @click="standaloneMobileIsOpen = !standaloneMobileIsOpen"
+          >
+            <div class="list__section-toggle-inner">
+              Standalone Fossils
+
+              <i
+                class="fa"
+                :class="standaloneMobileIsOpen ? 'fa-chevron-up' : 'fa-chevron-down'"
+              />
+            </div>
+          </button>
         </div>
 
         <template v-if="loading">
@@ -81,6 +115,13 @@ export default {
     ListDropdown,
     ListItem,
     Spinner,
+  },
+
+  data () {
+    return {
+      multipartMobileIsOpen: true,
+      standaloneMobileIsOpen: true,
+    };
   },
 
   computed: {
@@ -131,6 +172,8 @@ export default {
 
 <style lang="scss">
   .list {
+    $block: &;
+
     @include breakpoint(medium) {
       display: grid;
       grid-gap: 30px;
@@ -160,11 +203,56 @@ export default {
       &:not(:last-child) {
         margin-bottom: 50px;
       }
+
+      &.is-mobile-collapsed {
+        @include breakpoint(medium, down) {
+          #{$block}__section-items {
+            display: none;
+          }
+        }
+      }
     }
 
     &__section-header {
-      padding: 20px;
+      @include breakpoint(medium) {
+        padding: 20px;
+      }
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
       color: white;
+    }
+
+    &__section-header-desktop {
+      margin-bottom: 0;
+
+      @include breakpoint(medium, down) {
+        display: none;
+      }
+    }
+
+    &__section-toggle {
+      @include breakpoint(medium) {
+        display: none;
+      }
+
+      @extend %button-reset;
+      padding: 16px;
+      width: 100%;
+      color: white;
+      font-size: 28px;
+
+      .fa {
+        font-size: 40px;
+        line-height: 50px;
+      }
+    }
+
+    &__section-toggle-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
     }
   }
 </style>

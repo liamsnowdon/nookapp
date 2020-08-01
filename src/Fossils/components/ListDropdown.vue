@@ -75,7 +75,7 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
   .list-dropdown {
     &__button {
       @extend %button-reset;
@@ -94,8 +94,10 @@ export default {
     }
 
     &__items {
-      .list-item {
-        padding-left: 60px;
+      .list-item__checkbox {
+        @include breakpoint(medium) {
+          margin-right: 60px;
+        }
       }
     }
 
