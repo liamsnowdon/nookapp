@@ -6,6 +6,7 @@ import fossils from 'Core/router/fossils';
 
 import Index from 'Index/views/Index.vue';
 import NotFound from 'Core/views/NotFound.vue';
+import Checklist from 'Checklist/views/Checklist';
 
 Vue.use(VueRouter);
 
@@ -17,6 +18,11 @@ const routes = [
   },
   { ...critterpedia },
   { ...fossils },
+  {
+    path: '/checklist',
+    name: 'Checklist',
+    component: Checklist,
+  },
   {
     path: '*',
     name: 'Not Found',

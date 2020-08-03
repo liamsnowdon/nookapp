@@ -32,6 +32,15 @@
               Fossils
             </router-link>
           </li>
+
+          <li class="mobile-navigation__item">
+            <router-link
+              class="mobile-navigation__link"
+              :to="{ name: 'Checklist' }"
+            >
+              Daily Checklist
+            </router-link>
+          </li>
         </ul>
       </div>
     </div>

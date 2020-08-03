@@ -38,6 +38,8 @@ html {
 .page {
   &-index {
     --body-background-color: #252525;
+    --global-text-color: white;
+
 
     --navigation-background-color: var(--body-background-color);
     --modal-background-color: var(--body-background-color);
