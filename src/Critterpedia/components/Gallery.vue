@@ -56,17 +56,16 @@
 </template>
 
 <script>
-import { createNamespacedHelpers } from 'vuex';
+import { mapState, mapGetters, mapMutations } from 'vuex';
 import { CRITTER_TYPES } from 'Critterpedia/constants/critter-types';
 import { MONTHS } from 'Core/constants/date';
 import { SORT_OPTIONS } from 'Critterpedia/constants/sort-options';
+import { MODULE as CORE_MODULE } from 'Core/constants/vuex';
 import { MODULE, MUTATIONS, GETTERS } from 'Critterpedia/constants/vuex';
 import { MESSAGES } from 'Critterpedia/constants/messages';
 import { SETTINGS } from 'Core/constants/settings';
 import GalleryFilters from 'Critterpedia/components/GalleryFilters.vue';
 import Spinner from 'Core/components/Spinner.vue';
-
-const { mapState, mapGetters, mapMutations } = createNamespacedHelpers(MODULE);
 
 export default {
   name: 'Gallery',
@@ -99,7 +98,11 @@ export default {
   },
 
   computed: {
-    ...mapState({
+    ...mapState(CORE_MODULE, {
+      hemispherePreference: state => state.settings.hemisphere,
+    }),
+
+    ...mapState(MODULE, {
       loading: state => state.loading,
       errorLoadingFish: state => state.errorLoadingFish,
       errorLoadingBugs: state => state.errorLoadingBugs,
@@ -111,10 +114,9 @@ export default {
       selectedBug: state => state.selectedBug,
       selectedFish: state => state.selectedFish,
       selectedSeaCreature: state => state.selectedSeaCreature,
-      hemispherePreference: state => state.settings.hemisphere,
     }),
 
-    ...mapGetters({
+    ...mapGetters(MODULE, {
       hasSelectedNorthernMonthsInFilter: GETTERS.HAS_SELECTED_NORTHERN_MONTHS_IN_FILTER,
       hasSelectedSouthernMonthsInFilter: GETTERS.HAS_SELECTED_SOUTHERN_MONTHS_IN_FILTER,
     }),
@@ -208,7 +210,7 @@ export default {
   },
 
   methods: {
-    ...mapMutations([
+    ...mapMutations(MODULE, [
       MUTATIONS.SET_SELECTED_BUG,
       MUTATIONS.SET_SELECTED_SEA_CREATURE,
       MUTATIONS.SET_SELECTED_FISH,
