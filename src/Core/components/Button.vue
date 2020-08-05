@@ -1,6 +1,7 @@
 <template>
   <button
     class="c-button"
+    :type="type"
     @click="onClick($event)"
   >
     <slot />
@@ -10,6 +11,14 @@
 <script>
 export default {
   name: 'Button',
+
+  props: {
+    type: {
+      type: String,
+      required: false,
+      default: 'button',
+    },
+  },
 
   methods: {
     onClick (e) {

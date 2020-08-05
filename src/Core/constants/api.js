@@ -6,3 +6,8 @@ export const ACNHAPI = {
 
   FOSSILS: '/fossils',
 };
+
+export const CRITTERSYNC = {
+  BASE: 'https://sync.thenookapp.com/s',
+  SESSION: '/:uuid',
+};

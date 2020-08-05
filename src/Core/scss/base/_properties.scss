@@ -7,9 +7,9 @@ html {
 
   // Globals
   --global-width: 1440px;
-  --global-text-color: #444;
+  --global-text-color: white;
 
-  --body-background-color: white;
+  --body-background-color: #252525;
 
   // Components
   --navigation-background-color: var(--body-background-color);
@@ -19,9 +19,9 @@ html {
   --modal-text-color: var(--global-text-color);
   --modal-header-background-color: var(--brown-dark);
 
-  --button-background-color: var(--brown-medium);
-  --button-hover-background-color: var(--brown-dark);
-  --button-text-color: black;
+  --button-background-color: #191919;
+  --button-hover-background-color: #131212;
+  --button-text-color: white;
 
   --checkbox-active-color: var(--brown-darkest);
 
@@ -37,8 +37,6 @@ html {
 // Page property cascades
 .page {
   &-index {
-    --body-background-color: #252525;
-
     --navigation-background-color: var(--body-background-color);
     --modal-background-color: var(--body-background-color);
     --modal-header-background-color: #131212;
@@ -55,11 +53,18 @@ html {
 
   &-critterpedia {
     --body-background-color: #f0e6b8;
+    --global-text-color: #444;
 
     --navigation-background-color: var(--body-background-color);
     --navigation-text-color: var(--global-text-color);
     --footer-text-color: var(--global-text-color);
     --spinner-color: var(--brown-darkest);
+
+    --button-background-color: var(--brown-medium);
+    --button-hover-background-color: var(--brown-dark);
+    --button-text-color: black;
+
+    --modal-text-color: var(--global-text-color);
   }
 
   &-fossils {

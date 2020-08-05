@@ -33,6 +33,20 @@
             </router-link>
           </li>
         </ul>
+
+        <hr>
+
+        <ul class="mobile-navigation__items">
+          <li class="mobile-navigation__item">
+            <router-link
+              class="mobile-navigation__link"
+              :to="{ name: 'Sync' }"
+            >
+              NookSync
+            </router-link>
+          </li>
+        </ul>
+
       </div>
     </div>
   </div>

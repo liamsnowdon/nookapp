@@ -15,4 +15,8 @@ export default {
     state.settings.hemisphere = hemisphere;
     localStorage.setItem(STORAGE.SETTINGS_HEMISPHERE, hemisphere);
   },
+
+  setSyncId (state, id) {
+    state.syncId = id;
+  },
 };
