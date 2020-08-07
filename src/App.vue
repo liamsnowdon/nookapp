@@ -12,11 +12,10 @@
 import { mapState, mapMutations } from 'vuex';
 import { storageAvailable } from 'Core/helpers';
 import { MODULE, MUTATIONS } from 'Core/constants/vuex';
-import { MODULE as CRITTERPEDIA_MODULE, MUTATIONS as CRITTERPEDIA_MUTATIONS } from 'Critterpedia/constants/vuex';
-import { MODULE as FOSSILS_MODULE, MUTATIONS as FOSSILS_MUTATIONS } from 'Fossils/constants/vuex';
 import Navigation from 'Core/components/Navigation.vue';
 import Footer from 'Core/components/Footer.vue';
 import Sync from 'Core/services/Sync';
+import SyncApi from 'Core/api/SyncApi';
 
 // App styles
 import 'vue-multiselect/dist/vue-multiselect.min.css';
@@ -45,18 +44,7 @@ export default {
   methods: {
     ...mapMutations(MODULE, [
       MUTATIONS.SET_IS_STORAGE_AVAILABLE,
-      MUTATIONS.SET_SETTINGS_HEMISPHERE,
-      MUTATIONS.SET_SYNC_ID,
-    ]),
-
-    ...mapMutations(CRITTERPEDIA_MODULE, [
-      CRITTERPEDIA_MUTATIONS.SET_DONATED_FISH,
-      CRITTERPEDIA_MUTATIONS.SET_DONATED_BUGS,
-      CRITTERPEDIA_MUTATIONS.SET_DONATED_SEA_CREATURES,
-    ]),
-
-    ...mapMutations(FOSSILS_MODULE, [
-      FOSSILS_MUTATIONS.SET_DONATED_FOSSILS,
+      MUTATIONS.SET_LOADING_SYNC_SESSION,
     ]),
 
     checkDeviceForStorageApi () {
@@ -75,9 +63,13 @@ export default {
       const syncId = Sync.getSyncIdFromLocalStorage();
 
       if (syncId) {
-        const session = await Sync.getWithId(syncId);
+        this.setLoadingSyncSession(true);
+
+        const session = await SyncApi.get(syncId);
 
         Sync.setAppStateFromSyncSession(session.data.data);
+
+        this.setLoadingSyncSession(false);
       } else {
         Sync.setAppStateFromLocalStorage();
       }

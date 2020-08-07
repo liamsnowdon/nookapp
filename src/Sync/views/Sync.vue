@@ -67,10 +67,12 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
-import { MODULE } from 'Core/constants/vuex';
+import { mapState, mapMutations } from 'vuex';
+import { MODULE, MUTATIONS } from 'Core/constants/vuex';
 import Button from 'Core/components/Button.vue';
 import Sync from 'Core/services/Sync';
+import SyncApi from 'Core/api/SyncApi';
+import Storage from 'Core/services/Storage';
 
 export default {
   name: 'Sync',
@@ -94,8 +96,36 @@ export default {
   },
 
   methods: {
-    createSession () {
+    ...mapMutations(MODULE, [
+      MUTATIONS.SET_SYNC_ID,
+    ]),
 
+    async createSession () {
+      this.loading = true;
+
+      const settings = Storage.getSettings();
+      const donatedCritters = Storage.getDonatedCritters();
+      const donatedFossils = Storage.getDonatedFossils();
+
+      const payload = {
+        ...donatedCritters,
+        donatedFossils,
+      };
+
+      if (Object.keys(settings).length > 0) {
+        payload.settings = settings;
+      }
+
+      const response = await SyncApi.create(payload);
+
+      // todo replace with try/catch when backend status codes are done
+      if (response.status === 0) {
+        const session = response.data;
+
+        Sync.setSyncIdInLocalStorage(session.id);
+
+        this.setSyncId(session.id);
+      }
     },
 
     async setSessionFromSyncId () {
@@ -104,17 +134,19 @@ export default {
 
       const syncId = this.existingSyncId;
 
-      const response = await Sync.getWithId(syncId);
+      const response = await SyncApi.get(syncId);
 
       // todo replace with try/catch when backend status codes are done
       if (response.data.status === 0) {
         const session = response.data.data;
 
-        Sync.setSyncIdInLocalStorage(syncId);
+        Sync.setLocalStorageFromSyncSession(session);
         Sync.setAppStateFromSyncSession(session);
       } else {
         this.error = 'This NookSync ID is invalid.';
       }
+
+      this.loading = false;
     },
   },
 };

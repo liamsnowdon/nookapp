@@ -13,10 +13,17 @@ export default {
     hemisphere = hemisphere || '';
 
     state.settings.hemisphere = hemisphere;
-    localStorage.setItem(STORAGE.SETTINGS_HEMISPHERE, hemisphere);
+
+    if (hemisphere) {
+      localStorage.setItem(STORAGE.SETTINGS_HEMISPHERE, hemisphere);
+    }
   },
 
   setSyncId (state, id) {
     state.syncId = id;
+  },
+
+  setLoadingSyncSession (state, loading) {
+    state.loadingSyncSession = loading;
   },
 };

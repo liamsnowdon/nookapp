@@ -5,4 +5,5 @@ export const MUTATIONS = {
   SET_SETTINGS_MODAL_OPEN: 'setSettingsModalOpen',
   SET_SETTINGS_HEMISPHERE: 'setSettingsHemisphere',
   SET_SYNC_ID: 'setSyncId',
+  SET_LOADING_SYNC_SESSION: 'setLoadingSyncSession',
 };
