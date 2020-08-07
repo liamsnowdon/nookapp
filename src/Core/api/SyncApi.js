@@ -1,7 +1,7 @@
 import Api from 'Core/api/Api';
 import { CRITTERSYNC } from 'Core/constants/api';
 
-export default class Sync {
+export default class SyncApi {
   static async get (uuid) {
     const url = Api.url(`${CRITTERSYNC.BASE}${CRITTERSYNC.SESSION}`, { uuid });
 

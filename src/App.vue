@@ -16,9 +16,7 @@ import { MODULE as CRITTERPEDIA_MODULE, MUTATIONS as CRITTERPEDIA_MUTATIONS } fr
 import { MODULE as FOSSILS_MODULE, MUTATIONS as FOSSILS_MUTATIONS } from 'Fossils/constants/vuex';
 import Navigation from 'Core/components/Navigation.vue';
 import Footer from 'Core/components/Footer.vue';
-import { STORAGE } from 'Core/constants/storage';
-import Sync from 'Core/api/Sync';
-import Storage from 'Core/services/Storage';
+import Sync from 'Core/services/Sync';
 
 // App styles
 import 'vue-multiselect/dist/vue-multiselect.min.css';
@@ -74,43 +72,15 @@ export default {
         return;
       }
 
-      const syncId = localStorage.getItem(STORAGE.SYNC_ID);
+      const syncId = Sync.getSyncIdFromLocalStorage();
 
       if (syncId) {
-        const session = await this.getSyncSession(syncId);
-        this.setAppDataFromSyncSession(session.data.data);
+        const session = await Sync.getWithId(syncId);
+
+        Sync.setAppStateFromSyncSession(session.data.data);
       } else {
-        this.setAppDataFromLocalStorage();
+        Sync.setAppStateFromLocalStorage();
       }
-    },
-
-    async getSyncSession (id) {
-      // 9358d67b-33b3-4d40-b585-8c157995dea7
-      return await Sync.get(id);
-    },
-
-    setAppDataFromLocalStorage () {
-      const settings = Storage.getSettings();
-      const critters = Storage.getDonatedCritters();
-      const fossils = Storage.getDonatedFossils();
-
-      this.setSettingsHemisphere(settings.hemisphere);
-
-      this.setDonatedFish(critters.donatedFish || []);
-      this.setDonatedBugs(critters.donatedBugs || []);
-      this.setDonatedSeaCreatures(critters.donatedSeaCreatures || []);
-
-      this.setDonatedFossils(fossils || []);
-    },
-
-    setAppDataFromSyncSession (session) {
-      this.setSyncId(session.id);
-
-      this.setDonatedBugs(session.data.donatedBugs || []);
-      this.setDonatedFish(session.data.donatedFish || []);
-      this.setDonatedSeaCreatures(session.data.donatedSeaCreatures || []);
-
-      this.setDonatedFossils(session.data.donatedFossils || []);
     },
   },
 };

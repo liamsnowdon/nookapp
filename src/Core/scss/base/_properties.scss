@@ -15,9 +15,9 @@ html {
   --navigation-background-color: var(--body-background-color);
   --navigation-text-color: white;
 
-  --modal-background-color: var(--brown-light);
-  --modal-text-color: var(--global-text-color);
-  --modal-header-background-color: var(--brown-dark);
+  --modal-background-color: var(--body-background-color);
+  --modal-header-background-color: #131212;
+  --modal-text-color: white;
 
   --button-background-color: #191919;
   --button-hover-background-color: #131212;
@@ -38,9 +38,6 @@ html {
 .page {
   &-index {
     --navigation-background-color: var(--body-background-color);
-    --modal-background-color: var(--body-background-color);
-    --modal-header-background-color: #131212;
-    --modal-text-color: white;
 
     --button-background-color: #191919;
     --button-hover-background-color: #131212;
@@ -64,7 +61,9 @@ html {
     --button-hover-background-color: var(--brown-dark);
     --button-text-color: black;
 
+    --modal-background-color: var(--brown-light);
     --modal-text-color: var(--global-text-color);
+    --modal-header-background-color: var(--brown-dark);
   }
 
   &-fossils {
