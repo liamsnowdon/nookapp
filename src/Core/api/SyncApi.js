@@ -3,7 +3,7 @@ import { CRITTERSYNC } from 'Core/constants/api';
 
 export default class SyncApi {
   static async get (uuid) {
-    const url = Api.url(`${CRITTERSYNC.BASE}${CRITTERSYNC.SESSION}`, { uuid }); // 9358d67b-33b3-4d40-b585-8c157995dea7
+    const url = Api.url(`${CRITTERSYNC.BASE}${CRITTERSYNC.SESSION}`, { uuid }); // 1ae9eeac-44b9-4f65-9282-7bedf274ecfb
 
     return await Api.$instance.get(url);
   }

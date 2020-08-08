@@ -3,6 +3,7 @@ import Storage from 'Core/services/Storage';
 import { MODULE, MUTATIONS } from 'Core/constants/vuex';
 import { STORAGE } from 'Core/constants/storage';
 import { STORAGE as CRITTERPEDIA_STORAGE } from 'Critterpedia/constants/storage';
+import { STORAGE as FOSSILS_STORAGE } from 'Fossils/constants/storage';
 
 import {
   MODULE as CRITTERPEDIA_MODULE,
@@ -58,9 +59,29 @@ export default class Sync {
   static setLocalStorageFromSyncSession (session) {
     localStorage.setItem(STORAGE.SYNC_ID, session.id);
 
-    localStorage.setItem(CRITTERPEDIA_STORAGE.DONATED_BUGS, session.data.donatedBugs);
-    localStorage.setItem(CRITTERPEDIA_STORAGE.DONATED_FISH, session.data.donatedFish);
-    localStorage.setItem(CRITTERPEDIA_STORAGE.DONATED_SEA_CREATURES, session.data.donatedSeaCreatures);
+    if (!!session.data.donatedBugs.length) {
+      localStorage.setItem(CRITTERPEDIA_STORAGE.DONATED_BUGS, session.data.donatedBugs);
+    } else {
+      localStorage.removeItem(CRITTERPEDIA_STORAGE.DONATED_BUGS);
+    }
+
+    if (!!session.data.donatedFish.length) {
+      localStorage.setItem(CRITTERPEDIA_STORAGE.DONATED_FISH, session.data.donatedFish);
+    } else {
+      localStorage.removeItem(CRITTERPEDIA_STORAGE.DONATED_FISH)
+    }
+
+    if (!!session.data.donatedSeaCreatures.length) {
+      localStorage.setItem(CRITTERPEDIA_STORAGE.DONATED_SEA_CREATURES, session.data.donatedSeaCreatures);
+    } else {
+      localStorage.removeItem(CRITTERPEDIA_STORAGE.DONATED_SEA_CREATURES);
+    }
+
+    if (!!session.data.donatedFossils.length) {
+      localStorage.setItem(FOSSILS_STORAGE.DONATED_FOSSILS, session.data.donatedFossils);
+    } else {
+      localStorage.removeItem(FOSSILS_STORAGE.DONATED_FOSSILS);
+    }
 
     if (session.data.settings && session.data.settings.hemisphere) {
       localStorage.setItem(STORAGE.SETTINGS_HEMISPHERE, session.data.settings.hemisphere);
