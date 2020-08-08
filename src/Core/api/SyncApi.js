@@ -3,24 +3,32 @@ import { CRITTERSYNC } from 'Core/constants/api';
 
 export default class SyncApi {
   static async get (uuid) {
-    const url = Api.url(`${CRITTERSYNC.BASE}${CRITTERSYNC.SESSION}`, { uuid }); // 1ae9eeac-44b9-4f65-9282-7bedf274ecfb
+    const url = Api.url(`${CRITTERSYNC.BASE}${CRITTERSYNC.SESSION}`, { uuid });
 
     return await Api.$instance.get(url);
   }
 
-  static async create (payload) {
+  static async create (data) {
     const url = Api.url(CRITTERSYNC.BASE);
 
-    const response =  await Api.$instance.post(url, payload);
+    const response = await Api.$instance.post(url, data);
 
     return response.data;
   }
 
-  static async patch () {
+  static async patch (uuid, data) {
+    const url = Api.url(`${CRITTERSYNC.BASE}${CRITTERSYNC.SESSION}`, { uuid });
 
+    const response = await Api.$instance.patch(url, data);
+
+    return response.data;
   }
 
-  static async delete () {
+  static async delete (uuid, data) {
+    const url = Api.url(`${CRITTERSYNC.BASE}${CRITTERSYNC.SESSION}`, { uuid });
 
+    const response = await Api.$instance.delete(url, { data });
+
+    return response.data;
   }
 }

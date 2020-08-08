@@ -59,25 +59,25 @@ export default class Sync {
   static setLocalStorageFromSyncSession (session) {
     localStorage.setItem(STORAGE.SYNC_ID, session.id);
 
-    if (!!session.data.donatedBugs.length) {
+    if (session.data.donatedBugs.length > 0) {
       localStorage.setItem(CRITTERPEDIA_STORAGE.DONATED_BUGS, session.data.donatedBugs);
     } else {
       localStorage.removeItem(CRITTERPEDIA_STORAGE.DONATED_BUGS);
     }
 
-    if (!!session.data.donatedFish.length) {
+    if (session.data.donatedFish.length > 0) {
       localStorage.setItem(CRITTERPEDIA_STORAGE.DONATED_FISH, session.data.donatedFish);
     } else {
-      localStorage.removeItem(CRITTERPEDIA_STORAGE.DONATED_FISH)
+      localStorage.removeItem(CRITTERPEDIA_STORAGE.DONATED_FISH);
     }
 
-    if (!!session.data.donatedSeaCreatures.length) {
+    if (session.data.donatedSeaCreatures.length > 0) {
       localStorage.setItem(CRITTERPEDIA_STORAGE.DONATED_SEA_CREATURES, session.data.donatedSeaCreatures);
     } else {
       localStorage.removeItem(CRITTERPEDIA_STORAGE.DONATED_SEA_CREATURES);
     }
 
-    if (!!session.data.donatedFossils.length) {
+    if (session.data.donatedFossils.length > 0) {
       localStorage.setItem(FOSSILS_STORAGE.DONATED_FOSSILS, session.data.donatedFossils);
     } else {
       localStorage.removeItem(FOSSILS_STORAGE.DONATED_FOSSILS);

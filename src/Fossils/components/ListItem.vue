@@ -41,8 +41,10 @@
 </template>
 
 <script>
-import { mapGetters, mapMutations } from 'vuex';
+import { mapState, mapGetters, mapMutations } from 'vuex';
+import { MODULE as CORE_MODULE } from 'Core/constants/vuex';
 import { MODULE, GETTERS, MUTATIONS } from 'Fossils/constants/vuex';
+import SyncApi from 'Core/api/SyncApi';
 
 export default {
   name: 'ListItem',
@@ -65,6 +67,10 @@ export default {
   },
 
   computed: {
+    ...mapState(CORE_MODULE, {
+      syncId: state => state.syncId,
+    }),
+
     ...mapGetters(MODULE, [
       GETTERS.GET_DONATED_FOSSIL,
     ]),
@@ -99,6 +105,19 @@ export default {
       };
 
       this.setDonatedFossilStatus(payload);
+      this.updateSyncDonatedFossilStatus();
+    },
+
+    async updateSyncDonatedFossilStatus () {
+      if (!this.syncId) {
+        return;
+      }
+
+      const method = this.donated ? SyncApi.patch : SyncApi.delete;
+
+      await method(this.syncId, {
+        donatedFossils: [this.fossil['file-name']],
+      });
     },
   },
 };

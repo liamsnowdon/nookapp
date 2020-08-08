@@ -74,7 +74,7 @@
               @click="resetDonatedFossils"
               :disabled="!hasDonatedFossils"
             >
-              Reset fossils
+              Reset donated fossils
             </Button>
           </div>
         </div>
@@ -93,6 +93,7 @@ import Multiselect from 'vue-multiselect';
 import { SETTINGS } from 'Core/constants/settings';
 import Button from 'Core/components/Button.vue';
 import Modal from 'Core/components/Modal.vue';
+import SyncApi from 'Core/api/SyncApi';
 
 import {
   MODULE as CORE_MODULE,
@@ -134,15 +135,22 @@ export default {
     };
   },
 
-  mounted () {
-    this.hemisphere = this.hemisphereOptions.find(option => option.value === this.settings.hemisphere);
-  },
-
   computed: {
     ...mapState(CORE_MODULE, {
       isStorageAvailable: state => state.isStorageAvailable,
       isOpen: state => state.settingsModalOpen,
       settings: state => state.settings,
+      syncId: state => state.syncId,
+    }),
+
+    ...mapState(CRITTERPEDIA_MODULE, {
+      donatedBugs: state => state.donatedBugs,
+      donatedFish: state => state.donatedFish,
+      donatedSeaCreatures: state => state.donatedSeaCreatures,
+    }),
+
+    ...mapState(FOSSILS_MODULE, {
+      donatedFossils: state => state.donatedFossils,
     }),
 
     ...mapGetters(CRITTERPEDIA_MODULE, [
@@ -154,6 +162,14 @@ export default {
     ...mapGetters(FOSSILS_MODULE, [
       FOSSILS_GETTERS.HAS_DONATED_FOSSILS,
     ]),
+  },
+
+  watch: {
+    isOpen (newValue) {
+      if (newValue) {
+        this.hemisphere = this.hemisphereOptions.find(option => option.value === this.settings.hemisphere);
+      }
+    },
   },
 
   methods: {
@@ -186,7 +202,15 @@ export default {
         return;
       }
 
+      const donatedBugs = [...this.donatedBugs];
+
       this.clearDonatedBugs();
+
+      if (this.syncId) {
+        SyncApi.delete(this.syncId, {
+          donatedBugs,
+        });
+      }
     },
 
     resetDonatedFish () {
@@ -196,7 +220,15 @@ export default {
         return;
       }
 
+      const donatedFish = [...this.donatedFish];
+
       this.clearDonatedFish();
+
+      if (this.syncId) {
+        SyncApi.delete(this.syncId, {
+          donatedFish,
+        });
+      }
     },
 
     resetDonatedSeaCreatures () {
@@ -206,7 +238,15 @@ export default {
         return;
       }
 
+      const donatedSeaCreatures = [...this.donatedSeaCreatures];
+
       this.clearDonatedSeaCreatures();
+
+      if (this.syncId) {
+        SyncApi.delete(this.syncId, {
+          donatedSeaCreatures: donatedSeaCreatures,
+        });
+      }
     },
 
     resetDonatedFossils () {
@@ -216,17 +256,38 @@ export default {
         return;
       }
 
+      const donatedFossils = [...this.donatedFossils];
+
       this.clearDonatedFossils();
+
+      if (this.syncId) {
+        SyncApi.delete(this.syncId, {
+          donatedFossils: donatedFossils,
+        });
+      }
     },
 
     onHemisphereChange () {
       this.setSettingsHemisphere(this.hemisphere ? this.hemisphere.value : '');
+      this.updateSyncSettings();
 
       if (this.hemisphere === SETTINGS.HEMISPHERE_NORTHERN) {
         this.setFiltersSouthernMonthsAvailable([]);
       } else if (this.hemisphere === SETTINGS.HEMISPHERE_SOUTHERN) {
         this.setFiltersNorthernMonthsAvailable([]);
       }
+    },
+
+    async updateSyncSettings () {
+      if (!this.syncId) {
+        return;
+      }
+
+      await SyncApi.patch(this.syncId, {
+        settings: {
+          hemisphere: this.hemisphere ? this.hemisphere.value : '',
+        },
+      });
     },
   },
 };

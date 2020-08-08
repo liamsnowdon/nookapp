@@ -206,6 +206,7 @@ import {
   GETTERS as CRITTERPEDIA_GETTERS,
 } from 'Critterpedia/constants/vuex';
 import Modal from 'Core/components/Modal.vue';
+import SyncApi from 'Core/api/SyncApi';
 
 export default {
   name: 'DetailModal',
@@ -234,6 +235,7 @@ export default {
   computed: {
     ...mapState(CORE_MODULE, {
       isStorageAvailable: state => state.isStorageAvailable,
+      syncId: state => state.syncId,
     }),
 
     ...mapState(CRITTERPEDIA_MODULE, {
@@ -376,6 +378,26 @@ export default {
       };
 
       this.setDonatedCritterStatus(payload);
+      this.updateSyncDonatedCritterStatus();
+    },
+
+    async updateSyncDonatedCritterStatus () {
+      if (!this.syncId) {
+        return;
+      }
+
+      const method = this.isDonated ? SyncApi.patch : SyncApi.delete;
+      const payload = {};
+
+      if (this.isBug) {
+        payload.donatedBugs = [this.critter.id];
+      } else if (this.isSeaCreature) {
+        payload.donatedSeaCreatures = [this.critter.id];
+      } else {
+        payload.donatedFish = [this.critter.id];
+      }
+
+      await method(this.syncId, payload);
     },
 
     formatNumberWithCommas (num) {

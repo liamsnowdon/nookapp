@@ -25,7 +25,7 @@ html {
 
   --checkbox-active-color: var(--brown-darkest);
 
-  --cross-color: #333;
+  --cross-color: white;
 
   --spinner-color: black;
 
@@ -42,8 +42,6 @@ html {
     --button-background-color: #191919;
     --button-hover-background-color: #131212;
     --button-text-color: white;
-
-    --cross-color: white;
   }
 
   &-critterpedia {
@@ -62,6 +60,8 @@ html {
     --modal-background-color: var(--brown-light);
     --modal-text-color: var(--global-text-color);
     --modal-header-background-color: var(--brown-dark);
+
+    --cross-color: #333;
 
     --multiselect-highlight-color: var(--brown-darkest);
   }
