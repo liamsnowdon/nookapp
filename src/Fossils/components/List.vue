@@ -38,7 +38,7 @@
         <template v-else>
           <div class="list__section-items">
             <ListDropdown
-              v-for="group in groupedFossils"
+              v-for="group in multipartFossils"
               :key="group.groupName"
               :group="group"
             />
@@ -135,6 +135,11 @@ export default {
       return MESSAGES.API_ERROR;
     },
 
+    /**
+     * Groups all the fossils from the API into groups of related parts
+     *
+     * @returns {Array}
+     */
     fossilGroups () {
       const groups = groupBy(this.fossils, 'part-of');
 
@@ -146,19 +151,24 @@ export default {
       });
     },
 
+    /**
+     * Fossils that are not part of a group (e.g. T.Rex)
+     *
+     * @returns {Array}
+     */
     standaloneFossils () {
-      const standaloneFossilGroup = this.fossilGroups.find(group => !group.groupName);
+      const fossils = this.fossilGroups.filter(group => group.parts.length === 1);
 
-      return standaloneFossilGroup ? standaloneFossilGroup.parts : [];
+      return fossils.map(fossil => fossil.parts[0]);
     },
 
-    groupedFossils () {
-      const standaloneFossilsIndex = this.fossilGroups.findIndex(group => !group.groupName);
-      const fossils = this.fossilGroups.slice();
-
-      fossils.splice(standaloneFossilsIndex, 1);
-
-      return fossils;
+    /**
+     * Fossils that are part of a group (e.g. T.Rex has T.Rex tail, T.Rex torso)
+     *
+     * @returns {Array}
+     */
+    multipartFossils () {
+      return this.fossilGroups.filter(group => group.parts.length > 1);
     },
   },
 
