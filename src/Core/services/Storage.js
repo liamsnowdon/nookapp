@@ -7,7 +7,7 @@ export default class Storage {
   /**
    * Gets donated critters
    *
-   * @returns {Array}
+   * @returns {Object}
    */
   static getDonatedCritters () {
     if (!storageAvailable('localStorage')) {

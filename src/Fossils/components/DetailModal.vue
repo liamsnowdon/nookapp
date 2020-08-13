@@ -65,11 +65,16 @@
 
 <script>
 import { mapState, mapGetters, mapMutations } from 'vuex';
+
 import { MODULE as CORE_MODULE } from 'Core/constants/vuex';
 import { MODULE, GETTERS, MUTATIONS } from 'Fossils/constants/vuex';
+import { TOAST_DEFAULTS } from 'Core/constants/ui';
+
 import Modal from 'Core/components/Modal.vue';
 import PartButton from 'Fossils/components/PartButton.vue';
+
 import SyncApi from 'Core/api/SyncApi';
+import PendingSync from 'Core/services/PendingSync';
 
 export default {
   name: 'DetailModal',
@@ -153,9 +158,17 @@ export default {
 
       const method = this.isDonated ? SyncApi.patch : SyncApi.delete;
 
-      await method(this.syncId, {
-        donatedFossils: [this.fossil['file-name']],
-      });
+      try {
+        await method(this.syncId, {
+          donatedFossils: [this.fossil['file-name']],
+        });
+
+        this.$toasted.success('<strong>NookSync:</strong>&nbsp;Fossil updated.', TOAST_DEFAULTS);
+      } catch (e) {
+        PendingSync.setFossil(this.fossil, this.isDonated);
+
+        this.$toasted.error('<strong>NookSync:</strong>&nbsp;Error updating fossil.', TOAST_DEFAULTS);
+      }
     },
   },
 };

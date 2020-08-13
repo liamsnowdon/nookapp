@@ -1,5 +1,9 @@
 import axios from 'axios';
 
+const defaultParams = {
+  timeout: 5000,
+};
+
 class Api {
   static get $instance () {
     if (!Api.instance) {
@@ -30,7 +34,7 @@ class Api {
     try {
       return await axios.request(config);
     } catch (e) {
-      return e.response;
+      throw e.response;
     }
   }
 
@@ -38,6 +42,7 @@ class Api {
     return this.request({
       method: 'GET',
       url,
+      ...defaultParams,
       ...params,
     });
   }
@@ -47,6 +52,7 @@ class Api {
       method: 'POST',
       url,
       data,
+      ...defaultParams,
       ...params,
     });
   }
@@ -56,6 +62,7 @@ class Api {
       method: 'PUT',
       url,
       data,
+      ...defaultParams,
       ...params,
     });
   }
@@ -65,6 +72,7 @@ class Api {
       method: 'PATCH',
       url,
       data,
+      ...defaultParams,
       ...params,
     });
   }
@@ -73,6 +81,7 @@ class Api {
     return this.request({
       method: 'DELETE',
       url,
+      ...defaultParams,
       ...params,
     });
   }

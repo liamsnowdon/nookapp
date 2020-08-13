@@ -1,9 +1,13 @@
 import Vue from 'vue';
+import Toasted from 'vue-toasted';
+
 import App from './App.vue';
 import store from 'Core/store';
 import router from 'Core/router';
 
 Vue.config.productionTip = false;
+
+Vue.use(Toasted);
 
 Vue.filter('capitalize', function (value) {
   if (!value) return '';
