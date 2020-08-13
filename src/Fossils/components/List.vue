@@ -152,7 +152,7 @@ export default {
     },
 
     /**
-     * Fossils that are not part of a group (e.g. T.Rex)
+     * Fossils that are not part of a group (e.g. Amber)
      *
      * @returns {Array}
      */
