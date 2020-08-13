@@ -84,12 +84,17 @@
 <script>
 import { mapState, mapGetters, mapMutations, mapActions } from 'vuex';
 import { mixin as clickaway } from 'vue-clickaway';
-import Modal from 'Core/components/Modal';
-import Button from 'Core/components/Button';
+
+import { TOAST_DEFAULTS } from 'Core/constants/ui';
 import { MODULE as CORE_MODULE } from 'Core/constants/vuex';
 import { MODULE, MUTATIONS, ACTIONS, GETTERS } from 'Critterpedia/constants/vuex';
 import { CRITTER_TYPES } from 'Critterpedia/constants/critter-types';
+
 import SyncApi from 'Core/api/SyncApi';
+import PendingSync from 'Core/services/PendingSync';
+
+import Modal from 'Core/components/Modal.vue';
+import Button from 'Core/components/Button.vue';
 
 export default {
   name: 'QuickAddModal',
@@ -286,7 +291,15 @@ export default {
           break;
       }
 
-      await method(this.syncId, payload);
+      try {
+        await method(this.syncId, payload);
+
+        this.$toasted.success('<strong>NookSync:</strong>&nbsp;Critter updated.', TOAST_DEFAULTS);
+      } catch (e) {
+        PendingSync.setCritter(critter, donated, critterType);
+
+        this.$toasted.error('<strong>NookSync:</strong>&nbsp;Error updating fossil.', TOAST_DEFAULTS);
+      }
     },
   },
 };

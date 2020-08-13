@@ -1,6 +1,10 @@
 import { storageAvailable } from 'Core/helpers';
+
 import { STORAGE } from 'Core/constants/storage';
 import { STORAGE as FOSSILS_STORAGE } from 'Fossils/constants/storage';
+import { STORAGE as CRITTERPEDIA_STORAGE } from 'Critterpedia/constants/storage';
+
+import { CRITTER_TYPES } from 'Critterpedia/constants/critter-types';
 
 /**
  * PendingSync
@@ -13,7 +17,7 @@ import { STORAGE as FOSSILS_STORAGE } from 'Fossils/constants/storage';
  */
 export default class PendingSync {
   /**
-   * Gets pending syncs.
+   * Gets pending sync.
    *
    * @returns {Object|null}
    */
@@ -26,7 +30,7 @@ export default class PendingSync {
   }
 
   /**
-   * Sets pending syncs.
+   * Sets pending sync.
    *
    * @param {Object} data
    */
@@ -39,36 +43,86 @@ export default class PendingSync {
   }
 
   /**
-   * Sets a fossil in PendingSync
+   * Sets a fossil in pending sync
    *
    * @param {Object} fossil
-   * @param {boolean} donated
+   * @param {boolean} isDonated
    */
-  static setFossil (fossil, donated) {
-    let pendingSyncs = this.get();
+  static setFossil (fossil, isDonated) {
+    let pendingSync = this.get();
 
-    if (!pendingSyncs) {
-      pendingSyncs = {};
+    if (!pendingSync) {
+      pendingSync = {};
     }
 
-    if (!pendingSyncs[FOSSILS_STORAGE.DONATED_FOSSILS]) {
-      pendingSyncs[FOSSILS_STORAGE.DONATED_FOSSILS] = [];
+    if (!pendingSync[FOSSILS_STORAGE.DONATED_FOSSILS]) {
+      pendingSync[FOSSILS_STORAGE.DONATED_FOSSILS] = [];
     }
 
-    const index = pendingSyncs[FOSSILS_STORAGE.DONATED_FOSSILS].findIndex(f => f.id === fossil['file-name']);
+    const index = pendingSync[FOSSILS_STORAGE.DONATED_FOSSILS].findIndex(f => f.id === fossil['file-name']);
 
     if (index === -1) {
-      pendingSyncs[FOSSILS_STORAGE.DONATED_FOSSILS].push({
+      pendingSync[FOSSILS_STORAGE.DONATED_FOSSILS].push({
         id: fossil['file-name'],
-        donated,
+        isDonated,
       });
     } else {
-      pendingSyncs[FOSSILS_STORAGE.DONATED_FOSSILS][index] = {
+      pendingSync[FOSSILS_STORAGE.DONATED_FOSSILS][index] = {
         id: fossil['file-name'],
-        donated,
+        isDonated,
       };
     }
 
-    this.set(pendingSyncs);
+    this.set(pendingSync);
+  }
+
+  /**
+   * Sets a critter in pending sync
+   *
+   * @param {Object} critter
+   * @param {boolean} isDonated
+   * @param {string} critterType
+   */
+  static setCritter (critter, isDonated, critterType) {
+    let storageString;
+    let pendingSync = this.get();
+
+    if (!pendingSync) {
+      pendingSync = {};
+    }
+
+    switch (critterType) {
+      case CRITTER_TYPES.FISH:
+        storageString = CRITTERPEDIA_STORAGE.DONATED_FISH;
+        break;
+      case CRITTER_TYPES.BUGS:
+        storageString = CRITTERPEDIA_STORAGE.DONATED_BUGS;
+        break;
+      case CRITTER_TYPES.SEA_CREATURES:
+        storageString = CRITTERPEDIA_STORAGE.DONATED_SEA_CREATURES;
+        break;
+      default:
+        break;
+    }
+
+    if (!pendingSync[storageString]) {
+      pendingSync[storageString] = [];
+    }
+
+    const index = pendingSync[storageString].findIndex(item => item.id === critter.id);
+
+    if (index === -1) {
+      pendingSync[storageString].push({
+        id: critter.id,
+        isDonated,
+      });
+    } else {
+      pendingSync[storageString][index] = {
+        id: critter.id,
+        isDonated,
+      };
+    }
+
+    this.set(pendingSync);
   }
 };

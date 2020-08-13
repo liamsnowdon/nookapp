@@ -197,16 +197,22 @@
 
 <script>
 import { mapState, mapGetters, mapMutations } from 'vuex';
-import { CRITTER_TYPES } from 'Critterpedia/constants/critter-types';
+
 import { MONTHS } from 'Core/constants/date';
 import { MODULE as CORE_MODULE } from 'Core/constants/vuex';
+import { TOAST_DEFAULTS } from 'Core/constants/ui';
+
+import { CRITTER_TYPES } from 'Critterpedia/constants/critter-types';
 import {
   MODULE as CRITTERPEDIA_MODULE,
   MUTATIONS as CRITTERPEDIA_MUTATIONS,
   GETTERS as CRITTERPEDIA_GETTERS,
 } from 'Critterpedia/constants/vuex';
+
 import Modal from 'Core/components/Modal.vue';
+
 import SyncApi from 'Core/api/SyncApi';
+import PendingSync from 'Core/services/PendingSync';
 
 export default {
   name: 'DetailModal',
@@ -397,7 +403,15 @@ export default {
         payload.donatedFish = [this.critter.id];
       }
 
-      await method(this.syncId, payload);
+      try {
+        await method(this.syncId, payload);
+
+        this.$toasted.success('<strong>NookSync:</strong>&nbsp;Critter updated.', TOAST_DEFAULTS);
+      } catch (e) {
+        PendingSync.setCritter(this.critter, this.isDonated, this.critterType);
+
+        this.$toasted.error('<strong>NookSync:</strong>&nbsp;Error updating fossil.', TOAST_DEFAULTS);
+      }
     },
 
     formatNumberWithCommas (num) {
