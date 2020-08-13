@@ -27,7 +27,7 @@
               class="session__create-button"
               @click="createSession"
             >
-              Create sync
+              Create NookSync session
             </Button>
 
             <div class="session__divider">
