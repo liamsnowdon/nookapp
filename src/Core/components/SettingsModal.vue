@@ -113,6 +113,7 @@
 import { mapState, mapGetters, mapMutations } from 'vuex';
 import Multiselect from 'vue-multiselect';
 import { SETTINGS } from 'Core/constants/settings';
+import { STORAGE } from 'Core/constants/storage';
 import Button from 'Core/components/Button.vue';
 import FauxLinkButton from 'Core/components/FauxLinkButton.vue';
 import Modal from 'Core/components/Modal.vue';
@@ -314,10 +315,14 @@ export default {
       this.setSettingsHemisphere(this.hemisphere ? this.hemisphere.value : '');
       this.updateSyncSettings();
 
-      if (this.hemisphere === SETTINGS.HEMISPHERE_NORTHERN) {
+      if (this.hemisphere && this.hemisphere.value === SETTINGS.HEMISPHERE_NORTHERN) {
+        localStorage.setItem(STORAGE.SETTINGS_HEMISPHERE, this.hemisphere.value);
         this.setFiltersSouthernMonthsAvailable([]);
-      } else if (this.hemisphere === SETTINGS.HEMISPHERE_SOUTHERN) {
+      } else if (this.hemisphere && this.hemisphere.value === SETTINGS.HEMISPHERE_SOUTHERN) {
+        localStorage.setItem(STORAGE.SETTINGS_HEMISPHERE, this.hemisphere.value);
         this.setFiltersNorthernMonthsAvailable([]);
+      } else {
+        localStorage.removeItem(STORAGE.SETTINGS_HEMISPHERE);
       }
     },
 

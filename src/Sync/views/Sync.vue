@@ -107,7 +107,6 @@ import Button from 'Core/components/Button.vue';
 import Sync from 'Core/services/Sync';
 import SyncApi from 'Core/api/SyncApi';
 import Storage from 'Core/services/Storage';
-import { TOAST_DEFAULTS } from 'Core/constants/ui';
 
 export default {
   name: 'Sync',
@@ -160,10 +159,8 @@ export default {
 
         this.setSyncId(session.id);
 
-        this.$toasted.success(`<strong>NookSync:</strong>&nbsp;${session.id}`, {
-          ...TOAST_DEFAULTS,
-          icon: 'check',
-          duration: 5000,
+        this.$toasted.global.success({
+          message: '<strong>NookSync:</strong>&nbsp;Session created!',
         });
       } catch {
         this.$toasted.global.error({
