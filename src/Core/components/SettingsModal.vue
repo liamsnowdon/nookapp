@@ -292,11 +292,17 @@ export default {
           },
         });
 
-        this.$toasted.success('<strong>NookSync:</strong>&nbsp;Settings updated.', TOAST_DEFAULTS);
+        this.$toasted.success('<strong>NookSync:</strong>&nbsp;Settings updated.', {
+          ...TOAST_DEFAULTS,
+          icon: 'check',
+        });
       } catch (e) {
         PendingSync.setSettings({ hemisphere: this.hemisphere ? this.hemisphere.value : '' });
 
-        this.$toasted.error('<strong>NookSync:</strong>&nbsp;Error updating settings.', TOAST_DEFAULTS);
+        this.$toasted.error('<strong>NookSync:</strong>&nbsp;Error updating settings.', {
+          ...TOAST_DEFAULTS,
+          icon: 'times',
+        });
       }
     },
   },

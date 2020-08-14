@@ -1,3 +1,4 @@
 export const TOAST_DEFAULTS = {
-  duration: 5000,
+  duration: 2000,
+  iconPack: 'fontawesome',
 };

@@ -298,11 +298,17 @@ export default {
       try {
         await method(this.syncId, payload);
 
-        this.$toasted.success(`<strong>NookSync:</strong>&nbsp;${toastCritterTypeText} donated status updated.`, TOAST_DEFAULTS);
+        this.$toasted.success(`<strong>NookSync:</strong>&nbsp;${toastCritterTypeText} donated status updated.`, {
+          ...TOAST_DEFAULTS,
+          icon: 'check',
+        });
       } catch (e) {
         PendingSync.setCritter(critter, donated, critterType);
 
-        this.$toasted.error(`<strong>NookSync:</strong>&nbsp;Error updating ${toastCritterTypeText} donated status.`, TOAST_DEFAULTS);
+        this.$toasted.error(`<strong>NookSync:</strong>&nbsp;Error updating ${toastCritterTypeText} donated status.`, {
+          ...TOAST_DEFAULTS,
+          icon: 'times',
+        });
       }
     },
   },

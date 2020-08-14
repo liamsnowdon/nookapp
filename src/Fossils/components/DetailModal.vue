@@ -163,11 +163,17 @@ export default {
           donatedFossils: [this.fossil['file-name']],
         });
 
-        this.$toasted.success('<strong>NookSync:</strong>&nbsp;Fossil donated status updated.', TOAST_DEFAULTS);
+        this.$toasted.success('<strong>NookSync:</strong>&nbsp;Fossil donated status updated.', {
+          ...TOAST_DEFAULTS,
+          icon: 'check',
+        });
       } catch (e) {
         PendingSync.setFossil(this.fossil, this.isDonated);
 
-        this.$toasted.error('<strong>NookSync:</strong>&nbsp;Error updating fossil donated status.', TOAST_DEFAULTS);
+        this.$toasted.error('<strong>NookSync:</strong>&nbsp;Error updating fossil donated status.', {
+          ...TOAST_DEFAULTS,
+          icon: 'times',
+        });
       }
     },
   },

@@ -79,9 +79,15 @@ export default {
 
           PendingSync.clear();
 
-          this.$toasted.success('<strong>NookSync:</strong>&nbsp;Successfully updated from pending items.', TOAST_DEFAULTS);
+          this.$toasted.success('<strong>NookSync:</strong>&nbsp;Successfully updated from pending items.', {
+            ...TOAST_DEFAULTS,
+            icon: 'check',
+          });
         } catch (e) {
-          this.$toasted.error('<strong>NookSync:</strong>&nbsp;Error updating NookSync from pending items', TOAST_DEFAULTS);
+          this.$toasted.error('<strong>NookSync:</strong>&nbsp;Error updating NookSync from pending items', {
+            ...TOAST_DEFAULTS,
+            icon: 'times',
+          });
         }
       }, 60000);
     },
@@ -104,9 +110,15 @@ export default {
 
             PendingSync.clear();
 
-            this.$toasted.success('<strong>NookSync:</strong>&nbsp;Successfully updated from pending items.', TOAST_DEFAULTS);
+            this.$toasted.success('<strong>NookSync:</strong>&nbsp;Successfully updated from pending items.', {
+              ...TOAST_DEFAULTS,
+              icon: 'check',
+            });
           } catch {
-            this.$toasted.error('<strong>NookSync:</strong>&nbsp;Error updating NookSync from pending items', TOAST_DEFAULTS);
+            this.$toasted.error('<strong>NookSync:</strong>&nbsp;Error updating NookSync from pending items', {
+              ...TOAST_DEFAULTS,
+              icon: 'times',
+            });
           }
         }
 
