@@ -1,16 +1,14 @@
-import axios from 'axios';
-import { ACNHAPI } from 'Core/constants/api';
+import AcnhApi from 'Core/api/AcnhApi';
+
 import { MUTATIONS } from 'Fossils/constants/vuex';
 import { MESSAGES } from 'Fossils/constants/messages';
 
 export default {
   async digFossils ({ commit }) {
-    let response, fossils;
     commit(MUTATIONS.SET_LOADING, true);
 
     try {
-      response = await axios.get(`${ACNHAPI.BASE}${ACNHAPI.FOSSILS}`);
-      fossils = Object.values(response.data);
+      const fossils = await AcnhApi.getFossils();
 
       commit(MUTATIONS.SET_FOSSILS, fossils);
       commit(MUTATIONS.SET_ERROR_LOADING_FOSSILS, false);

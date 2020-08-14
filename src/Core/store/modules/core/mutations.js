@@ -1,5 +1,3 @@
-import { STORAGE } from 'Core/constants/storage';
-
 export default {
   setIsStorageAvailable (state, available) {
     state.isStorageAvailable = available;
@@ -13,6 +11,13 @@ export default {
     hemisphere = hemisphere || '';
 
     state.settings.hemisphere = hemisphere;
-    localStorage.setItem(STORAGE.SETTINGS_HEMISPHERE, hemisphere);
+  },
+
+  setSyncId (state, id) {
+    state.syncId = id;
+  },
+
+  setLoadingSyncSession (state, loading) {
+    state.loadingSyncSession = loading;
   },
 };

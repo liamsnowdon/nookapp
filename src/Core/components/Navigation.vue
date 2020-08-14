@@ -27,6 +27,15 @@
           Fossils
         </router-link>
       </li>
+
+      <li class="navigation__item">
+        <router-link
+          class="navigation__link"
+          :to="{ name: 'Sync' }"
+        >
+          NookSync
+        </router-link>
+      </li>
     </ul>
 
     <ul class="navigation__items navigation__items--right">

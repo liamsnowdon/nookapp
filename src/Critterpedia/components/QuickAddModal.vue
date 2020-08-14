@@ -82,15 +82,18 @@
 </template>
 
 <script>
-import { createNamespacedHelpers } from 'vuex';
-
+import { mapState, mapGetters, mapMutations, mapActions } from 'vuex';
 import { mixin as clickaway } from 'vue-clickaway';
-import Modal from 'Core/components/Modal';
-import Button from 'Core/components/Button';
+
+import { MODULE as CORE_MODULE } from 'Core/constants/vuex';
 import { MODULE, MUTATIONS, ACTIONS, GETTERS } from 'Critterpedia/constants/vuex';
 import { CRITTER_TYPES } from 'Critterpedia/constants/critter-types';
 
-const { mapState, mapGetters, mapMutations, mapActions } = createNamespacedHelpers(MODULE);
+import SyncApi from 'Core/api/SyncApi';
+import PendingSync from 'Core/services/PendingSync';
+
+import Modal from 'Core/components/Modal.vue';
+import Button from 'Core/components/Button.vue';
 
 export default {
   name: 'QuickAddModal',
@@ -117,14 +120,18 @@ export default {
   },
 
   computed: {
-    ...mapState({
+    ...mapState(CORE_MODULE, {
+      syncId: state => state.syncId,
+    }),
+
+    ...mapState(MODULE, {
       isOpen: state => state.quickAddModalOpen,
       bugs: state => state.bugs,
       fish: state => state.fish,
       seaCreatures: state => state.seaCreatures,
     }),
 
-    ...mapGetters({
+    ...mapGetters(MODULE, {
       getDonatedCritter: GETTERS.GET_DONATED_CRITTER,
     }),
 
@@ -182,12 +189,12 @@ export default {
   },
 
   methods: {
-    ...mapMutations([
+    ...mapMutations(MODULE, [
       MUTATIONS.SET_QUICK_ADD_MODAL_OPEN,
       MUTATIONS.SET_DONATED_CRITTER_STATUS,
     ]),
 
-    ...mapActions([
+    ...mapActions(MODULE, [
       ACTIONS.CATCH_FISH,
       ACTIONS.CATCH_BUGS,
       ACTIONS.CATCH_SEA_CREATURES,
@@ -242,6 +249,7 @@ export default {
       });
 
       this.setDonatedCritterStatus(payload);
+      this.updateSyncDonatedCritterStatus(critter, type, true);
     },
 
     undo (critter, type, index) {
@@ -253,6 +261,52 @@ export default {
 
       this.quickAddedCritters.splice(index, 1);
       this.setDonatedCritterStatus(payload);
+      this.updateSyncDonatedCritterStatus(critter, type, false);
+    },
+
+    /**
+     * @param {Object} critter
+     * @param {string} critterType
+     * @param {boolean} donated
+     * @returns {Promise}
+     */
+    async updateSyncDonatedCritterStatus (critter, critterType, donated) {
+      if (!this.syncId) {
+        return;
+      }
+
+      const method = donated ? SyncApi.patch : SyncApi.delete;
+      const payload = {};
+      let toastCritterTypeText;
+
+      switch (critterType) {
+        case CRITTER_TYPES.BUGS:
+          payload.donatedBugs = [critter.id];
+          toastCritterTypeText = 'Bug';
+          break;
+        case CRITTER_TYPES.FISH:
+          payload.donatedFish = [critter.id];
+          toastCritterTypeText = 'Fish';
+          break;
+        default:
+          payload.donatedSeaCreatures = [critter.id];
+          toastCritterTypeText = 'Sea Creature';
+          break;
+      }
+
+      try {
+        await method(this.syncId, payload);
+
+        this.$toasted.global.success({
+          message: `<strong>NookSync:</strong>&nbsp;${toastCritterTypeText} donated status updated.`,
+        });
+      } catch (e) {
+        PendingSync.setCritter(critter, donated, critterType);
+
+        this.$toasted.global.error({
+          message: `<strong>NookSync:</strong>&nbsp;Error updating ${toastCritterTypeText} donated status.`,
+        });
+      }
     },
   },
 };

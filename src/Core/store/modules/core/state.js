@@ -4,4 +4,6 @@ export default {
   settings: {
     hemisphere: '',
   },
+  syncId: '',
+  loadingSyncSession: false,
 };
