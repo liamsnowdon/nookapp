@@ -34,6 +34,9 @@ export default class Sync {
     localStorage.setItem(STORAGE.SYNC_ID, id);
   }
 
+  /**
+   * Removes the Sync ID from local storage
+   */
   static removeSyncIdInLocalStorage () {
     localStorage.removeItem(STORAGE.SYNC_ID);
   }

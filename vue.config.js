@@ -3,6 +3,9 @@ const path = require('path');
 module.exports = {
   publicPath: '/',
 
+  // Disable sourcemaps for production
+  productionSourceMap: false,
+
   configureWebpack: {
     resolve: {
       alias: {

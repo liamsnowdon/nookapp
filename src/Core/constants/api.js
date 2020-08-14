@@ -1,4 +1,4 @@
-export const ACNHAPI = {
+export const ACNH_API = {
   BASE: 'https://acnhapi.com/v1',
   FISH: '/fish',
   BUGS: '/bugs',
@@ -7,7 +7,7 @@ export const ACNHAPI = {
   FOSSILS: '/fossils',
 };
 
-export const CRITTERSYNC = {
+export const SYNC_API = {
   BASE: 'https://sync.thenookapp.com/s',
   SESSION: '/:uuid',
 };

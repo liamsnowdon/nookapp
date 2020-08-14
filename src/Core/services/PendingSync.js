@@ -1,10 +1,12 @@
 import groupBy from 'lodash/groupBy';
 import isArray from 'lodash/isArray';
 
-import { storageAvailable } from 'Core/helpers';
 import SyncApi from 'Core/api/SyncApi';
 
+import store from 'Core/store';
 import { STORAGE } from 'Core/constants/storage';
+import { MODULE } from 'Core/constants/vuex';
+
 import { STORAGE as FOSSILS_STORAGE } from 'Fossils/constants/storage';
 import { STORAGE as CRITTERPEDIA_STORAGE } from 'Critterpedia/constants/storage';
 import { CRITTER_TYPES } from 'Critterpedia/constants/critter-types';
@@ -25,7 +27,7 @@ export default class PendingSync {
    * @returns {Object|null}
    */
   static get () {
-    if (!storageAvailable('localStorage')) {
+    if (!store.state[MODULE].isStorageAvailable) {
       return null;
     }
 
@@ -38,7 +40,7 @@ export default class PendingSync {
    * @param {Object} data
    */
   static set (data) {
-    if (!storageAvailable('localStorage')) {
+    if (!store.state[MODULE].isStorageAvailable) {
       return;
     }
 
@@ -49,7 +51,7 @@ export default class PendingSync {
    * Removes the pending sync item from localStorage
    */
   static clear () {
-    if (!storageAvailable('localStorage')) {
+    if (!store.state[MODULE].isStorageAvailable) {
       return;
     }
 

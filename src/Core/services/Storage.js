@@ -1,5 +1,7 @@
-import { storageAvailable } from 'Core/helpers';
+import store from 'Core/store';
 import { STORAGE } from 'Core/constants/storage';
+import { MODULE } from 'Core/constants/vuex';
+
 import { STORAGE as CRITTERPEDIA_STORAGE } from 'Critterpedia/constants/storage';
 import { STORAGE as FOSSILS_STORAGE } from 'Fossils/constants/storage';
 
@@ -10,7 +12,7 @@ export default class Storage {
    * @returns {Object}
    */
   static getDonatedCritters () {
-    if (!storageAvailable('localStorage')) {
+    if (!store.state[MODULE].isStorageAvailable) {
       return {};
     }
 
@@ -55,7 +57,7 @@ export default class Storage {
    * @returns {Array}
    */
   static getDonatedFossils () {
-    if (!storageAvailable('localStorage')) {
+    if (!store.state[MODULE].isStorageAvailable) {
       return [];
     }
 
@@ -76,7 +78,7 @@ export default class Storage {
    * @returns {Object}
    */
   static getSettings () {
-    if (!storageAvailable('localStorage')) {
+    if (!store.state[MODULE].isStorageAvailable) {
       return {};
     }
 

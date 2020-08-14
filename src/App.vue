@@ -11,7 +11,7 @@
 <script>
 import { mapState, mapMutations } from 'vuex';
 
-import { storageAvailable } from 'Core/helpers';
+import Helpers from 'Core/helpers';
 import { MODULE, MUTATIONS } from 'Core/constants/vuex';
 
 import Navigation from 'Core/components/Navigation.vue';
@@ -53,7 +53,7 @@ export default {
     ]),
 
     checkDeviceForStorageApi () {
-      if (storageAvailable('localStorage')) {
+      if (Helpers.isStorageAvailable()) {
         this.setIsStorageAvailable(true);
       } else {
         this.setIsStorageAvailable(false);
