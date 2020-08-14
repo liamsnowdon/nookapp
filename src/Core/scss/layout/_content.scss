@@ -1,0 +1,21 @@
+.l-content {
+  max-width: var(--global-width);
+  margin: 0 auto;
+  text-align: center;
+
+  &__title {
+    margin-bottom: 30px;
+
+    h1 {
+      margin-bottom: 0;
+
+      + p {
+        &,
+        + p {
+          margin-top: 10px;
+          margin-bottom: 0;
+        }
+      }
+    }
+  }
+}

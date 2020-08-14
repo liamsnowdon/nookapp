@@ -197,15 +197,21 @@
 
 <script>
 import { mapState, mapGetters, mapMutations } from 'vuex';
-import { CRITTER_TYPES } from 'Critterpedia/constants/critter-types';
+
 import { MONTHS } from 'Core/constants/date';
 import { MODULE as CORE_MODULE } from 'Core/constants/vuex';
+
+import { CRITTER_TYPES } from 'Critterpedia/constants/critter-types';
 import {
   MODULE as CRITTERPEDIA_MODULE,
   MUTATIONS as CRITTERPEDIA_MUTATIONS,
   GETTERS as CRITTERPEDIA_GETTERS,
 } from 'Critterpedia/constants/vuex';
+
 import Modal from 'Core/components/Modal.vue';
+
+import SyncApi from 'Core/api/SyncApi';
+import PendingSync from 'Core/services/PendingSync';
 
 export default {
   name: 'DetailModal',
@@ -234,6 +240,7 @@ export default {
   computed: {
     ...mapState(CORE_MODULE, {
       isStorageAvailable: state => state.isStorageAvailable,
+      syncId: state => state.syncId,
     }),
 
     ...mapState(CRITTERPEDIA_MODULE, {
@@ -376,6 +383,43 @@ export default {
       };
 
       this.setDonatedCritterStatus(payload);
+      this.updateSyncDonatedCritterStatus();
+    },
+
+    async updateSyncDonatedCritterStatus () {
+      if (!this.syncId) {
+        return;
+      }
+
+      const method = this.isDonated ? SyncApi.patch : SyncApi.delete;
+
+      const payload = {};
+      let toastCritterTypeText;
+
+      if (this.isBug) {
+        payload.donatedBugs = [this.critter.id];
+        toastCritterTypeText = 'Bug';
+      } else if (this.isSeaCreature) {
+        payload.donatedSeaCreatures = [this.critter.id];
+        toastCritterTypeText = 'Sea Creature';
+      } else {
+        payload.donatedFish = [this.critter.id];
+        toastCritterTypeText = 'Fish';
+      }
+
+      try {
+        await method(this.syncId, payload);
+
+        this.$toasted.global.success({
+          message: `<strong>NookSync:</strong>&nbsp;${toastCritterTypeText} donated status updated.`,
+        });
+      } catch (e) {
+        PendingSync.setCritter(this.critter, this.isDonated, this.critterType);
+
+        this.$toasted.global.error({
+          message: `<strong>NookSync:</strong>&nbsp;Error updating ${toastCritterTypeText} donated status.`,
+        });
+      }
     },
 
     formatNumberWithCommas (num) {

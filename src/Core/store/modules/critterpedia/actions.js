@@ -1,16 +1,14 @@
-import axios from 'axios';
-import { ACNHAPI } from 'Core/constants/api';
+import AcnhApi from 'Core/api/AcnhApi';
+
 import { MUTATIONS } from 'Critterpedia/constants/vuex';
 import { MESSAGES } from 'Critterpedia/constants/messages';
 
 export default {
   async catchFish ({ commit }) {
-    let response, fish;
     commit(MUTATIONS.SET_LOADING, true);
 
     try {
-      response = await axios.get(`${ACNHAPI.BASE}${ACNHAPI.FISH}`);
-      fish = Object.values(response.data);
+      const fish = await AcnhApi.getFish();
 
       commit(MUTATIONS.SET_FISH, fish);
       commit(MUTATIONS.SET_ERROR_LOADING_FISH, false);
@@ -23,14 +21,10 @@ export default {
   },
 
   async catchBugs ({ commit }) {
-    let response, bugs;
     commit(MUTATIONS.SET_LOADING, true);
 
     try {
-      response = await axios.get(`${ACNHAPI.BASE}${ACNHAPI.BUGS}`);
-
-      bugs = Object.values(response.data);
-      bugs = setCorrectBugsData(bugs);
+      const bugs = await AcnhApi.getBugs();
 
       commit(MUTATIONS.SET_BUGS, bugs);
       commit(MUTATIONS.SET_ERROR_LOADING_BUGS, false);
@@ -43,12 +37,10 @@ export default {
   },
 
   async catchSeaCreatures ({ commit }) {
-    let response, seaCreatures;
     commit(MUTATIONS.SET_LOADING, true);
 
     try {
-      response = await axios.get(`${ACNHAPI.BASE}${ACNHAPI.SEA_CREATURES}`);
-      seaCreatures = Object.values(response.data);
+      const seaCreatures = await AcnhApi.getSeaCreatures();
 
       commit(MUTATIONS.SET_SEA_CREATURES, seaCreatures);
       commit(MUTATIONS.SET_ERROR_LOADING_SEA_CREATURES, false);
@@ -60,19 +52,3 @@ export default {
     commit(MUTATIONS.SET_LOADING, false);
   },
 };
-
-/**
- * Set any data from API that is incorrect here since we have no control over it.
- *
- * @param {array} bugs
- * @returns {array}
- */
-function setCorrectBugsData (bugs) {
-  const spiderIndex = bugs.findIndex(bug => bug.name['name-EUen'] === 'spider');
-
-  if (!bugs[spiderIndex].availability.location) {
-    bugs[spiderIndex].availability.location = 'Shaking trees';
-  }
-
-  return bugs;
-}
