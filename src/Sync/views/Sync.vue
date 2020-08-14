@@ -12,8 +12,8 @@
       </div>
 
       <template v-if="syncId">
-        <div class="session-existing">
-          <div class="session-existing__text">
+        <div class="session-main">
+          <div class="session-main__text">
             <p>Your NookSync ID is:</p>
 
             <div class="session-copy">
@@ -36,7 +36,7 @@
             <p>Enter this ID on your other devices so they will stay in sync.</p>
           </div>
 
-          <div class="session-existing__image">
+          <div class="session-main__image">
             <img :src="require(`Core/assets/tom-nook.png`)" alt="Tom Nook" />
           </div>
         </div>
@@ -50,43 +50,49 @@
             "Create NookSync session" button to begin.
           </p>
 
-          <div class="session__content">
-            <Button
-              class="session__create-button"
-              @click="createSession"
-            >
-              Create NookSync session
-            </Button>
-
-            <div class="session__divider">
-              <span class="session__divider-text">or</span>
-            </div>
-
-            <p>Enter your NookSync ID in the text box below.</p>
-
-            <form @submit.prevent="setSessionFromSyncId">
-              <div class="session__input-with-button">
-                <input
-                  v-model="existingSyncId"
-                  type="text"
-                  class="session__input"
-                  required
-                />
-
-                <Button
-                  type="submit"
-                  class="session__input-button"
-                >
-                  Save
-                </Button>
-              </div>
-              <span
-                v-if="error"
-                class="session__error"
+          <div class="session-main">
+            <div class="session-main__text">
+              <Button
+                class="session__create-button"
+                @click="createSession"
               >
+                Create NookSync session
+              </Button>
+
+              <div class="session__divider">
+                <span class="session__divider-text">or</span>
+              </div>
+
+              <p>Enter your NookSync ID in the text box below.</p>
+
+              <form @submit.prevent="setSessionFromSyncId">
+                <div class="session__input-with-button">
+                  <input
+                    v-model="existingSyncId"
+                    type="text"
+                    class="session__input"
+                    required
+                  />
+
+                  <Button
+                    type="submit"
+                    class="session__input-button"
+                  >
+                    Save
+                  </Button>
+                </div>
+                <span
+                  v-if="error"
+                  class="session__error"
+                >
                 {{ error }}
               </span>
-            </form>
+              </form>
+            </div>
+
+            <div class="session-main__image">
+              <img :src="require(`Core/assets/tom-nook.png`)" alt="Tom Nook" />
+            </div>
           </div>
         </div>
       </template>
@@ -211,7 +217,7 @@ export default {
 </script>
 
 <style lang="scss">
-  .session-existing {
+  .session-main {
     display: flex;
     flex-flow: row wrap;
     align-items: center;
