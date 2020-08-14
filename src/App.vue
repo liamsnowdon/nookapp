@@ -82,7 +82,7 @@ export default {
             message: '<strong>NookSync:</strong>&nbsp;Successfully updated from pending items.',
           });
         } catch (e) {
-          this.$toasted.global.success({
+          this.$toasted.global.error({
             message: '<strong>NookSync:</strong>&nbsp;Error updating NookSync from pending items.',
           });
         }
@@ -111,7 +111,7 @@ export default {
               message: '<strong>NookSync:</strong>&nbsp;Successfully updated from pending items.',
             });
           } catch {
-            this.$toasted.global.success({
+            this.$toasted.global.error({
               message: '<strong>NookSync:</strong>&nbsp;Error updating NookSync from pending items.',
             });
           }
