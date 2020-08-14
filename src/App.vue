@@ -43,6 +43,7 @@ export default {
   computed: {
     ...mapState(MODULE, {
       isStorageAvailable: state => state.isStorageAvailable,
+      syncId: state => state.syncId,
     }),
   },
 
@@ -58,6 +59,31 @@ export default {
       } else {
         this.setIsStorageAvailable(false);
       }
+    },
+
+    /**
+     * This interval runs every 60 seconds to attempt to update the sync session if it's out of sync.
+     *
+     * @see PendingSync
+     */
+    setIntervalForPendingSyncItems () {
+      setInterval(async () => {
+        const pendingSync = PendingSync.get();
+
+        if (!pendingSync) {
+          return;
+        }
+
+        try {
+          await PendingSync.attemptSyncUpdateFromPendingSync(this.syncId);
+
+          PendingSync.clear();
+
+          this.$toasted.success('<strong>NookSync:</strong>&nbsp;Successfully updated from pending items.', TOAST_DEFAULTS);
+        } catch (e) {
+          this.$toasted.error('<strong>NookSync:</strong>&nbsp;Error updating NookSync from pending items', TOAST_DEFAULTS);
+        }
+      }, 60000);
     },
 
     async setAppState () {
@@ -93,6 +119,8 @@ export default {
       } else {
         Sync.setAppStateFromLocalStorage();
       }
+
+      this.setIntervalForPendingSyncItems();
     },
   },
 };
