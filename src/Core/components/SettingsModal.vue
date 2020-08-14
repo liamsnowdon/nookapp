@@ -91,7 +91,6 @@
 import { mapState, mapGetters, mapMutations } from 'vuex';
 import Multiselect from 'vue-multiselect';
 import { SETTINGS } from 'Core/constants/settings';
-import { TOAST_DEFAULTS } from 'Core/constants/ui';
 import Button from 'Core/components/Button.vue';
 import Modal from 'Core/components/Modal.vue';
 import SyncApi from 'Core/api/SyncApi';
@@ -292,16 +291,14 @@ export default {
           },
         });
 
-        this.$toasted.success('<strong>NookSync:</strong>&nbsp;Settings updated.', {
-          ...TOAST_DEFAULTS,
-          icon: 'check',
+        this.$toasted.global.success({
+          message: '<strong>NookSync:</strong>&nbsp;Settings updated.',
         });
       } catch (e) {
         PendingSync.setSettings({ hemisphere: this.hemisphere ? this.hemisphere.value : '' });
 
-        this.$toasted.error('<strong>NookSync:</strong>&nbsp;Error updating settings.', {
-          ...TOAST_DEFAULTS,
-          icon: 'times',
+        this.$toasted.global.error({
+          message: '<strong>NookSync:</strong>&nbsp;Error updating settings.',
         });
       }
     },

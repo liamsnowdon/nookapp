@@ -10,7 +10,25 @@
       </div>
 
       <template v-if="syncId">
-        <p>Your NookSync ID is: {{ syncId }}.</p>
+        <p>Your NookSync ID is:</p>
+
+        <div class="session-copy">
+          <input
+            class="session-copy__input"
+            type="text"
+            readonly
+            :value="syncId"
+          >
+
+          <button
+            class="session-copy__button"
+            type="button"
+            @click="copySyncId"
+          >
+            <i class="fa fa-clipboard" />
+          </button>
+        </div>
+
         <p>Enter this ID on your other devices so they will stay in sync.</p>
       </template>
 
@@ -155,11 +173,50 @@ export default {
 
       this.loading = false;
     },
+
+    copySyncId () {
+      this.$copyText(this.syncId)
+        .then(() => {
+          this.$toasted.global.success({
+            message: 'Sync ID copied to clipboard!',
+          });
+        }, () => {
+          this.$toasted.global.error({
+            message: 'Could not copy Sync ID. Please try manually.',
+          });
+        });
+    },
   },
 };
 </script>
 
 <style lang="scss">
+  .session-copy {
+    display: flex;
+    max-width: 400px;
+    margin: 0 auto 20px;
+
+    &__input {
+      flex: 1 0 0;
+      border: 0;
+      padding: 20px;
+      background-color: var(--button-background-color);
+      color: var(--button-text-color);
+      font-size: var(--global-font-size);
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
+    }
+
+    &__button {
+      @extend %button-reset;
+      padding: 14px;
+      background-color: var(--button-background-color);
+      color: var(--button-text-color);
+      font-size: 20px;
+    }
+  }
+
   .session {
     &__intro {
       margin-bottom: 40px;

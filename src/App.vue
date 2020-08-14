@@ -13,7 +13,6 @@ import { mapState, mapMutations } from 'vuex';
 
 import { storageAvailable } from 'Core/helpers';
 import { MODULE, MUTATIONS } from 'Core/constants/vuex';
-import { TOAST_DEFAULTS } from 'Core/constants/ui';
 
 import Navigation from 'Core/components/Navigation.vue';
 import Footer from 'Core/components/Footer.vue';
@@ -79,14 +78,12 @@ export default {
 
           PendingSync.clear();
 
-          this.$toasted.success('<strong>NookSync:</strong>&nbsp;Successfully updated from pending items.', {
-            ...TOAST_DEFAULTS,
-            icon: 'check',
+          this.$toasted.global.success({
+            message: '<strong>NookSync:</strong>&nbsp;Successfully updated from pending items.',
           });
         } catch (e) {
-          this.$toasted.error('<strong>NookSync:</strong>&nbsp;Error updating NookSync from pending items', {
-            ...TOAST_DEFAULTS,
-            icon: 'times',
+          this.$toasted.global.success({
+            message: '<strong>NookSync:</strong>&nbsp;Error updating NookSync from pending items.',
           });
         }
       }, 60000);
@@ -110,14 +107,12 @@ export default {
 
             PendingSync.clear();
 
-            this.$toasted.success('<strong>NookSync:</strong>&nbsp;Successfully updated from pending items.', {
-              ...TOAST_DEFAULTS,
-              icon: 'check',
+            this.$toasted.global.success({
+              message: '<strong>NookSync:</strong>&nbsp;Successfully updated from pending items.',
             });
           } catch {
-            this.$toasted.error('<strong>NookSync:</strong>&nbsp;Error updating NookSync from pending items', {
-              ...TOAST_DEFAULTS,
-              icon: 'times',
+            this.$toasted.global.success({
+              message: '<strong>NookSync:</strong>&nbsp;Error updating NookSync from pending items.',
             });
           }
         }

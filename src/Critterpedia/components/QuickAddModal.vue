@@ -85,7 +85,6 @@
 import { mapState, mapGetters, mapMutations, mapActions } from 'vuex';
 import { mixin as clickaway } from 'vue-clickaway';
 
-import { TOAST_DEFAULTS } from 'Core/constants/ui';
 import { MODULE as CORE_MODULE } from 'Core/constants/vuex';
 import { MODULE, MUTATIONS, ACTIONS, GETTERS } from 'Critterpedia/constants/vuex';
 import { CRITTER_TYPES } from 'Critterpedia/constants/critter-types';
@@ -298,16 +297,14 @@ export default {
       try {
         await method(this.syncId, payload);
 
-        this.$toasted.success(`<strong>NookSync:</strong>&nbsp;${toastCritterTypeText} donated status updated.`, {
-          ...TOAST_DEFAULTS,
-          icon: 'check',
+        this.$toasted.global.success({
+          message: `<strong>NookSync:</strong>&nbsp;${toastCritterTypeText} donated status updated.`,
         });
       } catch (e) {
         PendingSync.setCritter(critter, donated, critterType);
 
-        this.$toasted.error(`<strong>NookSync:</strong>&nbsp;Error updating ${toastCritterTypeText} donated status.`, {
-          ...TOAST_DEFAULTS,
-          icon: 'times',
+        this.$toasted.global.error({
+          message: `<strong>NookSync:</strong>&nbsp;Error updating ${toastCritterTypeText} donated status.`,
         });
       }
     },

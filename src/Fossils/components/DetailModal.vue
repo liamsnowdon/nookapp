@@ -68,7 +68,6 @@ import { mapState, mapGetters, mapMutations } from 'vuex';
 
 import { MODULE as CORE_MODULE } from 'Core/constants/vuex';
 import { MODULE, GETTERS, MUTATIONS } from 'Fossils/constants/vuex';
-import { TOAST_DEFAULTS } from 'Core/constants/ui';
 
 import Modal from 'Core/components/Modal.vue';
 import PartButton from 'Fossils/components/PartButton.vue';
@@ -163,16 +162,14 @@ export default {
           donatedFossils: [this.fossil['file-name']],
         });
 
-        this.$toasted.success('<strong>NookSync:</strong>&nbsp;Fossil donated status updated.', {
-          ...TOAST_DEFAULTS,
-          icon: 'check',
+        this.$toasted.global.success({
+          message: '<strong>NookSync:</strong>&nbsp;Fossil donated status updated.',
         });
       } catch (e) {
         PendingSync.setFossil(this.fossil, this.isDonated);
 
-        this.$toasted.error('<strong>NookSync:</strong>&nbsp;Error updating fossil donated status.', {
-          ...TOAST_DEFAULTS,
-          icon: 'times',
+        this.$toasted.global.error({
+          message: '<strong>NookSync:</strong>&nbsp;Error updating fossil donated status.',
         });
       }
     },

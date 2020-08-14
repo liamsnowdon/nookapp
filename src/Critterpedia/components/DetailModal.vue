@@ -200,7 +200,6 @@ import { mapState, mapGetters, mapMutations } from 'vuex';
 
 import { MONTHS } from 'Core/constants/date';
 import { MODULE as CORE_MODULE } from 'Core/constants/vuex';
-import { TOAST_DEFAULTS } from 'Core/constants/ui';
 
 import { CRITTER_TYPES } from 'Critterpedia/constants/critter-types';
 import {
@@ -411,16 +410,14 @@ export default {
       try {
         await method(this.syncId, payload);
 
-        this.$toasted.success(`<strong>NookSync:</strong>&nbsp;${toastCritterTypeText} donated status updated.`, {
-          ...TOAST_DEFAULTS,
-          icon: 'check',
+        this.$toasted.global.success({
+          message: `<strong>NookSync:</strong>&nbsp;${toastCritterTypeText} donated status updated.`,
         });
       } catch (e) {
         PendingSync.setCritter(this.critter, this.isDonated, this.critterType);
 
-        this.$toasted.error(`<strong>NookSync:</strong>&nbsp;Error updating ${toastCritterTypeText} donated status.`, {
-          ...TOAST_DEFAULTS,
-          icon: 'times',
+        this.$toasted.global.error({
+          message: `<strong>NookSync:</strong>&nbsp;Error updating ${toastCritterTypeText} donated status.`,
         });
       }
     },
