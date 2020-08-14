@@ -393,24 +393,29 @@ export default {
       }
 
       const method = this.isDonated ? SyncApi.patch : SyncApi.delete;
+
       const payload = {};
+      let toastCritterTypeText;
 
       if (this.isBug) {
         payload.donatedBugs = [this.critter.id];
+        toastCritterTypeText = 'Bug';
       } else if (this.isSeaCreature) {
         payload.donatedSeaCreatures = [this.critter.id];
+        toastCritterTypeText = 'Sea Creature';
       } else {
         payload.donatedFish = [this.critter.id];
+        toastCritterTypeText = 'Fish';
       }
 
       try {
         await method(this.syncId, payload);
 
-        this.$toasted.success('<strong>NookSync:</strong>&nbsp;Critter updated.', TOAST_DEFAULTS);
+        this.$toasted.success(`<strong>NookSync:</strong>&nbsp;${toastCritterTypeText} donated status updated.`, TOAST_DEFAULTS);
       } catch (e) {
         PendingSync.setCritter(this.critter, this.isDonated, this.critterType);
 
-        this.$toasted.error('<strong>NookSync:</strong>&nbsp;Error updating fossil.', TOAST_DEFAULTS);
+        this.$toasted.error(`<strong>NookSync:</strong>&nbsp;Error updating ${toastCritterTypeText} donated status.`, TOAST_DEFAULTS);
       }
     },
 

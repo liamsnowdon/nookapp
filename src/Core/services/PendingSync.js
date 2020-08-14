@@ -80,6 +80,7 @@ export default class PendingSync {
     });
 
     for (const item of Object.keys(items)) {
+      // On true values we PATCH, on false values we DELETE
       if (items[item].true || items[item].false) {
         const deleteItems = items[item].false ? items[item].false.map(i => i.id) : [];
         const patchItems = items[item].true ? items[item].true.map(i => i.id) : [];
@@ -100,6 +101,8 @@ export default class PendingSync {
           await SyncApi.patch(syncId, payload);
         }
       } else {
+        // This is an object instead of an array so we just override the entire thing with PATCH
+
         const payload = {};
 
         payload[item] = items[item];
