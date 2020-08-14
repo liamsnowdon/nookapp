@@ -5,7 +5,9 @@ export default class SyncApi {
   static async get (uuid) {
     const url = Api.url(`${CRITTERSYNC.BASE}${CRITTERSYNC.SESSION}`, { uuid });
 
-    return await Api.$instance.get(url);
+    const response = await Api.$instance.get(url);
+
+    return response.data;
   }
 
   static async create (data) {

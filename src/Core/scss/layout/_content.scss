@@ -10,8 +10,11 @@
       margin-bottom: 0;
 
       + p {
-        margin-top: 10px;
-        margin-bottom: 0;
+        &,
+        + p {
+          margin-top: 10px;
+          margin-bottom: 0;
+        }
       }
     }
   }

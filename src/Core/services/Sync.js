@@ -34,6 +34,10 @@ export default class Sync {
     localStorage.setItem(STORAGE.SYNC_ID, id);
   }
 
+  static removeSyncIdInLocalStorage () {
+    localStorage.removeItem(STORAGE.SYNC_ID);
+  }
+
   /**
    * Sets core Vuex state from Sync session
    *

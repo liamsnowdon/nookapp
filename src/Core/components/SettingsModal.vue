@@ -11,6 +11,28 @@
     <template #content>
       <template v-if="isStorageAvailable">
         <div class="modal__section">
+          <h4>NookSync</h4>
+
+          <p>
+            NookSync helps keep track of your settings, donated critters and fossils, etc across your devices.
+            <br>
+            <template v-if="syncId">
+              You can remove the NookSync attached to this device below.
+            </template>
+            <template v-else>
+              You can learn more and set up NookSync on this device <FauxLinkButton @click="goToNookSyncPage">here</FauxLinkButton>.
+            </template>
+          </p>
+
+          <Button
+            v-if="syncId"
+            @click="removeSyncId"
+          >
+            Remove NookSync
+          </Button>
+        </div>
+
+        <div class="modal__section">
           <h4>Preferred Hemisphere</h4>
           <p>
             With a preferred hemisphere selected, your experience across the NookApp will be improved, focusing more
@@ -92,8 +114,10 @@ import { mapState, mapGetters, mapMutations } from 'vuex';
 import Multiselect from 'vue-multiselect';
 import { SETTINGS } from 'Core/constants/settings';
 import Button from 'Core/components/Button.vue';
+import FauxLinkButton from 'Core/components/FauxLinkButton.vue';
 import Modal from 'Core/components/Modal.vue';
 import SyncApi from 'Core/api/SyncApi';
+import Sync from 'Core/services/Sync';
 import PendingSync from 'Core/services/PendingSync';
 
 import {
@@ -117,6 +141,7 @@ export default {
   components: {
     Modal,
     Button,
+    FauxLinkButton,
     Multiselect,
   },
 
@@ -177,6 +202,7 @@ export default {
     ...mapMutations(CORE_MODULE, [
       CORE_MUTATIONS.SET_SETTINGS_MODAL_OPEN,
       CORE_MUTATIONS.SET_SETTINGS_HEMISPHERE,
+      CORE_MUTATIONS.SET_SYNC_ID,
     ]),
 
     ...mapMutations(CRITTERPEDIA_MODULE, [
@@ -194,6 +220,22 @@ export default {
 
     onClose () {
       this.setSettingsModalOpen(false);
+    },
+
+    goToNookSyncPage () {
+      this.$router.push({ name: 'Sync' });
+      this.onClose();
+    },
+
+    removeSyncId () {
+      const confirmation = confirm('Are you sure you want to remove the NookSync attached to this device?');
+
+      if (!confirmation) {
+        return;
+      }
+
+      Sync.removeSyncIdInLocalStorage();
+      this.setSyncId('');
     },
 
     resetDonatedBugs () {

@@ -119,8 +119,8 @@ export default {
 
         const session = await SyncApi.get(syncId);
 
-        Sync.setAppStateFromSyncSession(session.data.data);
-        Sync.setLocalStorageFromSyncSession(session.data.data);
+        Sync.setAppStateFromSyncSession(session.data);
+        Sync.setLocalStorageFromSyncSession(session.data);
 
         this.setLoadingSyncSession(false);
       } else {

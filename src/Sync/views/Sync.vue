@@ -4,40 +4,50 @@
       <div class="l-content__title">
         <h1>NookSync</h1>
         <p>
-          With the power of NookSync, you can sync up your data of donated critters and fossils to your other devices,
+          With the power of NookSync, you can sync up your data to your other devices,
           so you know exactly what you're missing, wherever you are.
         </p>
+
+        <p>It will keep track of your <strong>settings</strong>, <strong>donated critters</strong> and <strong>donated fossils</strong>.</p>
       </div>
 
       <template v-if="syncId">
-        <p>Your NookSync ID is:</p>
+        <div class="session-existing">
+          <div class="session-existing__text">
+            <p>Your NookSync ID is:</p>
 
-        <div class="session-copy">
-          <input
-            class="session-copy__input"
-            type="text"
-            readonly
-            :value="syncId"
-          >
+            <div class="session-copy">
+              <input
+                class="session-copy__input"
+                type="text"
+                readonly
+                :value="syncId"
+              >
 
-          <button
-            class="session-copy__button"
-            type="button"
-            @click="copySyncId"
-          >
-            <i class="fa fa-clipboard" />
-          </button>
+              <button
+                class="session-copy__button"
+                type="button"
+                @click="copySyncId"
+              >
+                <i class="fa fa-clipboard" />
+              </button>
+            </div>
+
+            <p>Enter this ID on your other devices so they will stay in sync.</p>
+          </div>
+
+          <div class="session-existing__image">
+            <img :src="require(`Core/assets/tom-nook.png`)" alt="Tom Nook" />
+          </div>
         </div>
-
-        <p>Enter this ID on your other devices so they will stay in sync.</p>
       </template>
 
       <template v-else>
         <div class="session">
           <p class="session__intro">
             It looks like you haven't set up NookSync on this device yet! If you have already set it up on another device,
-            simply find your ID on it by visiting this page and enter it in the text box below. If you haven't, click the
-            "Create sync" button to begin.
+            simply find your ID by visiting this page on that device and enter it into the text box below. If you haven't, click the
+            "Create NookSync session" button to begin.
           </p>
 
           <div class="session__content">
@@ -135,10 +145,9 @@ export default {
         payload.settings = settings;
       }
 
-      const response = await SyncApi.create(payload);
+      try {
+        const response = await SyncApi.create(payload);
 
-      // todo replace with try/catch when backend status codes are done
-      if (response.status === 0) {
         const session = response.data;
 
         Sync.setSyncIdInLocalStorage(session.id);
@@ -150,6 +159,10 @@ export default {
           icon: 'check',
           duration: 5000,
         });
+      } catch {
+        this.$toasted.global.error({
+          message: 'Could not create Sync ID. Please try again later.',
+        });
       }
     },
 
@@ -159,16 +172,23 @@ export default {
 
       const syncId = this.existingSyncId;
 
-      const response = await SyncApi.get(syncId);
+      try {
+        const response = await SyncApi.get(syncId);
 
-      // todo replace with try/catch when backend status codes are done
-      if (response.data.status === 0) {
-        const session = response.data.data;
+        const session = response.data;
 
         Sync.setLocalStorageFromSyncSession(session);
         Sync.setAppStateFromSyncSession(session);
-      } else {
-        this.error = 'This NookSync ID is invalid.';
+
+        this.existingSyncId = null;
+      } catch (e) {
+        if (e && e.status === 404) {
+          this.error = 'This NookSync ID is invalid.';
+        } else {
+          this.$toasted.global.error({
+            message: 'Could not get Sync ID. Please try again later.',
+          });
+        }
       }
 
       this.loading = false;
@@ -191,6 +211,40 @@ export default {
 </script>
 
 <style lang="scss">
+  .session-existing {
+    display: flex;
+    flex-flow: row wrap;
+    align-items: center;
+    justify-content: center;
+    margin: 0 -20px;
+
+    &__text,
+    &__image {
+      padding: 0 20px;
+
+      @include breakpoint(medium, down) {
+        flex: 0 0 100%;
+      }
+    }
+
+    &__text {
+      @include breakpoint(medium, down) {
+        order: 2;
+      }
+    }
+
+    &__image {
+      @include breakpoint(medium, down) {
+        order: 1;
+        margin-bottom: 30px;
+
+        img {
+          height: 100px;
+        }
+      }
+    }
+  }
+
   .session-copy {
     display: flex;
     max-width: 400px;
@@ -200,7 +254,11 @@ export default {
       flex: 1 0 0;
       border: 0;
       padding: 20px;
+      margin: 0;
+      height: 58px;
       background-color: var(--button-background-color);
+      border: 0;
+      border-radius: 0;
       color: var(--button-text-color);
       font-size: var(--global-font-size);
       text-overflow: ellipsis;
@@ -210,6 +268,7 @@ export default {
 
     &__button {
       @extend %button-reset;
+      height: 58px;
       padding: 14px;
       background-color: var(--button-background-color);
       color: var(--button-text-color);

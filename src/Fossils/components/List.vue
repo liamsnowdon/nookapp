@@ -88,7 +88,6 @@
               v-for="fossil in standaloneFossils"
               :key="fossil['file-name']"
               :fossil="fossil"
-              @click="selectFossil"
             >
               {{ fossil.name['name-EUen'] }}
             </ListItem>
@@ -169,12 +168,6 @@ export default {
      */
     multipartFossils () {
       return this.fossilGroups.filter(group => group.parts.length > 1);
-    },
-  },
-
-  methods: {
-    selectFossil (fossil) {
-      console.log(fossil);
     },
   },
 };

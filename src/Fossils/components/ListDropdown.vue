@@ -26,7 +26,6 @@
         v-for="part in group.parts"
         :key="part['file-name']"
         :fossil="part"
-        @click="selectFossil"
       />
     </div>
   </div>
@@ -64,12 +63,6 @@ export default {
 
     allPartsDonated () {
       return !this.group.parts.find(part => !this.getDonatedFossil(part['file-name']));
-    },
-  },
-
-  methods: {
-    selectFossil (fossil) {
-      console.log(fossil);
     },
   },
 };
