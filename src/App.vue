@@ -10,10 +10,15 @@
 
 <script>
 import { mapState, mapMutations } from 'vuex';
+
 import { storageAvailable } from 'Core/helpers';
 import { MODULE, MUTATIONS } from 'Core/constants/vuex';
+import { TOAST_DEFAULTS } from 'Core/constants/ui';
+
 import Navigation from 'Core/components/Navigation.vue';
 import Footer from 'Core/components/Footer.vue';
+
+import PendingSync from 'Core/services/PendingSync';
 import Sync from 'Core/services/Sync';
 import SyncApi from 'Core/api/SyncApi';
 
@@ -32,7 +37,7 @@ export default {
   created () {
     this.checkDeviceForStorageApi();
 
-    this.setAppData();
+    this.setAppState();
   },
 
   computed: {
@@ -55,15 +60,29 @@ export default {
       }
     },
 
-    async setAppData () {
+    async setAppState () {
       if (!this.isStorageAvailable) {
         return;
       }
 
       const syncId = Sync.getSyncIdFromLocalStorage();
+      const pendingSync = PendingSync.get();
 
       if (syncId) {
         this.setLoadingSyncSession(true);
+
+        // Try and update Sync session with pending sync items
+        if (pendingSync) {
+          try {
+            await PendingSync.attemptSyncUpdateFromPendingSync(syncId);
+
+            PendingSync.clear();
+
+            this.$toasted.success('<strong>NookSync:</strong>&nbsp;Successfully updated from pending items.', TOAST_DEFAULTS);
+          } catch {
+            this.$toasted.error('<strong>NookSync:</strong>&nbsp;Error updating NookSync from pending items', TOAST_DEFAULTS);
+          }
+        }
 
         const session = await SyncApi.get(syncId);
 

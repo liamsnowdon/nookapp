@@ -1,9 +1,12 @@
+import groupBy from 'lodash/groupBy';
+import isArray from 'lodash/isArray';
+
 import { storageAvailable } from 'Core/helpers';
+import SyncApi from 'Core/api/SyncApi';
 
 import { STORAGE } from 'Core/constants/storage';
 import { STORAGE as FOSSILS_STORAGE } from 'Fossils/constants/storage';
 import { STORAGE as CRITTERPEDIA_STORAGE } from 'Critterpedia/constants/storage';
-
 import { CRITTER_TYPES } from 'Critterpedia/constants/critter-types';
 
 /**
@@ -43,6 +46,70 @@ export default class PendingSync {
   }
 
   /**
+   * Removes the pending sync item from localStorage
+   */
+  static clear () {
+    if (!storageAvailable('localStorage')) {
+      return;
+    }
+
+    localStorage.removeItem(STORAGE.PENDING_SYNC);
+  }
+
+  /**
+   * Try to update the Sync session with the current pending sync items from localStorage.
+   *
+   * @param {string} syncId
+   * @returns {Promise}
+   */
+  static async attemptSyncUpdateFromPendingSync (syncId) {
+    const pendingSync = this.get();
+
+    const items = {};
+
+    /*
+     * Prepare data for request.
+     * Split out true and false values so we know what to PATCH and DELETE
+     */
+    Object.keys(pendingSync).forEach(item => {
+      if (isArray(pendingSync[item])) {
+        items[item] = groupBy(pendingSync[item], 'value');
+      } else {
+        items[item] = pendingSync[item];
+      }
+    });
+
+    for (const item of Object.keys(items)) {
+      if (items[item].true || items[item].false) {
+        const deleteItems = items[item].false ? items[item].false.map(i => i.id) : [];
+        const patchItems = items[item].true ? items[item].true.map(i => i.id) : [];
+
+        if (deleteItems.length > 0) {
+          const payload = {};
+
+          payload[item] = deleteItems;
+
+          await SyncApi.delete(syncId, payload);
+        }
+
+        if (patchItems.length > 0) {
+          const payload = {};
+
+          payload[item] = patchItems;
+
+          await SyncApi.patch(syncId, payload);
+        }
+      } else {
+        const payload = {};
+
+        payload[item] = items[item];
+
+        await SyncApi.patch(syncId, payload);
+      }
+    }
+  }
+
+  /**
    * Sets a fossil in pending sync
    *
    * @param {Object} fossil
@@ -64,12 +131,12 @@ export default class PendingSync {
     if (index === -1) {
       pendingSync[FOSSILS_STORAGE.DONATED_FOSSILS].push({
         id: fossil['file-name'],
-        isDonated,
+        value: isDonated,
       });
     } else {
       pendingSync[FOSSILS_STORAGE.DONATED_FOSSILS][index] = {
         id: fossil['file-name'],
-        isDonated,
+        value: isDonated,
       };
     }
 
@@ -114,14 +181,31 @@ export default class PendingSync {
     if (index === -1) {
       pendingSync[storageString].push({
         id: critter.id,
-        isDonated,
+        value: isDonated,
       });
     } else {
       pendingSync[storageString][index] = {
         id: critter.id,
-        isDonated,
+        value: isDonated,
       };
     }
+
+    this.set(pendingSync);
+  }
+
+  /**
+   * Set settings
+   *
+   * @param {Object} settings
+   */
+  static setSettings (settings) {
+    let pendingSync = this.get();
+
+    if (!pendingSync) {
+      pendingSync = {};
+    }
+
+    pendingSync[STORAGE.SETTINGS] = settings;
 
     this.set(pendingSync);
   }
