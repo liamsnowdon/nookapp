@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="checklist-items">
     <Item
       v-for="item in items"
       :key="item.name"
@@ -29,5 +29,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
+  .checklist-items {
+    max-width: 650px;
+    margin: 0 auto;
+  }
 </style>

@@ -18,7 +18,7 @@ export default {
       return;
     }
 
-    state.items[index] = item;
+    state.items.splice(index, 1, item);
     localStorage.setItem(STORAGE.CHECKLIST_ITEMS, JSON.stringify(state.items));
   },
 };

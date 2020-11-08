@@ -31,18 +31,18 @@
       <li class="navigation__item">
         <router-link
           class="navigation__link"
-          :to="{ name: 'Sync' }"
+          :to="{ name: 'Checklist' }"
         >
-          NookSync
+          Daily Checklist
         </router-link>
       </li>
 
       <li class="navigation__item">
         <router-link
           class="navigation__link"
-          :to="{ name: 'Checklist' }"
+          :to="{ name: 'Sync' }"
         >
-          Daily Checklist
+          NookSync
         </router-link>
       </li>
     </ul>

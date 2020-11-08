@@ -1,16 +1,27 @@
 <template>
   <div class="checklist-item">
-    <div class="checklist-item__name">
-      {{ item.name }}
+    <div class="checklist-item__checkbox">
+      <div class="c-checkbox">
+        <input
+          :id="item.name"
+          v-model="isComplete"
+          type="checkbox"
+          class="c-checkbox__input"
+          :disabled="item.completed || disabled"
+          @change="onCompleteChange"
+        />
+        <label
+          :for="item.name"
+          class="c-checkbox__label"
+        >
+          <span class="c-checkbox__checkbox"></span>
+        </label>
+      </div>
     </div>
 
-    <div class="checklist-item__checkbox">
-      <input
-        v-model="isComplete"
-        type="checkbox"
-        @change="onCompleteChange"
-      />
-    </div>
+    <h3 class="checklist-item__name">
+      {{ item.name }}
+    </h3>
   </div>
 </template>
 
@@ -31,6 +42,12 @@ export default {
     item: {
       type: Object,
       required: true,
+    },
+
+    disabled: {
+      type: Boolean,
+      required: false,
+      default: false,
     },
   },
 
@@ -56,5 +73,22 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+  .checklist-item {
+    display: flex;
+    align-items: center;
+    margin: 0 0 10px 0;
+    padding: 20px;
+    background-color: #569a52;
+    border-radius: 5px;
 
+    &__checkbox {
+
+    }
+
+    &__name {
+      flex: 1 0 0;
+      margin: 0;
+      text-align: left;
+    }
+  }
 </style>
