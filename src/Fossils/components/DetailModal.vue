@@ -65,9 +65,15 @@
 
 <script>
 import { mapState, mapGetters, mapMutations } from 'vuex';
+
+import { MODULE as CORE_MODULE } from 'Core/constants/vuex';
 import { MODULE, GETTERS, MUTATIONS } from 'Fossils/constants/vuex';
+
 import Modal from 'Core/components/Modal.vue';
 import PartButton from 'Fossils/components/PartButton.vue';
+
+import SyncApi from 'Core/api/SyncApi';
+import PendingSync from 'Core/services/PendingSync';
 
 export default {
   name: 'DetailModal',
@@ -84,6 +90,10 @@ export default {
   },
 
   computed: {
+    ...mapState(CORE_MODULE, {
+      syncId: state => state.syncId,
+    }),
+
     ...mapState(MODULE, {
       fossil: state => state.selectedFossil,
       fossils: state => state.fossils,
@@ -137,6 +147,31 @@ export default {
       };
 
       this.setDonatedFossilStatus(payload);
+      this.updateSyncDonatedFossilStatus();
+    },
+
+    async updateSyncDonatedFossilStatus () {
+      if (!this.syncId) {
+        return;
+      }
+
+      const method = this.isDonated ? SyncApi.patch : SyncApi.delete;
+
+      try {
+        await method(this.syncId, {
+          donatedFossils: [this.fossil['file-name']],
+        });
+
+        this.$toasted.global.success({
+          message: '<strong>NookSync:</strong>&nbsp;Fossil donated status updated.',
+        });
+      } catch (e) {
+        PendingSync.setFossil(this.fossil, this.isDonated);
+
+        this.$toasted.global.error({
+          message: '<strong>NookSync:</strong>&nbsp;Error updating fossil donated status.',
+        });
+      }
     },
   },
 };

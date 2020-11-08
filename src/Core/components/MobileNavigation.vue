@@ -42,6 +42,20 @@
             </router-link>
           </li>
         </ul>
+
+        <hr class="mobile-navigation__separator">
+
+        <ul class="mobile-navigation__items">
+          <li class="mobile-navigation__item">
+            <router-link
+              class="mobile-navigation__link"
+              :to="{ name: 'Sync' }"
+            >
+              NookSync
+            </router-link>
+          </li>
+        </ul>
+
       </div>
     </div>
   </div>
@@ -134,6 +148,10 @@ export default {
       color: var(--navigation-text-color);
       text-decoration: none;
       font-size: 20px;
+    }
+
+    &__separator {
+      margin: 25px 0;
     }
   }
 </style>

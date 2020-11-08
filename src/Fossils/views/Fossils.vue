@@ -20,7 +20,6 @@ import { MODULE as CORE_MODULE } from 'Core/constants/vuex';
 import { MODULE, MUTATIONS, ACTIONS } from 'Fossils/constants/vuex';
 import List from 'Fossils/components/List.vue';
 import DetailModal from 'Fossils/components/DetailModal.vue';
-import { STORAGE } from 'Fossils/constants/storage';
 
 export default {
   name: 'Fossils',
@@ -32,8 +31,6 @@ export default {
 
   created () {
     this.getFossils();
-
-    this.setDonatedFossilsFromLocalStorage();
   },
 
   mounted () {
@@ -69,20 +66,6 @@ export default {
       }
 
       this.digFossils();
-    },
-
-    setDonatedFossilsFromLocalStorage () {
-      if (!this.isStorageAvailable) {
-        return;
-      }
-
-      let donatedFossils = localStorage.getItem(STORAGE.DONATED_FOSSILS);
-
-      if (donatedFossils) {
-        donatedFossils = donatedFossils.split(',');
-      }
-
-      this.setDonatedFossils(donatedFossils);
     },
   },
 };

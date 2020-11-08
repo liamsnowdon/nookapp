@@ -7,31 +7,33 @@ html {
 
   // Globals
   --global-width: 1440px;
-  --global-text-color: #444;
+  --global-text-color: white;
+  --global-font-size: 16px;
+  --global-font-family: 'Montserrat', Arial, sans-serif;
 
-  --body-background-color: white;
+  --body-background-color: #252525;
 
   // Components
   --navigation-background-color: var(--body-background-color);
   --navigation-text-color: white;
 
-  --modal-background-color: var(--brown-light);
-  --modal-text-color: var(--global-text-color);
-  --modal-header-background-color: var(--brown-dark);
+  --modal-background-color: var(--body-background-color);
+  --modal-header-background-color: #131212;
+  --modal-text-color: white;
 
-  --button-background-color: var(--brown-medium);
-  --button-hover-background-color: var(--brown-dark);
-  --button-text-color: black;
+  --button-background-color: #191919;
+  --button-hover-background-color: #131212;
+  --button-text-color: white;
 
   --checkbox-active-color: var(--brown-darkest);
 
-  --cross-color: #333;
+  --cross-color: white;
 
   --spinner-color: black;
 
   --footer-text-color: white;
 
-  --multiselect-highlight-color: var(--brown-darkest);
+  --multiselect-highlight-color: #131212;
 }
 
 // Page property cascades
@@ -40,28 +42,33 @@ html {
     --body-background-color: #252525;
     --global-text-color: white;
 
-
     --navigation-background-color: var(--body-background-color);
-    --modal-background-color: var(--body-background-color);
-    --modal-header-background-color: #131212;
-    --modal-text-color: white;
 
     --button-background-color: #191919;
     --button-hover-background-color: #131212;
     --button-text-color: white;
-
-    --cross-color: white;
-
-    --multiselect-highlight-color: #131212;
   }
 
   &-critterpedia {
     --body-background-color: #f0e6b8;
+    --global-text-color: #444;
 
     --navigation-background-color: var(--body-background-color);
     --navigation-text-color: var(--global-text-color);
     --footer-text-color: var(--global-text-color);
     --spinner-color: var(--brown-darkest);
+
+    --button-background-color: var(--brown-medium);
+    --button-hover-background-color: var(--brown-dark);
+    --button-text-color: black;
+
+    --modal-background-color: var(--brown-light);
+    --modal-text-color: var(--global-text-color);
+    --modal-header-background-color: var(--brown-dark);
+
+    --cross-color: #333;
+
+    --multiselect-highlight-color: var(--brown-darkest);
   }
 
   &-fossils {

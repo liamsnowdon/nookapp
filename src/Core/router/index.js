@@ -1,9 +1,9 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 
-import critterpedia from 'Core/router/critterpedia';
-import fossils from 'Core/router/fossils';
-
+import Critterpedia from 'Core/router/critterpedia';
+import Fossils from 'Core/router/fossils';
+import Sync from '@/Sync/views/Sync.vue';
 import Index from 'Index/views/Index.vue';
 import NotFound from 'Core/views/NotFound.vue';
 import Checklist from 'Checklist/views/Checklist';
@@ -16,8 +16,13 @@ const routes = [
     name: 'Home',
     component: Index,
   },
-  { ...critterpedia },
-  { ...fossils },
+  { ...Critterpedia },
+  { ...Fossils },
+  {
+    path: '/sync',
+    name: 'Sync',
+    component: Sync,
+  },
   {
     path: '/checklist',
     name: 'Checklist',
