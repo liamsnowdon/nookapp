@@ -47,7 +47,7 @@ export default {
       const payload = {
         ...this.item,
         completed: this.isComplete,
-      }
+      };
 
       this.setItem(payload);
     },

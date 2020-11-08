@@ -23,8 +23,8 @@ export default {
   computed: {
     ...mapState(MODULE, {
       items: state => state.items,
-    })
-  }
+    }),
+  },
 };
 </script>
 

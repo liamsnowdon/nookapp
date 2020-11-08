@@ -20,5 +20,5 @@ export default {
 
     state.items[index] = item;
     localStorage.setItem(STORAGE.CHECKLIST_ITEMS, JSON.stringify(state.items));
-  }
+  },
 };
