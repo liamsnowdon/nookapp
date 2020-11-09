@@ -100,6 +100,21 @@
             </Button>
           </div>
         </div>
+
+        <div class="modal__section">
+          <h4>Daily Checklist</h4>
+          <p>
+            The daily checklist keeps track of your daily tasks on the island. You can remove your created checklist
+            here.
+          </p>
+
+          <Button
+            @click="removeDailyChecklist"
+            :disabled="!hasChecklistCreated"
+          >
+            Remove daily checklist
+          </Button>
+        </div>
       </template>
 
       <template v-else>
@@ -135,6 +150,11 @@ import {
   MUTATIONS as FOSSILS_MUTATIONS,
   GETTERS as FOSSILS_GETTERS,
 } from 'Fossils/constants/vuex';
+import {
+  MODULE as CHECKLIST_MODULE,
+  GETTERS as CHECKLIST_GETTERS,
+  MUTATIONS as CHECKLIST_MUTATIONS,
+} from 'Checklist/constants/vuex';
 
 export default {
   name: 'SettingsModal',
@@ -189,6 +209,10 @@ export default {
     ...mapGetters(FOSSILS_MODULE, [
       FOSSILS_GETTERS.HAS_DONATED_FOSSILS,
     ]),
+
+    ...mapGetters(CHECKLIST_MODULE, [
+      CHECKLIST_GETTERS.HAS_CHECKLIST_CREATED,
+    ]),
   },
 
   watch: {
@@ -217,6 +241,10 @@ export default {
 
     ...mapMutations(FOSSILS_MODULE, [
       FOSSILS_MUTATIONS.CLEAR_DONATED_FOSSILS,
+    ]),
+
+    ...mapMutations(CHECKLIST_MODULE, [
+      CHECKLIST_MUTATIONS.SET_ITEMS,
     ]),
 
     onClose () {
@@ -309,6 +337,12 @@ export default {
           donatedFossils: donatedFossils,
         });
       }
+    },
+
+    removeDailyChecklist () {
+      this.setItems({
+        items: [],
+      });
     },
 
     onHemisphereChange () {

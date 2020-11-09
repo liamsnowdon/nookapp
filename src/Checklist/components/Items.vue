@@ -32,5 +32,6 @@ export default {
   .checklist-items {
     max-width: 650px;
     margin: 0 auto;
+    counter-reset: checklist;
   }
 </style>

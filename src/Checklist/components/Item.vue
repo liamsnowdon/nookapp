@@ -1,13 +1,22 @@
 <template>
-  <div class="checklist-item">
-    <div class="checklist-item__checkbox">
+  <div
+    class="checklist-item"
+  >
+    <h3 class="checklist-item__name">
+      {{ item.name }}
+    </h3>
+
+    <div
+      v-if="hasCheckbox"
+      class="checklist-item__checkbox"
+    >
       <div class="c-checkbox">
         <input
           :id="item.name"
           v-model="isComplete"
           type="checkbox"
           class="c-checkbox__input"
-          :disabled="item.completed || disabled"
+          :disabled="item.completed"
           @change="onCompleteChange"
         />
         <label
@@ -18,10 +27,6 @@
         </label>
       </div>
     </div>
-
-    <h3 class="checklist-item__name">
-      {{ item.name }}
-    </h3>
   </div>
 </template>
 
@@ -44,15 +49,17 @@ export default {
       required: true,
     },
 
-    disabled: {
+    hasCheckbox: {
       type: Boolean,
       required: false,
-      default: false,
+      default: true,
     },
   },
 
-  created () {
-    this.isComplete = this.item.completed;
+  mounted () {
+    this.$nextTick(() => {
+      this.isComplete = this.item.completed;
+    });
   },
 
   methods: {
@@ -74,6 +81,8 @@ export default {
 
 <style lang="scss" scoped>
   .checklist-item {
+    $block: &;
+
     display: flex;
     align-items: center;
     margin: 0 0 10px 0;
@@ -89,6 +98,11 @@ export default {
       flex: 1 0 0;
       margin: 0;
       text-align: left;
+
+      &::before {
+        counter-increment: checklist;
+        content: counter(checklist) ".";
+      }
     }
   }
 </style>

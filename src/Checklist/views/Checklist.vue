@@ -12,7 +12,7 @@
       <template v-else-if="createCustomListMode">
         <CustomItems
           @cancel="createCustomListMode = false"
-          @save="saveCustomChecklist"
+          @save="createCustomChecklist"
         />
       </template>
 
@@ -34,6 +34,8 @@
 </template>
 
 <script>
+import moment from 'moment';
+
 import { mapState, mapGetters, mapMutations } from 'vuex';
 import { STORAGE } from 'Checklist/constants/storage';
 import { MODULE as CORE_MODULE } from 'Core/constants/vuex';
@@ -69,6 +71,11 @@ export default {
 
   mounted () {
     document.querySelector('body').classList.add('page-checklist');
+
+    if (this.isChecklistDateInThePast()) {
+      this.resetCompletedStatuses();
+      this.setChecklistDate();
+    }
   },
 
   destroyed () {
@@ -88,6 +95,7 @@ export default {
   methods: {
     ...mapMutations(CHECKLIST_MODULE, [
       CHECKLIST_MUTATIONS.SET_ITEMS,
+      CHECKLIST_MUTATIONS.RESET_ITEMS,
     ]),
 
     setChecklistFromLocalStorage () {
@@ -95,9 +103,11 @@ export default {
         return;
       }
 
-      const checklist = JSON.parse(localStorage.getItem(STORAGE.CHECKLIST_ITEMS));
+      const items = JSON.parse(localStorage.getItem(STORAGE.CHECKLIST_ITEMS));
 
-      this.setItems(checklist);
+      this.setItems({
+        items,
+      });
     },
 
     createDefaultChecklist () {
@@ -109,10 +119,13 @@ export default {
         };
       });
 
-      this.setItems(items);
+      this.setItems({
+        items,
+        setDate: true,
+      });
     },
 
-    saveCustomChecklist (items) {
+    createCustomChecklist (items) {
       items = items.map((item, index) => {
         return {
           id: index + 1,
@@ -121,9 +134,37 @@ export default {
         };
       });
 
-      this.setItems(items);
+      this.setItems({
+        items,
+        setDate: true,
+      });
 
       this.createCustomListMode = false;
+    },
+
+    /**
+     * Checklist date is in the past if the current date is past it
+     *
+     * @returns {boolean}
+     */
+    isChecklistDateInThePast () {
+      const checklistDate = moment(JSON.parse(localStorage.getItem(STORAGE.CHECKLIST_DATE)));
+      const checklistDateTimestamp = checklistDate.valueOf();
+      const checklistDateDay = checklistDate.date();
+
+      const currentDate = moment(new Date());
+      const currentDateTimestamp = currentDate.valueOf();
+      const currentDateDay = currentDate.date();
+
+      return checklistDateTimestamp < currentDateTimestamp && checklistDateDay < currentDateDay;
+    },
+
+    resetCompletedStatuses () {
+      this.resetItems();
+    },
+
+    setChecklistDate () {
+      localStorage.setItem(STORAGE.CHECKLIST_DATE, JSON.stringify(new Date()));
     },
   },
 };

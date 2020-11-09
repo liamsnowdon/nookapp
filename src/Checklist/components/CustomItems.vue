@@ -5,13 +5,15 @@
         v-for="item in items"
         :key="item.name"
         :item="item"
-        :disabled="true"
+        :has-checkbox="false"
       />
 
-      <NewItem @addItem="addItem" />
+      <NewItem
+        @addItem="addItem"
+      />
     </div>
 
-    <div>
+    <div class="checklist-items__buttons">
       <Button @click="save">
         Save
       </Button>
@@ -67,5 +69,19 @@ export default {
   .checklist-items {
     max-width: 650px;
     margin: 0 auto;
+    counter-reset: checklist;
+
+    &__buttons {
+      display: flex;
+      justify-content: flex-end;
+      max-width: 650px;
+      margin: 20px auto 0;
+
+      button {
+        &:not(:last-child) {
+          margin-right: 10px;
+        }
+      }
+    }
   }
 </style>
