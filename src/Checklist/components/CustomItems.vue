@@ -5,7 +5,7 @@
         v-for="item in items"
         :key="item.name"
         :item="item"
-        :has-checkbox="false"
+        :checkable="false"
       />
 
       <NewItem
