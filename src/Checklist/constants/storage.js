@@ -1,4 +1,4 @@
 export const STORAGE = {
-  CHECKLIST_ITEMS: 'checklistItems',
+  CHECKLIST: 'checklist',
   CHECKLIST_DATE: 'checklistDate',
 };

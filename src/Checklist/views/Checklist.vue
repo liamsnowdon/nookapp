@@ -38,13 +38,14 @@ import moment from 'moment';
 
 import { mapState, mapGetters, mapMutations } from 'vuex';
 import { STORAGE } from 'Checklist/constants/storage';
+import CHECKLIST_TYPE from 'Checklist/constants/checklist-type';
+import DEFAULT_CHECKLIST from 'Checklist/constants/default-checklist';
 import { MODULE as CORE_MODULE } from 'Core/constants/vuex';
 import {
   MODULE as CHECKLIST_MODULE,
   MUTATIONS as CHECKLIST_MUTATIONS,
   GETTERS as CHECKLIST_GETTERS,
 } from 'Checklist/constants/vuex';
-import DEFAULT_CHECKLIST from 'Checklist/constants/default-checklist';
 
 import Button from 'Core/components/Button.vue';
 import Items from 'Checklist/components/Items.vue';
@@ -103,10 +104,11 @@ export default {
         return;
       }
 
-      const items = JSON.parse(localStorage.getItem(STORAGE.CHECKLIST_ITEMS));
+      const checklist = JSON.parse(localStorage.getItem(STORAGE.CHECKLIST));
 
       this.setItems({
-        items,
+        items: checklist ? checklist.items : [],
+        type: checklist ? checklist.type : CHECKLIST_TYPE.DEFAULT,
       });
     },
 
@@ -121,6 +123,7 @@ export default {
 
       this.setItems({
         items,
+        type: CHECKLIST_TYPE.DEFAULT,
         setDate: true,
       });
     },
@@ -136,6 +139,7 @@ export default {
 
       this.setItems({
         items,
+        type: CHECKLIST_TYPE.CUSTOM,
         setDate: true,
       });
 

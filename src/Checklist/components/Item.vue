@@ -57,9 +57,10 @@ export default {
   },
 
   mounted () {
-    this.$nextTick(() => {
+    // todo, ugh change this
+    setTimeout(() => {
       this.isComplete = this.item.completed;
-    });
+    }, 10);
   },
 
   methods: {
