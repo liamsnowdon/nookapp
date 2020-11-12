@@ -10,6 +10,7 @@
         v-model="name"
         class="checklist-new-item__input"
         type="text"
+        required
         ref="input"
       />
 

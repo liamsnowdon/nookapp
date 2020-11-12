@@ -75,4 +75,8 @@ export default {
       type: checklist.type,
     }));
   },
+
+  setType (state, type) {
+    state.type = type;
+  },
 };

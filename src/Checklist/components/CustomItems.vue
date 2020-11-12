@@ -6,6 +6,7 @@
         :key="item.name"
         :item="item"
         :checkable="false"
+        @change="onChange"
       />
 
       <NewItem
@@ -26,6 +27,10 @@
 </template>
 
 <script>
+import { mapMutations } from 'vuex';
+
+import { MODULE, MUTATIONS } from 'Checklist/constants/vuex';
+import CHECKLIST_TYPE from 'Checklist/constants/checklist-type';
 import Button from 'Core/components/Button.vue';
 import Item from 'Checklist/components/Item.vue';
 import NewItem from 'Checklist/components/NewItem.vue';
@@ -45,7 +50,15 @@ export default {
     };
   },
 
+  mounted () {
+    this.setType(CHECKLIST_TYPE.CUSTOM);
+  },
+
   methods: {
+    ...mapMutations(MODULE, [
+      MUTATIONS.SET_TYPE,
+    ]),
+
     save () {
       const items = this.items.slice();
 
@@ -59,7 +72,18 @@ export default {
     },
 
     addItem (item) {
-      this.items.push(item);
+      const id = this.items.length + 1;
+
+      this.items.push({
+        ...item,
+        id,
+      });
+    },
+
+    onChange (payload) {
+      const index = this.items.findIndex(item => item.id === payload.id);
+
+      this.items.splice(index, 1, payload);
     },
   },
 };

@@ -20,6 +20,7 @@
         v-model="name"
         class="checklist-item__input"
         required
+        ref="input"
       />
 
       <button class="checklist-item__save">
@@ -29,7 +30,7 @@
       <button
         class="checklist-item__save"
         type="button"
-        @click="editMode = false"
+        @click="disableEditMode"
       >
         <i class="fa fa-times" />
       </button>
@@ -38,7 +39,7 @@
     <button
       v-if="editable && !editMode"
       class="checklist-item__edit"
-      @click="editMode = true"
+      @click="enableEditMode"
     >
       <i class="fa fa-pencil-square-o" />
     </button>
@@ -68,9 +69,9 @@
 </template>
 
 <script>
-import { mapState, mapMutations } from 'vuex';
+import { mapState } from 'vuex';
 
-import { MODULE, MUTATIONS } from 'Checklist/constants/vuex';
+import { MODULE } from 'Checklist/constants/vuex';
 import CHECKLIST_TYPE from 'Checklist/constants/checklist-type';
 
 export default {
@@ -111,14 +112,23 @@ export default {
     }),
 
     editable () {
-      return this.checklistType === CHECKLIST_TYPE.CUSTOM && this.checkable;
+      return this.checklistType === CHECKLIST_TYPE.CUSTOM;
     },
   },
 
   methods: {
-    ...mapMutations(MODULE, [
-      MUTATIONS.SET_ITEM,
-    ]),
+    enableEditMode () {
+      this.editMode = true;
+
+      this.$nextTick(() => {
+        this.$refs.input.focus();
+      });
+    },
+
+    disableEditMode () {
+      this.editMode = false;
+      this.name = this.item.name;
+    },
 
     onCompleteChange () {
       const payload = {
@@ -126,7 +136,7 @@ export default {
         completed: this.isComplete,
       };
 
-      this.setItem(payload);
+      this.$emit('change', payload);
     },
 
     onNameChange () {
@@ -135,8 +145,8 @@ export default {
         name: this.name,
       };
 
-      this.setItem(payload);
       this.editMode = false;
+      this.$emit('change', payload);
     },
   },
 };
