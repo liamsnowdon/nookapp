@@ -44,6 +44,14 @@
       <i class="fa fa-pencil-square-o" />
     </button>
 
+    <button
+      v-if="deletable && !editMode"
+      class="checklist-item__edit"
+      @click="deleteItem"
+    >
+      <i class="fa fa-trash" />
+    </button>
+
     <div
       v-if="checkable && !editMode"
       class="checklist-item__checkbox"
@@ -95,6 +103,12 @@ export default {
       type: Boolean,
       required: false,
       default: true,
+    },
+
+    deletable: {
+      type: Boolean,
+      required: false,
+      default: false,
     },
   },
 
@@ -148,6 +162,10 @@ export default {
       this.editMode = false;
       this.$emit('change', payload);
     },
+
+    deleteItem () {
+      this.$emit('delete', this.item);
+    },
   },
 };
 </script>
@@ -169,9 +187,12 @@ export default {
 
     &__edit {
       @extend %button-reset;
-      margin-right: 20px;
       color: white;
       font-size: 40px;
+
+      &:not(:last-child) {
+        margin-right: 20px;
+      }
     }
 
     &__save {

@@ -3,6 +3,15 @@
     <div class="l-content">
       <div class="l-content__title">
         <h1>Daily Checklist</h1>
+        <p>
+          Make sure you do everything you need to do with this handy daily checklist.
+          Tick tasks off as you go so you don't forget anything!
+        </p>
+
+        <p v-if="!hasChecklistCreated && !createCustomListMode">
+          Looks like you haven't created your checklist yet. No worries! Use the buttons below to choose between our
+          default checklist or create your own one!
+        </p>
       </div>
 
       <template v-if="hasChecklistCreated">
@@ -11,23 +20,41 @@
 
       <template v-else-if="createCustomListMode">
         <CustomItems
-          @cancel="createCustomListMode = false"
+          @cancel="disableCustomListMode"
           @save="createCustomChecklist"
         />
       </template>
 
       <template v-else>
-        <Button
-          @click="createDefaultChecklist"
-        >
-          Use default checklist
-        </Button>
+        <div class="checklist-buttons">
+          <div class="checklist-button">
+            <button
+              class="checklist-button__button"
+              @click="createDefaultChecklist"
+            >
+              Use default checklist
+              <small class="checklist-button__button-info">
+                We will create your checklist for you with the most common tasks.
+              </small>
+            </button>
+          </div>
 
-        <Button
-          @click="createCustomListMode = true"
-        >
-          Create custom checklist
-        </Button>
+          <div class="checklist-buttons__divider">
+            or
+          </div>
+
+          <div class="checklist-button">
+            <button
+              class="checklist-button__button"
+              @click="enableCustomListMode"
+            >
+              Create custom checklist
+              <small class="checklist-button__button-info">
+                Create your own checklist with as many or as little tasks as you want!
+              </small>
+            </button>
+          </div>
+        </div>
       </template>
     </div>
   </div>
@@ -47,7 +74,6 @@ import {
   GETTERS as CHECKLIST_GETTERS,
 } from 'Checklist/constants/vuex';
 
-import Button from 'Core/components/Button.vue';
 import Items from 'Checklist/components/Items.vue';
 import CustomItems from 'Checklist/components/CustomItems.vue';
 
@@ -61,7 +87,6 @@ export default {
   },
 
   components: {
-    Button,
     Items,
     CustomItems,
   },
@@ -170,10 +195,45 @@ export default {
     setChecklistDate () {
       localStorage.setItem(STORAGE.CHECKLIST_DATE, JSON.stringify(new Date()));
     },
+
+    disableCustomListMode () {
+      this.createCustomListMode = false;
+    },
+
+    enableCustomListMode () {
+      this.createCustomListMode = true;
+    },
   },
 };
 </script>
 
 <style lang="scss">
+  .checklist-buttons {
+    display: flex;
+    align-items: center;
+    max-width: 600px;
+    margin: 0 auto;
+  }
 
+  .checklist-button {
+    flex: 0 0 50%;
+    height: 300px;
+    padding: 0 15px;
+
+    &__button {
+      @extend %button-reset;
+      width: 100%;
+      height: 100%;
+      padding: 10px;
+      background-color: #569a52;
+      color: var(--global-text-color);
+      border-radius: 5px;
+    }
+
+    &__button-info {
+      display: block;
+      margin-top: 12px;
+      line-height: 1.5;
+    }
+  }
 </style>
