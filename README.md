@@ -15,6 +15,7 @@ game on Nintendo Switch.
       what you've already donated.
 3. Daily Checklist
     - Tick off daily tasks to do around your island
+    - Use the default list or create a custom one.
     
       
 ## NookSync
