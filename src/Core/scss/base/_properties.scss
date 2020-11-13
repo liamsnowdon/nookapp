@@ -74,8 +74,6 @@ html {
 
     --checkbox-active-color: #1b1b2f;
 
-    --cross-color: white;
-
     --spinner-color: white;
 
     --multiselect-highlight-color: #1b1b2f;
@@ -101,5 +99,13 @@ html {
     --navigation-background-color: var(--body-background-color);
 
     --modal-background-color: var(--body-background-color);
+    --modal-header-background-color: #28708e;
+
+    --spinner-color: white;
+
+    --button-background-color: #28708e;
+    --button-hover-background-color: #1c4e63;
+
+    --multiselect-highlight-color: #28708e;
   }
 }
