@@ -19,6 +19,10 @@ export default {
     state.detailModalOpen = open;
   },
 
+  setDreamTeamVillagers (state, villagers) {
+    state.dreamTeamVillagers = villagers;
+  },
+
   setFiltersSearchTerm (state, term) {
     state.filters.searchTerm = term;
   },

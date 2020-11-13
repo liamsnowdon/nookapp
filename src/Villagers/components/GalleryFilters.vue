@@ -73,9 +73,9 @@
 </template>
 
 <script>
-import { mapState, mapMutations } from 'vuex';
+import { mapState, mapGetters, mapMutations } from 'vuex';
 import Multiselect from 'vue-multiselect';
-import { MODULE, MUTATIONS } from 'Villagers/constants/vuex';
+import { MODULE, GETTERS, MUTATIONS } from 'Villagers/constants/vuex';
 
 export default {
   name: 'GalleryFilters',
@@ -90,26 +90,6 @@ export default {
       species: '',
       personality: '',
       gender: '',
-      speciesOptions: [
-        'Pond',
-        'River',
-        'River (Clifftop)',
-        'River (Mouth)',
-        'River (Clifftop) & Pond',
-        'Sea',
-        'Sea (when raining or snowing)',
-        'Pier',
-      ],
-      personalityOptions: [
-        'Pond',
-        'River',
-        'River (Clifftop)',
-        'River (Mouth)',
-        'River (Clifftop) & Pond',
-        'Sea',
-        'Sea (when raining or snowing)',
-        'Pier',
-      ],
       genderOptions: [
         'Male',
         'Female',
@@ -121,6 +101,11 @@ export default {
     ...mapState(MODULE, {
       errorLoadingVillagers: state => state.errorLoadingVillagers,
     }),
+
+    ...mapGetters(MODULE, [
+      GETTERS.SPECIES_OPTIONS,
+      GETTERS.PERSONALITY_OPTIONS,
+    ]),
   },
 
   methods: {

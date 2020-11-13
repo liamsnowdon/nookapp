@@ -100,6 +100,12 @@ export default {
       }
     }
 
+    &--small {
+      @include breakpoint(medium) {
+        width: 25%;
+      }
+    }
+
     &__header {
       display: flex;
       justify-content: space-between;

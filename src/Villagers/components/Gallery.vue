@@ -8,16 +8,22 @@
       :class="{'is-active': filtersSliderOpen }"
       class="gallery__filters-mobile-overlay"
     />
-    <div
-      :class="{'is-active': filtersSliderOpen }"
-      class="gallery__filters-container"
-    >
-      <div class="gallery__filters-mobile-header">
-        <h2>Sort/Filters</h2>
-        <button class="cross" @click="closeFiltersSlider"></button>
+    <div class="gallery__filters-dream-team">
+      <div
+        :class="{'is-active': filtersSliderOpen }"
+        class="gallery__filters-container"
+      >
+        <div class="gallery__filters-mobile-header">
+          <h2>Sort/Filters</h2>
+          <button class="cross" @click="closeFiltersSlider"></button>
+        </div>
+
+        <GalleryFilters />
       </div>
 
-      <GalleryFilters />
+      <div class="gallery__dream-team">
+        <DreamTeam />
+      </div>
     </div>
 
     <template v-if="loading">
@@ -59,6 +65,7 @@ import { MODULE, MUTATIONS } from 'Villagers/constants/vuex';
 import { MESSAGES } from 'Villagers/constants/messages';
 
 import GalleryFilters from 'Villagers/components/GalleryFilters.vue';
+import DreamTeam from 'Villagers/components/DreamTeam.vue';
 import Spinner from 'Core/components/Spinner.vue';
 
 export default {
@@ -66,6 +73,7 @@ export default {
 
   components: {
     GalleryFilters,
+    DreamTeam,
     Spinner,
   },
 
@@ -199,3 +207,17 @@ export default {
   },
 };
 </script>
+
+<style lang="scss" scoped>
+  .gallery__filters-dream-team {
+    display: flex;
+  }
+
+  .gallery__filters-container {
+    flex: 1 1 0;
+  }
+
+  .gallery__dream-team {
+    flex: 1 1 0;
+  }
+</style>

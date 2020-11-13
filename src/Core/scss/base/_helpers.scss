@@ -1,16 +1,28 @@
 // Table of Contents
 //
-// 1. Margin
-// 2. Text
+// 1. Display
+// 2. Margin
+// 3. Text
 
-.mb-0 {
-  margin-bottom: 0 !important;
+// 1. Display
+.d-block {
+  display: block;
+}
+
+// 2. Margin
+.mt-15 {
+  margin-top: 15px !important;
 }
 
 .mr-0 {
   margin-right: 0 !important;
 }
 
+.mb-0 {
+  margin-bottom: 0 !important;
+}
+
+// 3. text
 .text-center {
   text-align: center;
 }

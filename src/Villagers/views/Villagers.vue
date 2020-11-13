@@ -5,12 +5,18 @@
         <div class="l-content__title">
           <h1>Villagers</h1>
           <p>
-            Villagers intro text
+            There are {{ villagers.length ? villagers.length : 'many' }} villagers in the Animal Crossing universe,
+            each with their own personality and hobbies.
+          </p>
+
+          <p>
+            Search through them below using the filters to help create your dream team!
           </p>
         </div>
       </div>
 
       <Gallery />
+      <DetailModal />
     </div>
   </div>
 </template>
@@ -20,12 +26,14 @@ import { mapState, mapActions } from 'vuex';
 import { MODULE, ACTIONS } from 'Villagers/constants/vuex';
 
 import Gallery from 'Villagers/components/Gallery.vue';
+import DetailModal from 'Villagers/components/DetailModal.vue';
 
 export default {
   name: 'Villagers',
 
   components: {
     Gallery,
+    DetailModal,
   },
 
   metaInfo () {
@@ -35,6 +43,10 @@ export default {
   },
 
   created () {
+    if (this.villagers.length) {
+      return;
+    }
+
     this.getVillagers();
   },
 
