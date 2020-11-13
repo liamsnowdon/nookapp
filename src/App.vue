@@ -33,6 +33,10 @@ export default {
     Footer,
   },
 
+  metaInfo: {
+    title: 'NookApp | A hub of interactive apps for Animal Crossing: New Horizons',
+  },
+
   created () {
     this.checkDeviceForStorageApi();
 

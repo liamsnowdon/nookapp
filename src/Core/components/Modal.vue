@@ -135,5 +135,23 @@ export default {
         margin-bottom: 25px;
       }
     }
+
+    &__buttons {
+      @include breakpoint(medium, down) {
+        button {
+          width: 100%;
+
+          &:not(:last-child) {
+            margin: 0 0 15px 0;
+          }
+        }
+      }
+
+      @include breakpoint(medium) {
+        button {
+          margin: 0 15px 15px 0;
+        }
+      }
+    }
   }
 </style>

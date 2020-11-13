@@ -4,6 +4,7 @@ import { MODULE } from 'Core/constants/vuex';
 
 import { STORAGE as CRITTERPEDIA_STORAGE } from 'Critterpedia/constants/storage';
 import { STORAGE as FOSSILS_STORAGE } from 'Fossils/constants/storage';
+import { STORAGE as CHECKLIST_STORAGE } from 'Checklist/constants/storage';
 
 export default class Storage {
   /**
@@ -91,5 +92,21 @@ export default class Storage {
     }
 
     return data;
+  }
+
+  static getChecklist () {
+    if (!store.state[MODULE].isStorageAvailable) {
+      return {};
+    }
+
+    const checklist = JSON.parse(localStorage.getItem(CHECKLIST_STORAGE.CHECKLIST));
+
+    const data = {};
+
+    if (checklist) {
+      data.checklist = checklist;
+    }
+
+    return checklist;
   }
 }

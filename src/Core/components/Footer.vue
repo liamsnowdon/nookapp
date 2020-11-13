@@ -15,6 +15,13 @@
         >
           Fossils
         </router-link>
+
+        <router-link
+          class="footer__link"
+          :to="{ name: 'Checklist' }"
+        >
+          Daily Checklist
+        </router-link>
       </div>
 
       <div class="footer__social">

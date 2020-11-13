@@ -115,6 +115,10 @@ export default {
     Button,
   },
 
+  metaInfo: {
+    title: 'NookSync | Sync your saved data across all your devices.',
+  },
+
   data () {
     return {
       loading: false,

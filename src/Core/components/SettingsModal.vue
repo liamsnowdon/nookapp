@@ -70,7 +70,7 @@
             when you come back later, it will remember. You can reset this here.
           </p>
 
-          <div class="buttons">
+          <div class="modal__buttons">
             <Button
               @click="resetDonatedBugs"
               :disabled="!hasDonatedBugs"
@@ -100,6 +100,23 @@
             </Button>
           </div>
         </div>
+
+        <div class="modal__section">
+          <h4>Daily Checklist</h4>
+          <p>
+            The daily checklist keeps track of your daily tasks on the island. You can remove your created checklist
+            here.
+          </p>
+
+          <div class="modal__buttons">
+            <Button
+              @click="removeDailyChecklist"
+              :disabled="!hasChecklistCreated"
+            >
+              Remove daily checklist
+            </Button>
+          </div>
+        </div>
       </template>
 
       <template v-else>
@@ -121,6 +138,8 @@ import SyncApi from 'Core/api/SyncApi';
 import Sync from 'Core/services/Sync';
 import PendingSync from 'Core/services/PendingSync';
 
+import CHECKLIST_TYPE from 'Checklist/constants/checklist-type';
+
 import {
   MODULE as CORE_MODULE,
   MUTATIONS as CORE_MUTATIONS,
@@ -135,6 +154,11 @@ import {
   MUTATIONS as FOSSILS_MUTATIONS,
   GETTERS as FOSSILS_GETTERS,
 } from 'Fossils/constants/vuex';
+import {
+  MODULE as CHECKLIST_MODULE,
+  GETTERS as CHECKLIST_GETTERS,
+  MUTATIONS as CHECKLIST_MUTATIONS,
+} from 'Checklist/constants/vuex';
 
 export default {
   name: 'SettingsModal',
@@ -180,6 +204,12 @@ export default {
       donatedFossils: state => state.donatedFossils,
     }),
 
+    ...mapState(CHECKLIST_MODULE, {
+      checklistItems: state => state.items,
+      checklistType: state => state.type,
+      checklistDate: state => state.date,
+    }),
+
     ...mapGetters(CRITTERPEDIA_MODULE, [
       CRITTERPEDIA_GETTERS.HAS_DONATED_FISH,
       CRITTERPEDIA_GETTERS.HAS_DONATED_BUGS,
@@ -188,6 +218,10 @@ export default {
 
     ...mapGetters(FOSSILS_MODULE, [
       FOSSILS_GETTERS.HAS_DONATED_FOSSILS,
+    ]),
+
+    ...mapGetters(CHECKLIST_MODULE, [
+      CHECKLIST_GETTERS.HAS_CHECKLIST_CREATED,
     ]),
   },
 
@@ -217,6 +251,10 @@ export default {
 
     ...mapMutations(FOSSILS_MODULE, [
       FOSSILS_MUTATIONS.CLEAR_DONATED_FOSSILS,
+    ]),
+
+    ...mapMutations(CHECKLIST_MODULE, [
+      CHECKLIST_MUTATIONS.SET_CHECKLIST,
     ]),
 
     onClose () {
@@ -311,6 +349,20 @@ export default {
       }
     },
 
+    removeDailyChecklist () {
+      const confirmation = confirm('Are you sure you want to remove your daily checklist?');
+
+      if (!confirmation) {
+        return;
+      }
+
+      this.setChecklist({
+        items: [],
+      });
+
+      this.updateSyncChecklist();
+    },
+
     onHemisphereChange () {
       this.setSettingsHemisphere(this.hemisphere ? this.hemisphere.value : '');
       this.updateSyncSettings();
@@ -349,23 +401,34 @@ export default {
         });
       }
     },
+
+    async updateSyncChecklist () {
+      if (!this.syncId) {
+        return;
+      }
+
+      const checklist = {
+        items: [],
+        type: CHECKLIST_TYPE.DEFAULT,
+        date: null,
+      };
+
+      try {
+        await SyncApi.patch(this.syncId, {
+          checklist,
+        });
+
+        this.$toasted.global.success({
+          message: '<strong>NookSync:</strong>&nbsp;Checklist updated.',
+        });
+      } catch (e) {
+        PendingSync.setChecklist(checklist);
+
+        this.$toasted.global.error({
+          message: '<strong>NookSync:</strong>&nbsp;Error updating checklist.',
+        });
+      }
+    },
   },
 };
 </script>
-
-<style lang="scss" scoped>
-  .buttons {
-    @include breakpoint(medium, down) {
-      button {
-        width: 100%;
-        margin: 0 0 15px 0;
-      }
-    }
-
-    @include breakpoint(medium) {
-      button {
-        margin: 0 15px 15px 0;
-      }
-    }
-  }
-</style>

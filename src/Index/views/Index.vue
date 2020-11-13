@@ -34,6 +34,23 @@
         There are many fossils you can find on your island. Complete each set and fill up your museum.
       </template>
     </PageLink>
+
+    <PageLink
+      :is-icon="true"
+      route="Checklist"
+    >
+      <template #image>
+        <i class="fa fa-list" />
+      </template>
+
+      <template #heading>
+        Daily Checklist
+      </template>
+
+      <template #description>
+        Make sure you do everything you need to do by keeping track with your daily checklist.
+      </template>
+    </PageLink>
   </div>
 </template>
 
