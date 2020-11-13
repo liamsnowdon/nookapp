@@ -102,7 +102,11 @@ export default {
     ]),
 
     save () {
-      const items = this.items.slice();
+      const items = this.items.slice().map(item => {
+        item.name = item.name.charAt(0).toUpperCase() + item.name.slice(1);
+
+        return item;
+      });
 
       if (!items.length) return;
 

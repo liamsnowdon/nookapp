@@ -271,9 +271,14 @@ export default {
       width: 100%;
       height: 100%;
       padding: 10px;
-      background-color: #569a52;
+      background-color: var(--button-background-color);
       color: var(--global-text-color);
       border-radius: 5px;
+      transition: all 0.3s ease-out;
+
+      &:hover {
+        background-color: var(--button-hover-background-color);
+      }
     }
 
     &__button-info {

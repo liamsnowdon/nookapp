@@ -38,17 +38,6 @@ html {
 
 // Page property cascades
 .page {
-  &-index {
-    --body-background-color: #252525;
-    --global-text-color: white;
-
-    --navigation-background-color: var(--body-background-color);
-
-    --button-background-color: #191919;
-    --button-hover-background-color: #131212;
-    --button-text-color: white;
-  }
-
   &-critterpedia {
     --body-background-color: #f0e6b8;
     --global-text-color: #444;
@@ -98,5 +87,12 @@ html {
 
     --button-background-color: #569a52;
     --button-hover-background-color: #40773d;
+
+    --modal-background-color: var(--body-background-color);
+    --modal-header-background-color: #569a52;
+
+    --checkbox-active-color: #569a52;
+
+    --multiselect-highlight-color: #569a52;
   }
 }

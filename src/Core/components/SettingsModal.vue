@@ -348,6 +348,12 @@ export default {
     },
 
     removeDailyChecklist () {
+      const confirmation = confirm('Are you sure you want to remove your daily checklist?');
+
+      if (!confirmation) {
+        return;
+      }
+
       this.setChecklist({
         items: [],
       });
