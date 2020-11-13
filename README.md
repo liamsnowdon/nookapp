@@ -16,7 +16,8 @@ game on Nintendo Switch.
 3. Daily Checklist
     - Tick off daily tasks to do around your island
     - Use the default list or create a custom one.
-    
+4. NookSync
+    - Syncs saved data across devices without needing a login.
       
 ## NookSync
 With the power of NookSync, you can sync up your data to your other devices, so you know exactly what you're missing, wherever you are. It will keep track of things such as your settings, donated critters, donated fossils, etc.

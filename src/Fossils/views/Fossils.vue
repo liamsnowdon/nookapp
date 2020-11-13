@@ -29,6 +29,10 @@ export default {
     DetailModal,
   },
 
+  metaInfo: {
+    title: 'Fossils | Learn more about the history of each fossil.',
+  },
+
   created () {
     this.getFossils();
   },

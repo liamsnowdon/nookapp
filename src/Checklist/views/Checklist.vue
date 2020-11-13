@@ -90,6 +90,10 @@ export default {
     CustomItems,
   },
 
+  metaInfo: {
+    title: 'Daily Checklist | Tick off daily tasks to do around your island with a default or custom checklist.',
+  },
+
   watch: {
     loadingSyncSession (newValue) {
       if (!newValue && this.isChecklistDateInThePast()) {

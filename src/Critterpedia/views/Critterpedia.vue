@@ -21,6 +21,10 @@ export default {
     QuickAddModal,
   },
 
+  metaInfo: {
+    title: 'Critterpedia | Look up all information about bugs, fish and sea creatures.',
+  },
+
   mounted () {
     document.querySelector('body').classList.add('page-critterpedia');
   },
