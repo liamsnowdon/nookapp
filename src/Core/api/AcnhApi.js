@@ -34,4 +34,12 @@ export default class AcnhApi {
 
     return Object.values(response.data);
   }
+
+  static async getVillagers () {
+    const url = `${ACNH_API.BASE}${ACNH_API.VILLAGERS}`;
+
+    const response = await Api.$instance.get(url);
+
+    return Object.values(response.data);
+  }
 }

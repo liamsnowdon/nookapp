@@ -4,6 +4,7 @@ import Meta from 'vue-meta';
 
 import Critterpedia from 'Core/router/critterpedia';
 import Fossils from 'Core/router/fossils';
+import Villagers from 'Villagers/views/Villagers';
 import Sync from '@/Sync/views/Sync.vue';
 import Index from 'Index/views/Index.vue';
 import NotFound from 'Core/views/NotFound.vue';
@@ -20,6 +21,11 @@ const routes = [
   },
   { ...Critterpedia },
   { ...Fossils },
+  {
+    path: '/villagers',
+    name: 'Villagers',
+    component: Villagers,
+  },
   {
     path: '/sync',
     name: 'Sync',

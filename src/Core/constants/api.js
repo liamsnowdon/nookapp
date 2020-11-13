@@ -5,6 +5,8 @@ export const ACNH_API = {
   SEA_CREATURES: '/sea',
 
   FOSSILS: '/fossils',
+
+  VILLAGERS: '/villagers',
 };
 
 export const SYNC_API = {

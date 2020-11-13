@@ -14,6 +14,7 @@ module.exports = {
         'Critterpedia': path.resolve(__dirname, 'src/Critterpedia/'),
         'Fossils': path.resolve(__dirname, 'src/Fossils/'),
         'Checklist': path.resolve(__dirname, 'src/Checklist/'),
+        'Villagers': path.resolve(__dirname, 'src/Villagers/'),
       },
     },
   },

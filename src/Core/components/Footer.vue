@@ -18,6 +18,13 @@
 
         <router-link
           class="footer__link"
+          :to="{ name: 'Villagers' }"
+        >
+          Villagers
+        </router-link>
+
+        <router-link
+          class="footer__link"
           :to="{ name: 'Checklist' }"
         >
           Daily Checklist

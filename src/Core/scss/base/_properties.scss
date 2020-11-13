@@ -95,4 +95,11 @@ html {
 
     --multiselect-highlight-color: #569a52;
   }
+
+  &-villagers {
+    --body-background-color: #4eabd1;
+    --navigation-background-color: var(--body-background-color);
+
+    --modal-background-color: var(--body-background-color);
+  }
 }
