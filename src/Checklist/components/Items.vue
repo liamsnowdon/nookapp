@@ -4,6 +4,7 @@
       v-for="item in items"
       :key="item.name"
       :item="item"
+      :editable="isEditable"
       @change="onChange"
     />
   </div>
@@ -13,6 +14,7 @@
 import { mapMutations, mapState } from 'vuex';
 import { MODULE, MUTATIONS } from 'Checklist/constants/vuex';
 import Item from 'Checklist/components/Item.vue';
+import CHECKLIST_TYPE from 'Checklist/constants/checklist-type';
 
 export default {
   name: 'Items',
@@ -27,6 +29,10 @@ export default {
       type: state => state.type,
       date: state => state.date,
     }),
+
+    isEditable () {
+      return this.type === CHECKLIST_TYPE.CUSTOM;
+    },
   },
 
   methods: {

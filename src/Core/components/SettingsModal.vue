@@ -70,7 +70,7 @@
             when you come back later, it will remember. You can reset this here.
           </p>
 
-          <div class="buttons">
+          <div class="modal__buttons">
             <Button
               @click="resetDonatedBugs"
               :disabled="!hasDonatedBugs"
@@ -108,12 +108,14 @@
             here.
           </p>
 
-          <Button
-            @click="removeDailyChecklist"
-            :disabled="!hasChecklistCreated"
-          >
-            Remove daily checklist
-          </Button>
+          <div class="modal__buttons">
+            <Button
+              @click="removeDailyChecklist"
+              :disabled="!hasChecklistCreated"
+            >
+              Remove daily checklist
+            </Button>
+          </div>
         </div>
       </template>
 
@@ -430,20 +432,3 @@ export default {
   },
 };
 </script>
-
-<style lang="scss" scoped>
-  .buttons {
-    @include breakpoint(medium, down) {
-      button {
-        width: 100%;
-        margin: 0 0 15px 0;
-      }
-    }
-
-    @include breakpoint(medium) {
-      button {
-        margin: 0 15px 15px 0;
-      }
-    }
-  }
-</style>

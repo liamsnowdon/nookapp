@@ -35,9 +35,12 @@
       </template>
     </PageLink>
 
-    <PageLink route="Checklist">
+    <PageLink
+      :is-icon="true"
+      route="Checklist"
+    >
       <template #image>
-        <img :src="require(`Index/assets/fossil.png`)" alt="Fossils" />
+        <i class="fa fa-list" />
       </template>
 
       <template #heading>

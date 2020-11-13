@@ -26,33 +26,31 @@
       </template>
 
       <template v-else>
-        <div class="checklist-buttons">
-          <div class="checklist-button">
-            <button
-              class="checklist-button__button"
-              @click="createDefaultChecklist"
-            >
-              Use default checklist
-              <small class="checklist-button__button-info">
-                We will create your checklist for you with the most common tasks.
-              </small>
-            </button>
-          </div>
+        <div class="checklist-buttons-cont">
+          <div class="checklist-buttons">
+            <div class="checklist-button">
+              <button
+                class="checklist-button__button"
+                @click="createDefaultChecklist"
+              >
+                Use default checklist
+                <small class="checklist-button__button-info">
+                  We will create your checklist for you with the most common tasks.
+                </small>
+              </button>
+            </div>
 
-          <div class="checklist-buttons__divider">
-            or
-          </div>
-
-          <div class="checklist-button">
-            <button
-              class="checklist-button__button"
-              @click="enableCustomListMode"
-            >
-              Create custom checklist
-              <small class="checklist-button__button-info">
-                Create your own checklist with as many or as little tasks as you want!
-              </small>
-            </button>
+            <div class="checklist-button">
+              <button
+                class="checklist-button__button"
+                @click="enableCustomListMode"
+              >
+                Create custom checklist
+                <small class="checklist-button__button-info">
+                  Create your own checklist with as many or as little tasks as you want!
+                </small>
+              </button>
+            </div>
           </div>
         </div>
       </template>
@@ -254,27 +252,49 @@ export default {
 </script>
 
 <style lang="scss">
-  .checklist-buttons {
-    display: flex;
-    align-items: center;
+  .checklist-buttons-cont {
     max-width: 600px;
     margin: 0 auto;
   }
 
+  .checklist-buttons {
+    display: flex;
+    align-items: center;
+    margin: 0 -15px;
+
+    @include breakpoint(small, down) {
+      flex-direction: column;
+      margin: 0;
+    }
+  }
+
   .checklist-button {
     flex: 0 0 50%;
-    height: 300px;
-    padding: 0 15px;
+
+    @include breakpoint(small) {
+      height: 300px;
+      padding: 0 15px;
+    }
+
+    @include breakpoint(small, down) {
+      &:not(:last-child) {
+        margin-bottom: 20px;
+      }
+    }
 
     &__button {
       @extend %button-reset;
       width: 100%;
       height: 100%;
-      padding: 10px;
+      padding: 40px 10px;
       background-color: var(--button-background-color);
       color: var(--global-text-color);
       border-radius: 5px;
       transition: all 0.3s ease-out;
+
+      @include breakpoint(small) {
+        padding: 10px;
+      }
 
       &:hover {
         background-color: var(--button-hover-background-color);

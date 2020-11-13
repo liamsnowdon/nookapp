@@ -3,7 +3,10 @@
     class="link"
     :to="{ name: route }"
   >
-    <div class="link__image">
+    <div
+      :class="{'link__image--icon': isIcon}"
+      class="link__image"
+    >
       <slot name="image" />
     </div>
 
@@ -26,6 +29,12 @@ export default {
     route: {
       type: String,
       required: true,
+    },
+
+    isIcon: {
+      type: Boolean,
+      required: false,
+      default: false,
     },
   },
 };
@@ -50,10 +59,21 @@ export default {
     &__image {
       flex: 0 0 100px;
       margin-right: 20px;
+
+      &--icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 80px;
+      }
     }
 
     &__text {
       flex: 1 0 0;
+    }
+
+    &__description {
+      margin: 0;
     }
   }
 </style>

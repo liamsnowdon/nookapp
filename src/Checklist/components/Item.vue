@@ -80,7 +80,6 @@
 import { mapState } from 'vuex';
 
 import { MODULE } from 'Checklist/constants/vuex';
-import CHECKLIST_TYPE from 'Checklist/constants/checklist-type';
 
 export default {
   name: 'Item',
@@ -110,6 +109,12 @@ export default {
       required: false,
       default: false,
     },
+
+    editable: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
   },
 
   mounted () {
@@ -124,10 +129,6 @@ export default {
     ...mapState(MODULE, {
       checklistType: state => state.type,
     }),
-
-    editable () {
-      return this.checklistType === CHECKLIST_TYPE.CUSTOM;
-    },
   },
 
   methods: {
@@ -220,6 +221,7 @@ export default {
 
     &__input {
       flex: 1 0 0;
+      min-width: 0;
       margin-right: 10px;
       appearance: none;
       background: none;

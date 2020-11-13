@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="custom-checklist-cont">
     <div class="custom-checklist">
       <div class="checklist-items">
         <Item
@@ -8,6 +8,7 @@
           :item="item"
           :checkable="false"
           :deletable="true"
+          :editable="true"
           @change="onChange"
           @delete="onDelete"
         />
@@ -35,7 +36,7 @@
           <h4>Need ideas?</h4>
 
           <button
-            class=""
+            class="checklist-ideas__refresh"
             @click="generateIdeas"
           >
             <i class="fa fa-refresh" />
@@ -45,7 +46,7 @@
             We've run out of ideas! :(
           </p>
 
-          <ul>
+          <ul class="ideas">
             <Idea
               v-for="(idea, index) in ideas"
               :key="index"
@@ -179,10 +180,19 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+  .custom-checklist-cont {
+    max-width: 1024px;
+    margin: 0 auto;
+  }
+
   .custom-checklist {
     display: flex;
     max-width: 1024px;
-    margin: 0 auto;
+    margin: 0 -15px;
+
+    @include breakpoint(medium, down) {
+      flex-direction: column;
+    }
   }
 
   .checklist-items {
@@ -193,7 +203,11 @@ export default {
     &__buttons {
       display: flex;
       justify-content: flex-end;
-      margin: 20px 0 0 auto;
+      margin: 20px 0 20px auto;
+
+      @include breakpoint(medium) {
+        margin: 20px 0 0 auto;
+      }
 
       button {
         &:not(:last-child) {
@@ -209,8 +223,21 @@ export default {
     border-radius: 5px;
 
     &__inner {
-      padding: 10px;
+      padding: 20px;
       background-color: #569a52;
     }
+
+    &__refresh {
+      @extend %button-reset;
+      color: white;
+      font-size: 40px;
+    }
+  }
+
+  .ideas {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    text-align: left;
   }
 </style>

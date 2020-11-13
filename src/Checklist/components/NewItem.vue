@@ -69,6 +69,7 @@ export default {
 
     &__input {
       flex: 1 0 0;
+      min-width: 0;
       margin-right: 10px;
       appearance: none;
       background: none;

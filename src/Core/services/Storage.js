@@ -99,7 +99,7 @@ export default class Storage {
       return {};
     }
 
-    const checklist = localStorage.getItem(CHECKLIST_STORAGE.CHECKLIST);
+    const checklist = JSON.parse(localStorage.getItem(CHECKLIST_STORAGE.CHECKLIST));
 
     const data = {};
 

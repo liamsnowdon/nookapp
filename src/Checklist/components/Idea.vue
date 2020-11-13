@@ -10,7 +10,7 @@
       :disabled="isAdded"
       @click="onClick"
     >
-      Add
+      <i class="fa fa-plus" />
     </button>
   </li>
 </template>
@@ -45,10 +45,27 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
   .idea {
+    $block: &;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 10px 0;
+
     &.is-added {
       text-decoration: line-through;
-     }
+
+      #{$block}__add {
+        opacity: 0.5;
+      }
+    }
+
+    &__add {
+      @extend %button-reset;
+      color: white;
+      font-size: 30px;
+    }
   }
 </style>
