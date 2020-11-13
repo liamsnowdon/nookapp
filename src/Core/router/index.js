@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
+import Meta from 'vue-meta';
 
 import Critterpedia from 'Core/router/critterpedia';
 import Fossils from 'Core/router/fossils';
@@ -9,6 +10,7 @@ import NotFound from 'Core/views/NotFound.vue';
 import Checklist from 'Checklist/views/Checklist';
 
 Vue.use(VueRouter);
+Vue.use(Meta);
 
 const routes = [
   {
@@ -35,10 +37,8 @@ const routes = [
   },
 ];
 
-const router = new VueRouter({
+export default new VueRouter({
   routes,
   linkActiveClass: 'is-active',
   linkExactActiveClass: 'is-exact-active',
 });
-
-export default router;
