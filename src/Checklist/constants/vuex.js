@@ -5,8 +5,5 @@ export const GETTERS = {
 };
 
 export const MUTATIONS = {
-  SET_ITEMS: 'setItems',
-  RESET_ITEMS: 'resetItems',
-  SET_ITEM: 'setItem',
-  SET_TYPE: 'setType',
+  SET_CHECKLIST: 'setChecklist',
 };

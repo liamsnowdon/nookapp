@@ -24,16 +24,33 @@ export default {
   computed: {
     ...mapState(MODULE, {
       items: state => state.items,
+      type: state => state.type,
+      date: state => state.date,
     }),
   },
 
   methods: {
     ...mapMutations(MODULE, [
-      MUTATIONS.SET_ITEM,
+      MUTATIONS.SET_CHECKLIST,
     ]),
 
-    onChange (payload) {
-      this.setItem(payload);
+    onChange (item) {
+      const items = this.items.slice();
+      const index = items.findIndex(i => i.id === item.id);
+
+      if (index === -1) {
+        return;
+      }
+
+      items.splice(index, 1, item);
+
+      this.setChecklist({
+        items,
+        type: this.type,
+        date: this.date,
+      });
+
+      this.$emit('change');
     },
   },
 };

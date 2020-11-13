@@ -4,6 +4,7 @@ import { MODULE, MUTATIONS } from 'Core/constants/vuex';
 import { STORAGE } from 'Core/constants/storage';
 import { STORAGE as CRITTERPEDIA_STORAGE } from 'Critterpedia/constants/storage';
 import { STORAGE as FOSSILS_STORAGE } from 'Fossils/constants/storage';
+import { STORAGE as CHECKLIST_STORAGE } from 'Checklist/constants/storage';
 
 import {
   MODULE as CRITTERPEDIA_MODULE,
@@ -14,6 +15,11 @@ import {
   MODULE as FOSSILS_MODULE,
   MUTATIONS as FOSSILS_MUTATIONS,
 } from 'Fossils/constants/vuex';
+
+import {
+  MODULE as CHECKLIST_MODULE,
+  MUTATIONS as CHECKLIST_MUTATIONS,
+} from 'Checklist/constants/vuex';
 
 export default class Sync {
   /**
@@ -56,6 +62,8 @@ export default class Sync {
     store.commit(`${CRITTERPEDIA_MODULE}/${CRITTERPEDIA_MUTATIONS.SET_DONATED_SEA_CREATURES}`, session.data.donatedSeaCreatures || []);
 
     store.commit(`${FOSSILS_MODULE}/${FOSSILS_MUTATIONS.SET_DONATED_FOSSILS}`, session.data.donatedFossils || []);
+
+    store.commit(`${CHECKLIST_MODULE}/${CHECKLIST_MUTATIONS.SET_CHECKLIST}`, session.data.checklist || {});
   }
 
   /**
@@ -93,6 +101,10 @@ export default class Sync {
     if (session.data.settings && session.data.settings.hemisphere) {
       localStorage.setItem(STORAGE.SETTINGS_HEMISPHERE, session.data.settings.hemisphere);
     }
+
+    if (session.data.checklist) {
+      localStorage.setItem(CHECKLIST_STORAGE.CHECKLIST, JSON.stringify(session.data.checklist));
+    }
   }
 
   /**
@@ -102,6 +114,7 @@ export default class Sync {
     const settings = Storage.getSettings();
     const critters = Storage.getDonatedCritters();
     const fossils = Storage.getDonatedFossils();
+    const checklist = Storage.getChecklist();
 
     store.commit(`${MODULE}/${MUTATIONS.SET_SETTINGS_HEMISPHERE}`, settings.hemisphere);
 
@@ -110,5 +123,7 @@ export default class Sync {
     store.commit(`${CRITTERPEDIA_MODULE}/${CRITTERPEDIA_MUTATIONS.SET_DONATED_SEA_CREATURES}`, critters.donatedSeaCreatures || []);
 
     store.commit(`${FOSSILS_MODULE}/${FOSSILS_MUTATIONS.SET_DONATED_FOSSILS}`, fossils || []);
+
+    store.commit(`${CHECKLIST_MODULE}/${CHECKLIST_MUTATIONS.SET_CHECKLIST}`, checklist || {});
   }
 }

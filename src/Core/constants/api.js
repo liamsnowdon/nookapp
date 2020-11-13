@@ -8,6 +8,6 @@ export const ACNH_API = {
 };
 
 export const SYNC_API = {
-  BASE: 'https://sync.thenookapp.com/s',
+  BASE: 'https://sync.thenookapp.com/ssss',
   SESSION: '/:uuid',
 };

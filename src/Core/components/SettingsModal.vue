@@ -136,6 +136,8 @@ import SyncApi from 'Core/api/SyncApi';
 import Sync from 'Core/services/Sync';
 import PendingSync from 'Core/services/PendingSync';
 
+import CHECKLIST_TYPE from 'Checklist/constants/checklist-type';
+
 import {
   MODULE as CORE_MODULE,
   MUTATIONS as CORE_MUTATIONS,
@@ -200,6 +202,12 @@ export default {
       donatedFossils: state => state.donatedFossils,
     }),
 
+    ...mapState(CHECKLIST_MODULE, {
+      checklistItems: state => state.items,
+      checklistType: state => state.type,
+      checklistDate: state => state.date,
+    }),
+
     ...mapGetters(CRITTERPEDIA_MODULE, [
       CRITTERPEDIA_GETTERS.HAS_DONATED_FISH,
       CRITTERPEDIA_GETTERS.HAS_DONATED_BUGS,
@@ -244,7 +252,7 @@ export default {
     ]),
 
     ...mapMutations(CHECKLIST_MODULE, [
-      CHECKLIST_MUTATIONS.SET_ITEMS,
+      CHECKLIST_MUTATIONS.SET_CHECKLIST,
     ]),
 
     onClose () {
@@ -340,9 +348,11 @@ export default {
     },
 
     removeDailyChecklist () {
-      this.setItems({
+      this.setChecklist({
         items: [],
       });
+
+      this.updateSyncChecklist();
     },
 
     onHemisphereChange () {
@@ -380,6 +390,34 @@ export default {
 
         this.$toasted.global.error({
           message: '<strong>NookSync:</strong>&nbsp;Error updating settings.',
+        });
+      }
+    },
+
+    async updateSyncChecklist () {
+      if (!this.syncId) {
+        return;
+      }
+
+      const checklist = {
+        items: [],
+        type: CHECKLIST_TYPE.DEFAULT,
+        date: null,
+      };
+
+      try {
+        await SyncApi.patch(this.syncId, {
+          checklist,
+        });
+
+        this.$toasted.global.success({
+          message: '<strong>NookSync:</strong>&nbsp;Checklist updated.',
+        });
+      } catch (e) {
+        PendingSync.setChecklist(checklist);
+
+        this.$toasted.global.error({
+          message: '<strong>NookSync:</strong>&nbsp;Error updating checklist.',
         });
       }
     },

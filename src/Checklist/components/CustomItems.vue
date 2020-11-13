@@ -17,7 +17,10 @@
         />
 
         <div class="checklist-items__buttons">
-          <Button @click="save">
+          <Button
+            :disabled="!items.length"
+            @click="save"
+          >
             Save
           </Button>
 
@@ -65,7 +68,6 @@ import { mapMutations } from 'vuex';
 import NumberGenerator from 'Core/utilities/NumberGenerator';
 
 import { MODULE, MUTATIONS } from 'Checklist/constants/vuex';
-import CHECKLIST_TYPE from 'Checklist/constants/checklist-type';
 
 import IDEAS from 'Checklist/constants/ideas';
 import Button from 'Core/components/Button.vue';
@@ -91,8 +93,6 @@ export default {
   },
 
   mounted () {
-    this.setType(CHECKLIST_TYPE.CUSTOM);
-
     this.generateIdeas();
   },
 
@@ -103,6 +103,8 @@ export default {
 
     save () {
       const items = this.items.slice();
+
+      if (!items.length) return;
 
       this.$emit('save', items);
     },
