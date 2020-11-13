@@ -13,29 +13,10 @@ game on Nintendo Switch.
     - Check off a fossil as donated to the museum.
     - Multipart and standalone fossils are split to easily keep track of 
       what you've already donated.
+3. Daily Checklist
+    - Tick off daily tasks to do around your island
+    - Use the default list or create a custom one.
+    
       
 ## NookSync
 With the power of NookSync, you can sync up your data to your other devices, so you know exactly what you're missing, wherever you are. It will keep track of things such as your settings, donated critters, donated fossils, etc.
-
-## Project setup
-```
-npm install
-```
-
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
-
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).

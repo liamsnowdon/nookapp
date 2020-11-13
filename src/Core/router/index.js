@@ -6,6 +6,7 @@ import Fossils from 'Core/router/fossils';
 import Sync from '@/Sync/views/Sync.vue';
 import Index from 'Index/views/Index.vue';
 import NotFound from 'Core/views/NotFound.vue';
+import Checklist from 'Checklist/views/Checklist';
 
 Vue.use(VueRouter);
 
@@ -21,6 +22,11 @@ const routes = [
     path: '/sync',
     name: 'Sync',
     component: Sync,
+  },
+  {
+    path: '/checklist',
+    name: 'Checklist',
+    component: Checklist,
   },
   {
     path: '*',

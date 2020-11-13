@@ -9,6 +9,7 @@ import { MODULE } from 'Core/constants/vuex';
 
 import { STORAGE as FOSSILS_STORAGE } from 'Fossils/constants/storage';
 import { STORAGE as CRITTERPEDIA_STORAGE } from 'Critterpedia/constants/storage';
+import { STORAGE as CHECKLIST_STORAGE } from 'Checklist/constants/storage';
 import { CRITTER_TYPES } from 'Critterpedia/constants/critter-types';
 
 /**
@@ -114,6 +115,18 @@ export default class PendingSync {
     }
   }
 
+  static setBasicProperty (key, value) {
+    let pendingSync = this.get();
+
+    if (!pendingSync) {
+      pendingSync = {};
+    }
+
+    pendingSync[key] = value;
+
+    this.set(pendingSync);
+  }
+
   /**
    * Sets a fossil in pending sync
    *
@@ -204,14 +217,15 @@ export default class PendingSync {
    * @param {Object} settings
    */
   static setSettings (settings) {
-    let pendingSync = this.get();
+    this.setBasicProperty(STORAGE.SETTINGS, settings);
+  }
 
-    if (!pendingSync) {
-      pendingSync = {};
-    }
-
-    pendingSync[STORAGE.SETTINGS] = settings;
-
-    this.set(pendingSync);
+  /**
+   * Set checklist
+   *
+   * @param {Object} checklist
+   */
+  static setChecklist (checklist) {
+    this.setBasicProperty(CHECKLIST_STORAGE.CHECKLIST, checklist);
   }
 };
