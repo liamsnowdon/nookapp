@@ -9,6 +9,8 @@
           </p>
         </div>
       </div>
+
+      <Gallery />
     </div>
   </div>
 </template>
@@ -17,8 +19,14 @@
 import { mapState, mapActions } from 'vuex';
 import { MODULE, ACTIONS } from 'Villagers/constants/vuex';
 
+import Gallery from 'Villagers/components/Gallery.vue';
+
 export default {
   name: 'Villagers',
+
+  components: {
+    Gallery,
+  },
 
   metaInfo () {
     return {

@@ -4,4 +4,10 @@ export default {
   errorLoadingVillagers: false,
   selectedVillager: {},
   detailModalOpen: false,
+  filters: {
+    searchTerm: '',
+    species: '',
+    personality: '',
+    gender: '',
+  },
 };

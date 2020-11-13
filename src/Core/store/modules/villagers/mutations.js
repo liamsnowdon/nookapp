@@ -18,4 +18,27 @@ export default {
   setDetailModalOpen (state, open) {
     state.detailModalOpen = open;
   },
+
+  setFiltersSearchTerm (state, term) {
+    state.filters.searchTerm = term;
+  },
+
+  setFiltersSpecies (state, species) {
+    state.filters.species = species;
+  },
+
+  setFiltersPersonality (state, personality) {
+    state.filters.personality = personality;
+  },
+
+  setFiltersGender (state, gender) {
+    state.filters.gender = gender;
+  },
+
+  clearFilters (state) {
+    state.filters.searchTerm = '';
+    state.filters.species = '';
+    state.filters.personality = '';
+    state.filters.gender = '';
+  },
 };
