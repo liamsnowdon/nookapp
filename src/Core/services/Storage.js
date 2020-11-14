@@ -5,6 +5,7 @@ import { MODULE } from 'Core/constants/vuex';
 import { STORAGE as CRITTERPEDIA_STORAGE } from 'Critterpedia/constants/storage';
 import { STORAGE as FOSSILS_STORAGE } from 'Fossils/constants/storage';
 import { STORAGE as CHECKLIST_STORAGE } from 'Checklist/constants/storage';
+import { STORAGE as VILLAGERS_STORAGE } from 'Villagers/constants/storage';
 
 export default class Storage {
   /**
@@ -108,5 +109,22 @@ export default class Storage {
     }
 
     return checklist;
+  }
+
+  static getDreamTeam () {
+    if (!store.state[MODULE].isStorageAvailable) {
+      return {};
+    }
+
+    let dreamTeam = localStorage.getItem(VILLAGERS_STORAGE.DREAM_TEAM);
+
+    if (dreamTeam) {
+      dreamTeam = dreamTeam.split(',');
+      dreamTeam = dreamTeam.map(villager => Number(villager));
+    } else {
+      dreamTeam = [];
+    }
+
+    return dreamTeam;
   }
 }

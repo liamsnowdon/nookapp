@@ -1,3 +1,5 @@
+import { STORAGE } from 'Villagers/constants/storage';
+
 export default {
   setLoading (state, loading = true) {
     state.loading = loading;
@@ -19,8 +21,10 @@ export default {
     state.detailModalOpen = open;
   },
 
-  setDreamTeamVillagers (state, villagers) {
-    state.dreamTeamVillagers = villagers;
+  setDreamTeam (state, dreamTeam) {
+    state.dreamTeam = dreamTeam;
+
+    localStorage.setItem(STORAGE.DREAM_TEAM, state.dreamTeam.toString());
   },
 
   setFiltersSearchTerm (state, term) {

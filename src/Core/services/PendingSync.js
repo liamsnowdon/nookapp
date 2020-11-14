@@ -4,13 +4,14 @@ import isArray from 'lodash/isArray';
 import SyncApi from 'Core/api/SyncApi';
 
 import store from 'Core/store';
-import { STORAGE } from 'Core/constants/storage';
+import { CRITTER_TYPES } from 'Critterpedia/constants/critter-types';
 import { MODULE } from 'Core/constants/vuex';
 
+import { STORAGE } from 'Core/constants/storage';
 import { STORAGE as FOSSILS_STORAGE } from 'Fossils/constants/storage';
 import { STORAGE as CRITTERPEDIA_STORAGE } from 'Critterpedia/constants/storage';
 import { STORAGE as CHECKLIST_STORAGE } from 'Checklist/constants/storage';
-import { CRITTER_TYPES } from 'Critterpedia/constants/critter-types';
+import { STORAGE as VILLAGERS_STORAGE } from 'Villagers/constants/storage';
 
 /**
  * PendingSync
@@ -227,5 +228,39 @@ export default class PendingSync {
    */
   static setChecklist (checklist) {
     this.setBasicProperty(CHECKLIST_STORAGE.CHECKLIST, checklist);
+  }
+
+  /**
+   * Set a dream team villager
+   *
+   * @param {Object} villager
+   * @param {boolean} isAdded
+   */
+  static setDreamTeamVillager (villager, isAdded) {
+    let pendingSync = this.get();
+
+    if (!pendingSync) {
+      pendingSync = {};
+    }
+
+    if (!pendingSync[VILLAGERS_STORAGE.DREAM_TEAM]) {
+      pendingSync[VILLAGERS_STORAGE.DREAM_TEAM] = [];
+    }
+
+    const index = pendingSync[VILLAGERS_STORAGE.DREAM_TEAM].findIndex(v => v.id === villager.id);
+
+    if (index === -1) {
+      pendingSync[VILLAGERS_STORAGE.DREAM_TEAM].push({
+        id: villager.id,
+        value: isAdded,
+      });
+    } else {
+      pendingSync[VILLAGERS_STORAGE.DREAM_TEAM][index] = {
+        id: villager.id,
+        value: isAdded,
+      };
+    }
+
+    this.set(pendingSync);
   }
 };

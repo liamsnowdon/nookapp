@@ -3,7 +3,14 @@
     <h3>Dream team</h3>
 
     <div
-      v-if="villagers.length"
+      v-if="loading"
+      class="dream-team__loading"
+    >
+      <Spinner />
+    </div>
+
+    <div
+      v-else-if="villagers.length"
       class="dream-team__villagers"
     >
       <button
@@ -30,17 +37,24 @@
 import { mapState, mapMutations } from 'vuex';
 import { MODULE, MUTATIONS } from 'Villagers/constants/vuex';
 
+import Spinner from 'Core/components/Spinner.vue';
+
 export default {
   name: 'DreamTeam',
 
+  components: {
+    Spinner,
+  },
+
   computed: {
     ...mapState(MODULE, {
+      loading: state => state.loading,
       villagersPool: state => state.villagers,
-      dreamTeamVillagers: state => state.dreamTeamVillagers,
+      dreamTeam: state => state.dreamTeam,
     }),
 
     villagers () {
-      return this.dreamTeamVillagers.map(villagerId => this.villagersPool.find(villager => villager.id === villagerId));
+      return this.dreamTeam.map(villagerId => this.villagersPool.find(villager => villager.id === villagerId));
     },
   },
 
@@ -61,6 +75,10 @@ export default {
 
 <style lang="scss" scoped>
   .dream-team {
+    &__loading {
+      text-align: center;
+    }
+
     &__villagers {
       display: flex;
       flex-wrap: wrap;

@@ -3,7 +3,7 @@ export default {
   villagers: [],
   errorLoadingVillagers: false,
   selectedVillager: {},
-  dreamTeamVillagers: [],
+  dreamTeam: [],
   detailModalOpen: false,
   filters: {
     searchTerm: '',

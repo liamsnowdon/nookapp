@@ -2,7 +2,6 @@
   <Modal
     ref="modal"
     :is-open="isOpen"
-    size="small"
     @close="onClose"
   >
     <template #title>
@@ -11,19 +10,13 @@
 
     <template #content>
       <div class="villager">
-        <div class="villager__image">
-          <img
-            :src="`https://acnhapi.com/v1/images/villagers/${villager.id}`"
-            :alt="villager.name['name-EUen']"
-          />
-        </div>
-
-        <div class="villager__info">
-          <h3>{{ villager.name['name-EUen'] | capitalize }}</h3>
-
-          <p>Species: {{ villager.species }}</p>
-          <p>Personality: {{ villager.personality }}</p>
-          <p>Gender: {{ villager.gender }}</p>
+        <div  class="villager__left">
+          <div class="villager__image">
+            <img
+              :src="`https://acnhapi.com/v1/images/villagers/${villager.id}`"
+              :alt="villager.name['name-EUen']"
+            />
+          </div>
 
           <div class="villager__button">
             <Button
@@ -48,6 +41,21 @@
             </small>
           </div>
         </div>
+
+        <div class="villager__right">
+          <div class="villager__info">
+            <h3>{{ villager.name['name-EUen'] | capitalize }}</h3>
+
+            <p>Species: {{ villager.species }}</p>
+            <p>Personality: {{ villager.personality }}</p>
+            <p>Gender: {{ villager.gender }}</p>
+
+            <p>Birthday: {{ villager['birthday-string'] }}</p>
+            <p>Hobby: {{ villager.hobby }}</p>
+
+            <p>Words of wisdom: {{ villager.saying }}</p>
+          </div>
+        </div>
       </div>
     </template>
   </Modal>
@@ -62,6 +70,8 @@ import { MODULE, MUTATIONS, GETTERS } from 'Villagers/constants/vuex';
 
 import Modal from 'Core/components/Modal.vue';
 import Button from 'Core/components/Button.vue';
+import SyncApi from 'Core/api/SyncApi';
+import PendingSync from 'Core/services/PendingSync';
 
 export default {
   name: 'DetailModal',
@@ -80,7 +90,7 @@ export default {
     ...mapState(MODULE, {
       isOpen: state => state.detailModalOpen,
       selectedVillager: state => state.selectedVillager,
-      dreamTeamVillagers: state => state.dreamTeamVillagers,
+      dreamTeam: state => state.dreamTeam,
     }),
 
     ...mapGetters(MODULE, [
@@ -92,7 +102,7 @@ export default {
     },
 
     isInDreamTeam () {
-      return this.dreamTeamVillagers.includes(this.villager.id);
+      return this.dreamTeam.includes(this.villager.id);
     },
   },
 
@@ -100,24 +110,50 @@ export default {
     ...mapMutations(MODULE, [
       MUTATIONS.SET_DETAIL_MODAL_OPEN,
       MUTATIONS.SET_SELECTED_VILLAGER,
-      MUTATIONS.SET_DREAM_TEAM_VILLAGERS,
+      MUTATIONS.SET_DREAM_TEAM,
     ]),
 
     addToDreamTeam () {
-      const dreamTeam = this.dreamTeamVillagers.slice();
+      const dreamTeam = this.dreamTeam.slice();
 
       dreamTeam.push(this.villager.id);
 
-      this.setDreamTeamVillagers(dreamTeam);
+      this.setDreamTeam(dreamTeam);
+      this.updateSyncDreamTeam();
     },
 
     removeFromDreamTeam () {
-      const dreamTeam = this.dreamTeamVillagers.slice();
-      const index = dreamTeam.findIndex(villager => villager.id === this.villager.id);
+      const dreamTeam = this.dreamTeam.slice();
+      const index = dreamTeam.findIndex(villager => villager === this.villager.id);
 
       dreamTeam.splice(index, 1);
 
-      this.setDreamTeamVillagers(dreamTeam);
+      this.setDreamTeam(dreamTeam);
+      this.updateSyncDreamTeam();
+    },
+
+    async updateSyncDreamTeam () {
+      if (!this.syncId) {
+        return;
+      }
+
+      const method = this.isInDreamTeam ? SyncApi.patch : SyncApi.delete;
+
+      try {
+        await method(this.syncId, {
+          dreamTeam: [this.villager.id],
+        });
+
+        this.$toasted.global.success({
+          message: '<strong>NookSync:</strong>&nbsp;Dream Team updated.',
+        });
+      } catch (e) {
+        PendingSync.setDreamTeamVillager(this.villager, this.isInDreamTeam);
+
+        this.$toasted.global.error({
+          message: '<strong>NookSync:</strong>&nbsp;Error updating Dream Team.',
+        });
+      }
     },
 
     onClose () {
@@ -131,6 +167,24 @@ export default {
 
 <style lang="scss">
   .villager {
+    display: flex;
+
+    &__left,
+    &__right {
+      @include breakpoint(medium) {
+        flex: 0 0 50%;
+        padding: 0 16px;
+      }
+    }
+
+    &__left {
+      text-align: center;
+    }
+
+    &__right {
+
+    }
+
     &__image {
       margin-bottom: 10px;
       text-align: center;
@@ -141,7 +195,7 @@ export default {
     }
 
     &__info {
-      text-align: center;
+
     }
 
     &__button {

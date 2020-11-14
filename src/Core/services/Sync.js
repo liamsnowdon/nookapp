@@ -5,6 +5,7 @@ import { STORAGE } from 'Core/constants/storage';
 import { STORAGE as CRITTERPEDIA_STORAGE } from 'Critterpedia/constants/storage';
 import { STORAGE as FOSSILS_STORAGE } from 'Fossils/constants/storage';
 import { STORAGE as CHECKLIST_STORAGE } from 'Checklist/constants/storage';
+import { STORAGE as VILLAGERS_STORAGE } from 'Villagers/constants/storage';
 
 import {
   MODULE as CRITTERPEDIA_MODULE,
@@ -20,6 +21,11 @@ import {
   MODULE as CHECKLIST_MODULE,
   MUTATIONS as CHECKLIST_MUTATIONS,
 } from 'Checklist/constants/vuex';
+
+import {
+  MODULE as VILLAGERS_MODULE,
+  MUTATIONS as VILLAGERS_MUTATIONS,
+} from 'Villagers/constants/vuex';
 
 export default class Sync {
   /**
@@ -48,6 +54,18 @@ export default class Sync {
   }
 
   /**
+   * @param {Array} data
+   * @param {string} storageItem
+   */
+  static setLocalStorageItemArray (data, storageItem) {
+    if (data && data.length > 0) {
+      localStorage.setItem(storageItem, data);
+    } else {
+      localStorage.removeItem(storageItem);
+    }
+  }
+
+  /**
    * Sets core Vuex state from Sync session
    *
    * @param {Object} session
@@ -64,6 +82,8 @@ export default class Sync {
     store.commit(`${FOSSILS_MODULE}/${FOSSILS_MUTATIONS.SET_DONATED_FOSSILS}`, session.data.donatedFossils || []);
 
     store.commit(`${CHECKLIST_MODULE}/${CHECKLIST_MUTATIONS.SET_CHECKLIST}`, session.data.checklist || {});
+
+    store.commit(`${VILLAGERS_MODULE}/${VILLAGERS_MUTATIONS.SET_DREAM_TEAM}`, session.data.dreamTeam || []);
   }
 
   /**
@@ -74,29 +94,11 @@ export default class Sync {
   static setLocalStorageFromSyncSession (session) {
     localStorage.setItem(STORAGE.SYNC_ID, session.id);
 
-    if (session.data.donatedBugs.length > 0) {
-      localStorage.setItem(CRITTERPEDIA_STORAGE.DONATED_BUGS, session.data.donatedBugs);
-    } else {
-      localStorage.removeItem(CRITTERPEDIA_STORAGE.DONATED_BUGS);
-    }
-
-    if (session.data.donatedFish.length > 0) {
-      localStorage.setItem(CRITTERPEDIA_STORAGE.DONATED_FISH, session.data.donatedFish);
-    } else {
-      localStorage.removeItem(CRITTERPEDIA_STORAGE.DONATED_FISH);
-    }
-
-    if (session.data.donatedSeaCreatures.length > 0) {
-      localStorage.setItem(CRITTERPEDIA_STORAGE.DONATED_SEA_CREATURES, session.data.donatedSeaCreatures);
-    } else {
-      localStorage.removeItem(CRITTERPEDIA_STORAGE.DONATED_SEA_CREATURES);
-    }
-
-    if (session.data.donatedFossils.length > 0) {
-      localStorage.setItem(FOSSILS_STORAGE.DONATED_FOSSILS, session.data.donatedFossils);
-    } else {
-      localStorage.removeItem(FOSSILS_STORAGE.DONATED_FOSSILS);
-    }
+    this.setLocalStorageItemArray(session.data.donatedBugs, CRITTERPEDIA_STORAGE.DONATED_BUGS);
+    this.setLocalStorageItemArray(session.data.donatedFish, CRITTERPEDIA_STORAGE.DONATED_FISH);
+    this.setLocalStorageItemArray(session.data.donatedSeaCreatures, CRITTERPEDIA_STORAGE.DONATED_SEA_CREATURES);
+    this.setLocalStorageItemArray(session.data.donatedFossils, FOSSILS_STORAGE.DONATED_FOSSILS);
+    this.setLocalStorageItemArray(session.data.dreamTeam, VILLAGERS_STORAGE.DREAM_TEAM);
 
     if (session.data.settings && session.data.settings.hemisphere) {
       localStorage.setItem(STORAGE.SETTINGS_HEMISPHERE, session.data.settings.hemisphere);
@@ -115,6 +117,7 @@ export default class Sync {
     const critters = Storage.getDonatedCritters();
     const fossils = Storage.getDonatedFossils();
     const checklist = Storage.getChecklist();
+    const dreamTeam = Storage.getDreamTeam();
 
     store.commit(`${MODULE}/${MUTATIONS.SET_SETTINGS_HEMISPHERE}`, settings.hemisphere);
 
@@ -125,5 +128,7 @@ export default class Sync {
     store.commit(`${FOSSILS_MODULE}/${FOSSILS_MUTATIONS.SET_DONATED_FOSSILS}`, fossils || []);
 
     store.commit(`${CHECKLIST_MODULE}/${CHECKLIST_MUTATIONS.SET_CHECKLIST}`, checklist || {});
+
+    store.commit(`${VILLAGERS_MODULE}/${VILLAGERS_MUTATIONS.SET_DREAM_TEAM}`, dreamTeam || []);
   }
 }

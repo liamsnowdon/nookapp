@@ -12,7 +12,7 @@ export const MUTATIONS = {
   SET_VILLAGERS: 'setVillagers',
   SET_ERROR_LOADING_VILLAGERS: 'setErrorLoadingVillagers',
   SET_SELECTED_VILLAGER: 'setSelectedVillager',
-  SET_DREAM_TEAM_VILLAGERS: 'setDreamTeamVillagers',
+  SET_DREAM_TEAM: 'setDreamTeam',
 
   SET_DETAIL_MODAL_OPEN: 'setDetailModalOpen',
   SET_FILTERS_SEARCH_TERM: 'setFiltersSearchTerm',

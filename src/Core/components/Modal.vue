@@ -80,13 +80,14 @@ export default {
 
   .modal {
     width: 100%;
+    max-width: 100%;
     max-height: 100vh;
     background-color: var(--modal-background-color);
     color: var(--modal-text-color);
     z-index: 1;
 
     @include breakpoint(medium) {
-      width: 50%;
+      width: 720px;
       border-radius: 20px;
     }
 
@@ -96,13 +97,13 @@ export default {
 
     &--large {
       @include breakpoint(medium) {
-        width: 80%;
+        width: 1152px;
       }
     }
 
     &--small {
       @include breakpoint(medium) {
-        width: 25%;
+        width: 360px;
       }
     }
 

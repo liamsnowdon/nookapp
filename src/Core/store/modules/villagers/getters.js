@@ -2,7 +2,7 @@ import groupBy from 'lodash/groupBy';
 
 export default {
   canHaveMoreDreamTeamVillagers (state) {
-    return state.dreamTeamVillagers.length < 10;
+    return state.dreamTeam.length < 10;
   },
 
   speciesOptions (state) {
