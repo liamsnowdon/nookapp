@@ -104,6 +104,10 @@ export default {
 
   mounted () {
     document.querySelector('body').classList.add('page-checklist');
+
+    if (!this.loadingSyncSession && this.isChecklistDateInThePast()) {
+      this.resetCompletedStatuses();
+    }
   },
 
   destroyed () {
