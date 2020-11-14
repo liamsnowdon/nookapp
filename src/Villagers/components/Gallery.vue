@@ -1,9 +1,5 @@
 <template>
   <div class="gallery">
-    <div class="gallery__mobile-buttons">
-      <button class="gallery__mobile-button" @click="openFiltersSlider">Sort/Filters</button>
-    </div>
-
     <div
       :class="{'is-active': filtersSliderOpen }"
       class="gallery__filters-mobile-overlay"
@@ -14,7 +10,7 @@
         class="gallery__filters-container"
       >
         <div class="gallery__filters-mobile-header">
-          <h2>Sort/Filters</h2>
+          <h2>Filters</h2>
           <button class="cross" @click="closeFiltersSlider"></button>
         </div>
 
@@ -24,6 +20,10 @@
       <div class="gallery__dream-team">
         <DreamTeam />
       </div>
+    </div>
+
+    <div class="gallery__mobile-buttons">
+      <button class="gallery__mobile-button" @click="openFiltersSlider">Filters</button>
     </div>
 
     <template v-if="loading">
@@ -209,8 +209,16 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+  .gallery__mobile-buttons {
+    margin-bottom: 20px !important;
+  }
+
   .gallery__filters-dream-team {
     display: flex;
+
+    @include breakpoint(medium, down) {
+      margin: 0 -20px;
+    }
   }
 
   .gallery__filters-container {

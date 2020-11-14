@@ -75,25 +75,45 @@ export default {
 
 <style lang="scss" scoped>
   .dream-team {
+    @include breakpoint(medium, down) {
+      padding: 20px;
+      border: 5px solid white;
+      margin-bottom: 20px;
+      text-align: center;
+    }
     &__loading {
       text-align: center;
     }
 
     &__villagers {
       display: flex;
-      flex-wrap: wrap;
+
+      @include breakpoint(medium) {
+        flex-wrap: wrap;
+      }
+
+      @include breakpoint(medium, down) {
+        display: flex;
+        flex-flow: column wrap;
+        height: 130px;
+        overflow-x: auto;
+      }
     }
 
     &__villager {
       @extend %button-reset;
-      margin: 0 20px 20px 0;
+      margin: 0 20px 0 0;
+
+      @include breakpoint(medium) {
+        margin: 0 20px 20px 0;
+      }
     }
 
     &__image {
       display: block;
       height: 80px;
       width: 80px;
-      margin-bottom: 10px;
+      margin: 0 auto 10px;
       background: center / contain no-repeat white;
       border-radius: 50%;
     }

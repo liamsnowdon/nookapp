@@ -46,14 +46,16 @@
           <div class="villager__info">
             <h3>{{ villager.name['name-EUen'] | capitalize }}</h3>
 
-            <p>Species: {{ villager.species }}</p>
-            <p>Personality: {{ villager.personality }}</p>
-            <p>Gender: {{ villager.gender }}</p>
+            <blockquote class="villager__quote">{{ villager.saying }}</blockquote>
 
-            <p>Birthday: {{ villager['birthday-string'] }}</p>
-            <p>Hobby: {{ villager.hobby }}</p>
+            <h4>General Information</h4>
 
-            <p>Words of wisdom: {{ villager.saying }}</p>
+            <p class="mb-0">Species: {{ villager.species }}</p>
+            <p class="mb-0">Personality: {{ villager.personality }}</p>
+            <p class="mb-0">Gender: {{ villager.gender }}</p>
+
+            <p class="mb-0">Birthday: {{ villager['birthday-string'] }}</p>
+            <p class="mb-0">Hobby: {{ villager.hobby }}</p>
           </div>
         </div>
       </div>
@@ -169,9 +171,17 @@ export default {
   .villager {
     display: flex;
 
+    @include breakpoint(small) {
+      margin: 0 -16px;
+    }
+
+    @include breakpoint(small, down) {
+      flex-direction: column;
+    }
+
     &__left,
     &__right {
-      @include breakpoint(medium) {
+      @include breakpoint(small) {
         flex: 0 0 50%;
         padding: 0 16px;
       }
@@ -179,10 +189,10 @@ export default {
 
     &__left {
       text-align: center;
-    }
 
-    &__right {
-
+      @include breakpoint(small, down) {
+        margin-bottom: 20px;
+      }
     }
 
     &__image {
@@ -194,12 +204,22 @@ export default {
       }
     }
 
-    &__info {
+    &__quote {
+      position: relative;
+      margin: 16px 0 15px;
+      line-height: 1.5;
+      background: white;
+      color: black;
+      padding: 20px;
+      border-radius: 10px;
+      border: 1px dashed black;
+      text-align: center;
 
-    }
-
-    &__button {
-
+      &::before,
+      &::after {
+        content: '"';
+        position: relative;
+      }
     }
   }
 </style>

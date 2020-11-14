@@ -36,6 +36,15 @@
           <li class="mobile-navigation__item">
             <router-link
               class="mobile-navigation__link"
+              :to="{ name: 'Villagers' }"
+            >
+              Villagers
+            </router-link>
+          </li>
+
+          <li class="mobile-navigation__item">
+            <router-link
+              class="mobile-navigation__link"
               :to="{ name: 'Checklist' }"
             >
               Daily Checklist

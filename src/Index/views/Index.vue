@@ -35,6 +35,20 @@
       </template>
     </PageLink>
 
+    <PageLink route="Villagers">
+      <template #image>
+        <img :src="require(`Index/assets/villagers.png`)" alt="Villagers" />
+      </template>
+
+      <template #heading>
+        Villagers
+      </template>
+
+      <template #description>
+        Look through the hundreds of villagers and create your dream team for your island!
+      </template>
+    </PageLink>
+
     <PageLink
       :is-icon="true"
       route="Checklist"

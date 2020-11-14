@@ -561,6 +561,7 @@ export default {
     &__mobile-button {
       @extend %button-reset;
       text-decoration: underline;
+      color: var(--global-text-color);
     }
 
     &__filters-container {
@@ -571,7 +572,7 @@ export default {
         bottom: 0;
         width: calc(100% - 60px);
         @include z-index(slider);
-        background-color: var(--brown-light);
+        background-color: var(--filters-mobile-body-background-color);
         transition: left 0.5s ease-in-out;
 
         &.is-active {
@@ -611,7 +612,7 @@ export default {
       align-items: center;
       justify-content: space-between;
       padding: 20px;
-      background-color: var(--brown-dark);
+      background-color: var(--filters-mobile-header-background-color);
 
       h2 {
         margin: 0;
@@ -647,7 +648,7 @@ export default {
       margin: 10px;
       border: 1px solid black;
       border-radius: 50%;
-      background: center / contain no-repeat var(--brown-light);
+      background: center / contain no-repeat var(--gallery-item-background-color);
       appearance: none;
       overflow: hidden;
 

@@ -58,6 +58,10 @@ html {
     --cross-color: #333;
 
     --multiselect-highlight-color: var(--brown-darkest);
+
+    --gallery-item-background-color: var(--brown-light);
+    --filters-mobile-header-background-color: var(--brown-dark);
+    --filters-mobile-body-background-color: var(--brown-light);
   }
 
   &-fossils {
@@ -107,5 +111,10 @@ html {
     --button-hover-background-color: #1c4e63;
 
     --multiselect-highlight-color: #28708e;
+
+    --gallery-item-background-color: white;
+
+    --filters-mobile-header-background-color: #28708e;
+    --filters-mobile-body-background-color: var(--body-background-color);
   }
 }

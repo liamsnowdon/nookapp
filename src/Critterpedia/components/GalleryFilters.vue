@@ -494,6 +494,7 @@ export default {
     &__filters-clear-button {
       @extend %button-reset;
       text-decoration: underline;
+      color: var(--global-text-color);
     }
   }
 </style>
