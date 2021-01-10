@@ -104,6 +104,10 @@ export default {
 
   mounted () {
     document.querySelector('body').classList.add('page-checklist');
+
+    if (!this.loadingSyncSession && this.isChecklistDateInThePast()) {
+      this.resetCompletedStatuses();
+    }
   },
 
   destroyed () {
@@ -145,7 +149,7 @@ export default {
       this.setChecklist({
         items,
         type: CHECKLIST_TYPE.DEFAULT,
-        date: JSON.stringify(new Date()),
+        date: new Date().toISOString(),
       });
 
       await this.updateSyncChecklist();
@@ -163,7 +167,7 @@ export default {
       this.setChecklist({
         items,
         type: CHECKLIST_TYPE.CUSTOM,
-        date: JSON.stringify(new Date()),
+        date: new Date().toISOString(),
       });
 
       await this.updateSyncChecklist();
@@ -205,15 +209,15 @@ export default {
      * @returns {boolean}
      */
     isChecklistDateInThePast () {
-      const checklistDate = moment(JSON.parse(this.checklistDate));
+      const checklistDate = moment(this.checklistDate);
       const checklistDateTimestamp = checklistDate.valueOf();
-      const checklistDateDay = checklistDate.date();
+      const checklistDateFormat = checklistDate.format('DD-MM-YYYY');
 
       const currentDate = moment(new Date());
       const currentDateTimestamp = currentDate.valueOf();
-      const currentDateDay = currentDate.date();
+      const currentDateFormat = currentDate.format('DD-MM-YYYY');
 
-      return checklistDateTimestamp < currentDateTimestamp && checklistDateDay < currentDateDay;
+      return checklistDateTimestamp < currentDateTimestamp && checklistDateFormat !== currentDateFormat;
     },
 
     async resetCompletedStatuses () {
@@ -238,7 +242,7 @@ export default {
       this.setChecklist({
         items,
         type: this.checklistType,
-        date: JSON.stringify(new Date()),
+        date: new Date().toISOString(),
       });
 
       await this.updateSyncChecklist();
