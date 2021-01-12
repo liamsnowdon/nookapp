@@ -181,6 +181,7 @@
         :disabled="isDisabled"
         class="gallery__filters-clear-button"
       >
+        <i class="fa fa-refresh"></i>
         Reset filters
       </button>
     </div>
@@ -432,14 +433,18 @@ export default {
       }
 
       @include breakpoint(medium) {
-        margin-bottom: 50px;
+        display: flex;
+        margin: 0 -20px 50px;
       }
     }
 
     &__filters-items {
       display: flex;
       flex-wrap: wrap;
+      flex: 1 0 0px;
       margin: 0 -8px;
+      padding: 0 20px;
+      text-align: left;
     }
 
     &__filters-item {
@@ -487,14 +492,24 @@ export default {
     }
 
     &__filters-clear {
-      margin-top: 10px;
-      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 20px;
     }
 
     &__filters-clear-button {
       @extend %button-reset;
-      text-decoration: underline;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
       color: var(--global-text-color);
+
+      .fa {
+        margin-bottom: 10px;
+        font-size: 50px;
+      }
     }
   }
 </style>

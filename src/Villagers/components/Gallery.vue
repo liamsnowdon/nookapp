@@ -4,8 +4,7 @@
       :class="{'is-active': filtersSliderOpen }"
       class="gallery__filters-mobile-overlay"
     />
-    <div class="gallery__filters-dream-team">
-      <div
+    <div
         :class="{'is-active': filtersSliderOpen }"
         class="gallery__filters-container"
       >
@@ -17,12 +16,7 @@
         <GalleryFilters />
       </div>
 
-      <div class="gallery__dream-team">
-        <DreamTeam />
-      </div>
-    </div>
-
-    <div class="gallery__mobile-buttons">
+    <div class="gallery__mobile-buttons mb-20">
       <button class="gallery__mobile-button" @click="openFiltersSlider">Filters</button>
     </div>
 
@@ -65,7 +59,6 @@ import { MODULE, MUTATIONS } from 'Villagers/constants/vuex';
 import { MESSAGES } from 'Villagers/constants/messages';
 
 import GalleryFilters from 'Villagers/components/GalleryFilters.vue';
-import DreamTeam from 'Villagers/components/DreamTeam.vue';
 import Spinner from 'Core/components/Spinner.vue';
 
 export default {
@@ -73,7 +66,6 @@ export default {
 
   components: {
     GalleryFilters,
-    DreamTeam,
     Spinner,
   },
 
@@ -207,27 +199,3 @@ export default {
   },
 };
 </script>
-
-<style lang="scss" scoped>
-  .gallery__mobile-buttons {
-    margin-bottom: 20px !important;
-  }
-
-  .gallery__filters-dream-team {
-    display: flex;
-    margin: 0 -20px 20px;
-
-    @include breakpoint(medium, down) {
-      margin: 0 -20px;
-    }
-  }
-
-  .gallery__filters-container,
-  .gallery__dream-team {
-    flex: 1 1 0;
-
-    @include breakpoint(medium) {
-      padding: 0 20px;
-    }
-  }
-</style>

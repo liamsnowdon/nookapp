@@ -66,6 +66,7 @@
         :disabled="errorLoadingVillagers"
         class="gallery__filters-clear-button"
       >
+        <i class="fa fa-refresh"></i>
         Reset filters
       </button>
     </div>
@@ -144,11 +145,3 @@ export default {
   },
 };
 </script>
-
-<style lang="scss" scoped>
-  .gallery__filters-item {
-    @include breakpoint(medium) {
-      flex: 0 0 50%;
-    }
-  }
-</style>

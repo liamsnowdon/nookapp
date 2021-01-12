@@ -1,3 +1,9 @@
 .l-wrapper {
-  padding: 20px;
+  padding: 30px 20px;
+
+  &--white {
+    background-color: white;
+
+    color: black;
+  }
 }
