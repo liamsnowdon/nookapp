@@ -48,14 +48,12 @@
 
             <blockquote class="villager__quote">{{ villager.saying }}</blockquote>
 
-            <h4>General Information</h4>
+            <p class="mb-0"><strong>Species:</strong> {{ villager.species }}</p>
+            <p class="mb-0"><strong>Personality:</strong> {{ villager.personality }}</p>
+            <p class="mb-0"><strong>Gender:</strong> {{ villager.gender }}</p>
 
-            <p class="mb-0">Species: {{ villager.species }}</p>
-            <p class="mb-0">Personality: {{ villager.personality }}</p>
-            <p class="mb-0">Gender: {{ villager.gender }}</p>
-
-            <p class="mb-0">Birthday: {{ villager['birthday-string'] }}</p>
-            <p class="mb-0">Hobby: {{ villager.hobby }}</p>
+            <p class="mb-0"><strong>Birthday:</strong> {{ villager['birthday-string'] }}</p>
+            <p class="mb-0"><strong>Hobby:</strong> {{ villager.hobby }}</p>
           </div>
         </div>
       </div>

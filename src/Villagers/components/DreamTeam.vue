@@ -1,6 +1,6 @@
 <template>
   <div class="dream-team">
-    <h3>Dream team</h3>
+    <h3>Your dream team</h3>
 
     <div
       v-if="loading"
@@ -75,29 +75,23 @@ export default {
 
 <style lang="scss" scoped>
   .dream-team {
+    padding: 20px;
+    border: 10px dashed white;
+
     @include breakpoint(medium, down) {
-      padding: 20px;
-      border: 5px solid white;
       margin-bottom: 20px;
       text-align: center;
     }
+
     &__loading {
       text-align: center;
     }
 
     &__villagers {
       display: flex;
-
-      @include breakpoint(medium) {
-        flex-wrap: wrap;
-      }
-
-      @include breakpoint(medium, down) {
-        display: flex;
-        flex-flow: column wrap;
-        height: 130px;
-        overflow-x: auto;
-      }
+      flex-flow: column wrap;
+      height: 130px;
+      overflow-x: auto;
     }
 
     &__villager {

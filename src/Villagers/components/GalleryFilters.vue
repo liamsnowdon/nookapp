@@ -144,3 +144,11 @@ export default {
   },
 };
 </script>
+
+<style lang="scss" scoped>
+  .gallery__filters-item {
+    @include breakpoint(medium) {
+      flex: 0 0 50%;
+    }
+  }
+</style>

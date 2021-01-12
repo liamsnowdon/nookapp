@@ -215,17 +215,19 @@ export default {
 
   .gallery__filters-dream-team {
     display: flex;
+    margin: 0 -20px 20px;
 
     @include breakpoint(medium, down) {
       margin: 0 -20px;
     }
   }
 
-  .gallery__filters-container {
-    flex: 1 1 0;
-  }
-
+  .gallery__filters-container,
   .gallery__dream-team {
     flex: 1 1 0;
+
+    @include breakpoint(medium) {
+      padding: 0 20px;
+    }
   }
 </style>
