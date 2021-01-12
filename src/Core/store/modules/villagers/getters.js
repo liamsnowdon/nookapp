@@ -1,6 +1,10 @@
 import groupBy from 'lodash/groupBy';
 
 export default {
+  hasDreamTeamCreated (state) {
+    return !!state.dreamTeam.length;
+  },
+
   canHaveMoreDreamTeamVillagers (state) {
     return state.dreamTeam.length < 10;
   },

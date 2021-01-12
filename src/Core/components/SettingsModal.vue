@@ -35,11 +35,8 @@
         <div class="modal__section">
           <h4>Preferred Hemisphere</h4>
           <p>
-            With a preferred hemisphere selected, your experience across the NookApp will be improved, focusing more
-            on your preference:
+            With a preferred hemisphere selected, the Critterpedia will have the following changes:
           </p>
-
-          <h6>Critterpedia</h6>
           <ol>
             <li>The hemisphere months filter will be reduced down to one.</li>
             <li>
@@ -117,6 +114,23 @@
             </Button>
           </div>
         </div>
+
+        <div class="modal__section">
+          <h4>Dream Team</h4>
+          <p>
+            Your Dream Team, made up of your favourite villagers from the game can help you plan who will move to your
+            island. You can completely delete your Dream Team here.
+          </p>
+
+          <div class="modal__buttons">
+            <Button
+              @click="removeDreamTeam"
+              :disabled="!hasDreamTeamCreated"
+            >
+              Remove Dream Team
+            </Button>
+          </div>
+        </div>
       </template>
 
       <template v-else>
@@ -159,6 +173,11 @@ import {
   GETTERS as CHECKLIST_GETTERS,
   MUTATIONS as CHECKLIST_MUTATIONS,
 } from 'Checklist/constants/vuex';
+import {
+  MODULE as VILLAGERS_MODULE,
+  GETTERS as VILLAGERS_GETTERS,
+  MUTATIONS as VILLAGERS_MUTATIONS,
+} from 'Villagers/constants/vuex';
 
 export default {
   name: 'SettingsModal',
@@ -210,6 +229,10 @@ export default {
       checklistDate: state => state.date,
     }),
 
+    ...mapState(VILLAGERS_MODULE, {
+      dreamTeam: state => state.dreamTeam,
+    }),
+
     ...mapGetters(CRITTERPEDIA_MODULE, [
       CRITTERPEDIA_GETTERS.HAS_DONATED_FISH,
       CRITTERPEDIA_GETTERS.HAS_DONATED_BUGS,
@@ -222,6 +245,10 @@ export default {
 
     ...mapGetters(CHECKLIST_MODULE, [
       CHECKLIST_GETTERS.HAS_CHECKLIST_CREATED,
+    ]),
+
+    ...mapGetters(VILLAGERS_MODULE, [
+      VILLAGERS_GETTERS.HAS_DREAM_TEAM_CREATED,
     ]),
   },
 
@@ -255,6 +282,10 @@ export default {
 
     ...mapMutations(CHECKLIST_MODULE, [
       CHECKLIST_MUTATIONS.SET_CHECKLIST,
+    ]),
+
+    ...mapMutations(VILLAGERS_MODULE, [
+      VILLAGERS_MUTATIONS.SET_DREAM_TEAM,
     ]),
 
     onClose () {
@@ -363,6 +394,17 @@ export default {
       this.updateSyncChecklist();
     },
 
+    removeDreamTeam () {
+      const confirmation = confirm('Are you sure you want to remove your Dream Team?');
+
+      if (!confirmation) {
+        return;
+      }
+
+      this.updateSyncDreamTeam();
+      this.setDreamTeam([]);
+    },
+
     onHemisphereChange () {
       this.setSettingsHemisphere(this.hemisphere ? this.hemisphere.value : '');
       this.updateSyncSettings();
@@ -426,6 +468,30 @@ export default {
 
         this.$toasted.global.error({
           message: '<strong>NookSync:</strong>&nbsp;Error updating checklist.',
+        });
+      }
+    },
+
+    async updateSyncDreamTeam () {
+      if (!this.syncId) {
+        return;
+      }
+
+      const dreamTeam = [...this.dreamTeam];
+
+      try {
+        await SyncApi.delete(this.syncId, {
+          dreamTeam,
+        });
+
+        this.$toasted.global.success({
+          message: '<strong>NookSync:</strong>&nbsp;Dream Team deleted..',
+        });
+      } catch (e) {
+        PendingSync.setDreamTeamVillager();
+
+        this.$toasted.global.error({
+          message: '<strong>NookSync:</strong>&nbsp;Error deleting Dream Team.',
         });
       }
     },

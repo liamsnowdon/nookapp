@@ -1,6 +1,7 @@
 export const MODULE = 'villagers';
 
 export const GETTERS = {
+  HAS_DREAM_TEAM_CREATED: 'hasDreamTeamCreated',
   CAN_HAVE_MORE_DREAM_TEAM_VILLAGERS: 'canHaveMoreDreamTeamVillagers',
   SPECIES_OPTIONS: 'speciesOptions',
   PERSONALITY_OPTIONS: 'personalityOptions',
