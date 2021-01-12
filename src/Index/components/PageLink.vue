@@ -14,9 +14,6 @@
       <h3 class="link__heading">
         <slot name="heading" />
       </h3>
-      <p class="link__description">
-        <slot name="description" />
-      </p>
     </div>
   </router-link>
 </template>
@@ -43,37 +40,60 @@ export default {
 <style lang="scss" scoped>
   .link {
     display: flex;
-    justify-content: space-between;
-    position: relative;
-    margin-bottom: 20px;
-    padding: 20px;
+    align-items: center;
+    padding: 10px;
     border: 1px solid #121212;
     background-color: #191919;
     text-decoration: none;
+    text-align: center;
     color: white;
+    border-radius: 20px;
+
+    @include breakpoint(small) {
+      flex-direction: column;
+      height: 200px;
+      width: 200px;
+      padding: 20px;
+    }
+
+    @include breakpoint(small, down) {
+      height: 100px;
+    }
 
     &:hover {
       background-color: #131212;
     }
 
     &__image {
-      flex: 0 0 100px;
-      margin-right: 20px;
+      @include breakpoint(small) {
+        height: 110px;
+      }
+
+      @include breakpoint(small, down) {
+        margin-right: 20px;
+        width: 70px;
+      }
 
       &--icon {
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 80px;
+        font-size: 50px;
+
+        @include breakpoint(small) {
+          font-size: 80px;
+        }
       }
     }
 
-    &__text {
-      flex: 1 0 0;
+    &__heading {
+      margin: 0;
     }
 
-    &__description {
-      margin: 0;
+    &__text {
+      @include breakpoint(small) {
+        margin-top: auto;
+      }
     }
   }
 </style>

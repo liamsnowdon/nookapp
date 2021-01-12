@@ -2,69 +2,66 @@
   <div class="content">
     <div class="text-center">
       <h1>NookApp</h1>
-      <p>Welcome to the NookApp!</p>
+      <p>
+        Welcome to the NookApp, a hub of interactive apps to use alongside the Animal Crossing: New Horizons
+        game on Nintendo Switch.
+      </p>
     </div>
 
     <hr>
 
-    <PageLink route="Fish">
-      <template #image>
-        <img :src="require(`Index/assets/critterpedia.png`)" alt="Critterpedia" />
-      </template>
+    <div class="links">
+      <div class="links__column">
+        <PageLink route="Fish">
+          <template #image>
+            <img :src="require(`Index/assets/critterpedia.png`)" alt="Critterpedia" />
+          </template>
 
-      <template #heading>
-        Critterpedia
-      </template>
+          <template #heading>
+            Critterpedia
+          </template>
+        </PageLink>
+      </div>
 
-      <template #description>
-        Everything about the critters you can find on and around your island, including fish, bugs and sea creatures.
-      </template>
-    </PageLink>
+      <div class="links__column">
+        <PageLink route="Fossils">
+          <template #image>
+            <img :src="require(`Index/assets/fossil.png`)" alt="Fossils" />
+          </template>
 
-    <PageLink route="Fossils">
-      <template #image>
-        <img :src="require(`Index/assets/fossil.png`)" alt="Fossils" />
-      </template>
+          <template #heading>
+            Fossils
+          </template>
+        </PageLink>
+      </div>
 
-      <template #heading>
-        Fossils
-      </template>
+      <div class="links__column">
+        <PageLink route="Villagers">
+          <template #image>
+            <img :src="require(`Index/assets/villagers.png`)" alt="Villagers" />
+          </template>
 
-      <template #description>
-        There are many fossils you can find on your island. Complete each set and fill up your museum.
-      </template>
-    </PageLink>
+          <template #heading>
+            Villagers
+          </template>
+        </PageLink>
+      </div>
 
-    <PageLink route="Villagers">
-      <template #image>
-        <img :src="require(`Index/assets/villagers.png`)" alt="Villagers" />
-      </template>
+      <div class="links__column">
+        <PageLink
+          :is-icon="true"
+          route="Checklist"
+        >
+          <template #image>
+            <i class="fa fa-list" />
+          </template>
 
-      <template #heading>
-        Villagers
-      </template>
-
-      <template #description>
-        Look through the hundreds of villagers and create your dream team for your island!
-      </template>
-    </PageLink>
-
-    <PageLink
-      :is-icon="true"
-      route="Checklist"
-    >
-      <template #image>
-        <i class="fa fa-list" />
-      </template>
-
-      <template #heading>
-        Daily Checklist
-      </template>
-
-      <template #description>
-        Make sure you do everything you need to do by keeping track with your daily checklist.
-      </template>
-    </PageLink>
+          <template #heading>
+            Checklist
+          </template>
+        </PageLink>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -90,12 +87,29 @@ export default {
 
 <style lang="scss" scoped>
   .content {
-    max-width: 650px;
+    max-width: 480px;
+    padding: 20px;
     margin: 0 auto;
     color: white;
   }
 
   hr {
     margin: 30px 0;
+  }
+
+  .links {
+    @include breakpoint(small) {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-gap: 40px;
+    }
+
+    &__column {
+      &:not(:last-child) {
+        @include breakpoint(small, down) {
+          margin-bottom: 20px;
+        }
+      }
+    }
   }
 </style>
